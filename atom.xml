@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Write, Code, Share, Learn]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://hongbinzuo.github.io/"/>
-  <updated>2014-09-10T17:13:59.892Z</updated>
+  <updated>2014-11-06T17:11:42.747Z</updated>
   <id>http://hongbinzuo.github.io/</id>
   
   <author>
@@ -13,6 +13,114 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Hibernate Core API]]></title>
+    <link href="http://hongbinzuo.github.io/2014/11/06/Hibernate-Core-API/"/>
+    <id>http://hongbinzuo.github.io/2014/11/06/Hibernate-Core-API/</id>
+    <published>2014-11-06T13:11:49.000Z</published>
+    <updated>2014-11-06T17:11:01.000Z</updated>
+    <content type="html"><![CDATA[<p>整理一下Hibernate核心API的笔记，感谢马老师。因为博客的发布形式，中间内容有些节略和修改。</p>
+<h2 id="关于API文档">关于API文档</h2>
+<p>因为Hibernate是属于JBoss的，按照JBoss的商业模式，文档和技术支持是收费的，所以官方不提供离线文档下载，只提供在线文档查看。当然，总有热心的网友看不过去，所以网上有非官方整理的API文档可供参考。</p>
+<h2 id="Configuration">Configuration</h2>
+<ul>
+<li>AnnotationConfiguration 基于注解的配置</li>
+<li>配置信息管理</li>
+<li>用来产生SessionFactory</li>
+<li>可以在configure方法中指定Hibernate配置文件</li>
+<li>只关注一个方法即可：buildSessionFactory</li>
+</ul>
+<h2 id="SessionFactory">SessionFactory</h2>
+<ul>
+<li>用来产生和管理Session</li>
+<li>通常情况下，每个应用只需要一个SessionFactory （单例），除非要访问多个数据库</li>
+<li>关注两个方法即可<ul>
+<li>openSession每次都是新的，需要close</li>
+<li>getCurrentSession从上下文找，如果有，用已有的，否则，创建新的<ul>
+<li>用途，界定事务边界</li>
+<li>事务提交后自动close</li>
+<li>上下文配置可参见XML文件中<code>current_session_context_classs</code>属性</li>
+<li><code>current_session_context_classs</code>属性取值JTA和thread常用，managed和custom.class较少使用<ul>
+<li>thread：使用Connection连接的数据库管理事务</li>
+<li>JTA（Java Transaction API）：Java分布式事务管理（多数据库访问），JTA由中间件提供（JBoss、Weblogic等，Tomcat不支持）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="Session">Session</h2>
+<ul>
+<li>管理一个数据库的任务单元（简单说就是增删改查），中文名为“会话”</li>
+<li>方法（CRUD）<ul>
+<li>Save <code>session.save(对象)</code></li>
+<li>Delete <code>session.delete(对象)</code></li>
+<li>Load <code>Student s1=(Student)session.load(Student.class, 1);</code></li>
+<li>Get <code>Student s1=(Student)session.get(Student.class, 1);</code></li>
+<li>Get与Load的区别（原理，面试重点）<ul>
+<li>不存在对应记录时表现不一样</li>
+<li>Load返回的是代理对象,等到真正用到对象内容时才发出SQL语句</li>
+<li>Get直接从数据库加载不会延迟</li>
+</ul>
+</li>
+<li>Update <code>session.update(对象)</code><ul>
+<li>用来更新detached对象，更新完成后转为persistent</li>
+<li>更新transient对象会报错</li>
+<li>更新自己设定ID的transient对象可以（数据库有对应记录）</li>
+<li>persistent状态的对象只要设定（如:t.setName…）不同字段就会更新</li>
+<li>更新部分更改的字段<ul>
+<li>XML配置文件中设定property标签的update属性，annotation设定 @Column 的 updatable属性，不过这种方式很少用，因为不灵活</li>
+<li>使用XML中的dynamic-update，JPA1.0 Annotation 没有对应的属性，可能为Hibernate扩展</li>
+<li>同一个session可以，跨session不行，不过可以用merge()(不重要）</li>
+</ul>
+</li>
+<li>建议使用HQL(EJBQL)</li>
+</ul>
+</li>
+<li>saveOrUpdate方法</li>
+<li>clear方法<ul>
+<li>无论是load还是get,都会首先査找缓存（一级缓存)，如果没有，才会去数据库査找，调用clear()方法可以强制清除session缓存</li>
+</ul>
+</li>
+<li>flush方法<ul>
+<li>当session的事务提交后,会强制将内存(session缓存)与数据库同步。默认情况下是session的事务提交(commit)时才同步!</li>
+<li>session的FlushMode设置,可以设定在什么时候同步缓存与数据库(很少用)，例如: <code>session.setFlushMode(FlushMode.AUTO)</code></li>
+</ul>
+</li>
+<li>find方法已过时</li>
+</ul>
+</li>
+</ul>
+<h2 id="SchemaExport_(自动建表)">SchemaExport (自动建表)</h2>
+<ul>
+<li>了解使用方法即可：<code>new SchemaExport(new AnnotationConfiguration().configure()).create(false, true);</code></li>
+</ul>
+<h2 id="查询接口">查询接口</h2>
+<ul>
+<li>参考Hibernate査询(HQL/EJBQL)的内容</li>
+</ul>
+<h2 id="注意">注意</h2>
+<ul>
+<li>Hibernate中涉及很多非常细节的区别,但在实际应用中用得极少<ul>
+<li>比如save和persist的区别</li>
+<li>merge、evict 等方法</li>
+<li>比如 refresh、lock 等</li>
+</ul>
+</li>
+<li>建议的学习方法，动手实验</li>
+</ul>
+]]></content>
+    
+    
+      <category term="Java" scheme="http://hongbinzuo.github.io/tags/Java/"/>
+    
+      <category term="JavaEE" scheme="http://hongbinzuo.github.io/tags/JavaEE/"/>
+    
+      <category term="Hibernate" scheme="http://hongbinzuo.github.io/tags/Hibernate/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Top 8 free readings]]></title>
@@ -711,67 +819,6 @@
       <category term="FP" scheme="http://hongbinzuo.github.io/tags/FP/"/>
     
       <category term="Scala" scheme="http://hongbinzuo.github.io/tags/Scala/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Scala Patterns(#2) - Lazy initialization]]></title>
-    <link href="http://hongbinzuo.github.io/2014/02/26/lazy-in-scala/"/>
-    <id>http://hongbinzuo.github.io/2014/02/26/lazy-in-scala/</id>
-    <published>2014-02-26T12:59:06.000Z</published>
-    <updated>2014-08-04T00:00:34.000Z</updated>
-    <content type="html"><![CDATA[<h3 id="延迟初始化">延迟初始化</h3>
-<p><a href="http://zh.wikipedia.org/wiki/%E5%BB%B6%E8%BF%9F%E5%88%9D%E5%A7%8B%E5%8C%96%E6%A8%A1%E5%BC%8F" target="_blank" rel="external"><strong>延迟初始化</strong></a>是程序设计中减少开销、提高性能的一种做法，同时它也是创建型设计模式中的一种。在<em>Effective Java</em>里，Bloch是这么描述延迟初始化的，</p>
-<blockquote>
-<p>Lazy initialization is the act of delaying the initialization of a field until its<br>value is needed. If the value is never needed, the field is never initialized.</p>
-</blockquote>
-<a id="more"></a>
-
-<p>简单翻译一下就是，“延迟初始化就是把一个成员的初始化延迟到需要使用它的值的时候才进行。如果不需要使用这个成员的值，那么就一直不用初始化。” 延迟初始化又叫做延迟实例化，更加广义的概念是延迟计算（Lazy Evaluation）。我们可以同时参考MSDN中的定义，描述和适用范围也比较清楚：<a href="http://msdn.microsoft.com/ZH-CN/library/dd997286%28v=vs.110%29.aspx" target="_blank" rel="external">延迟初始化</a>。在Scala中，我们不用自己费心写这种模式的代码，因为有一个关键字<code>lazy</code>来帮助我们完成，<code>lazy</code>是作为修饰符关键字出现的，它的定义如下（参考<a href="http://www.scala-lang.org/docu/files/ScalaReference.pdf" target="_blank" rel="external">Scala语言手册</a>），</p>
-<blockquote>
-<p>The lazy modifier applies to value definitions. A lazy value is initialized the<br>first time it is accessed (which might never happen at all). Attempting to access<br>a lazy value during its initialization might lead to looping behavior. If<br>an exception is thrown during initialization, the value is considered uninitialized,<br>and a later access will retry to evaluate its right hand side.</p>
-</blockquote>
-<p>综上，要注意几个点：</p>
-<ul>
-<li>lazy只能修饰value值（val）</li>
-<li>lazy值在第一次访问时初始化</li>
-<li>在初始化过程中访问可能会导致循环行为（纳尼？）</li>
-<li>在初始化时抛出异常则认为未初始化</li>
-</ul>
-<p>先不管那么高深的问题，我们先来看个例子（来自Scala语言手册）：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> compat.Platform._</div><div class="line"></div><div class="line"><span class="keyword">val</span> t0 = currentTime</div><div class="line"><span class="keyword">lazy</span> <span class="keyword">val</span> t1 = currentTime</div><div class="line"><span class="keyword">val</span> t2 = currentTime</div><div class="line"></div><div class="line">println(<span class="string">"t0 &lt;= t2: "</span> + (t0 &lt;= t2)) <span class="comment">//true</span></div><div class="line">println(<span class="string">"t1 &lt;= t2: "</span> + (t1 &lt;= t2)) <span class="comment">//false (lazy evaluation of t1)</span></div></pre></td></tr></table></figure>
-
-<p>看完这个例子就更容易理解lazy的含义了，它的使用还是比较简单的。在<a href="http://pavelfatin.com/design-patterns-in-scala/#lazy-initialization" target="_blank" rel="external">Design patterns in Scala</a>中也比较了Java的实现和Scala的实现，同时也给出了这种模式的优缺点：优点是语法简洁、可以含有null值并且是线程安全的，缺点是降低了对初始化过程的控制能力。</p>
-<h3 id="延迟集合">延迟集合</h3>
-<p>理解了延迟初始化，也就容易理解<strong>延迟集合</strong>了，在<em>Scala in action</em>讲解这个概念的时候，又提到了另外两个术语，即<strong>严格集合</strong>（strict collections）和<strong>非严格集合</strong>（non-strict collections），下面是原书的例子，第一个是严格集合（缺省）：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="input"><span class="prompt">scala&gt;</span> <span class="function"><span class="keyword">def</span> </span>strictProcessing = <span class="constant">List</span>(-<span class="number">2</span>, -<span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>) map { <span class="number">2</span> / <span class="number">_</span> }</span></div><div class="line"><span class="input"><span class="prompt">strictProcessing: List[Int]</span></span></div><div class="line"></div><div class="line">scala&gt; strictProcessing(<span class="number">0</span>)</div><div class="line">java.lang.<span class="constant">ArithmeticException</span><span class="symbol">:</span> / by zero</div><div class="line">        at <span class="variable">$anonfun</span><span class="variable">$strictProcessing</span><span class="variable">$1</span>.apply<span class="variable">$mcII</span><span class="variable">$sp</span>(&lt;console&gt;<span class="symbol">:</span><span class="number">12</span>)</div></pre></td></tr></table></figure>
-
-<p>第二个是非严格集合（延迟集合的技术术语）：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="input"><span class="prompt">scala&gt;</span> <span class="function"><span class="keyword">def</span> </span>nonstrictProcessing = <span class="constant">List</span>(-<span class="number">2</span>, -<span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>).view map { <span class="number">2</span> / <span class="number">_</span> }</span></div><div class="line"><span class="input"><span class="prompt">nonstrictProcessing: scala.collection.SeqView[Int,Seq[_]]</span></span></div><div class="line"></div><div class="line">scala&gt; nonstrictProcessing(<span class="number">0</span>)</div><div class="line"><span class="symbol">res38:</span> <span class="constant">Int</span> = -<span class="number">1</span></div><div class="line"><span class="input"><span class="prompt"></span></span></div><div class="line">scala&gt; nonstrictProcessing(<span class="number">2</span>)</div><div class="line">java.lang.<span class="constant">ArithmeticException</span><span class="symbol">:</span> / by zero</div><div class="line">        at <span class="variable">$anonfun</span><span class="variable">$nonstrictProcessing</span><span class="variable">$1</span>.apply<span class="variable">$mcII</span><span class="variable">$sp</span>(&lt;console&gt;<span class="symbol">:</span><span class="number">12</span>)</div></pre></td></tr></table></figure>
-
-<p>从第二个例子可以看出，使用View的方式可以把严格集合转换成非严格集合，从而实现延迟的效果，这对于在集合中Cache大的对象是非常有用的，书中列举了从Twitter里下载大量Tweets的方法，说明了延迟集合的好处，这里就不再赘述。</p>
-<p>最后，通过这篇文章，我们快速了解了Scala对于延迟初始化和延迟计算（集合）的支持，后面需要花更多的时间了解和掌握如何更好地在程序中使用这项技术。Bloch说过，一定要谨慎地使用延迟初始化。嗯，一定要谨慎，不要过早优化。</p>
-<h3 id="参考资源">参考资源</h3>
-<ol>
-<li><a href="http://docs.scala-lang.org/sips/pending/improved-lazy-val-initialization.html" target="_blank" rel="external">改进的Lazy实现</a></li>
-<li><a href="http://www.scala-lang.org/docu/files/ScalaReference.pdf" target="_blank" rel="external">Scala语言手册下载</a></li>
-<li><a href="http://www.javaworld.com/article/2077568/learn-java/java-tip-67--lazy-instantiation.html" target="_blank" rel="external">Java中的延迟初始化</a></li>
-<li><a href="http://daily-scala.blogspot.com/2009/09/lazy-val.html" target="_blank" rel="external">Lazy val in Scala</a></li>
-<li><a href="http://stackoverflow.com/questions/7484928/what-does-a-lazy-val-do" target="_blank" rel="external">What does a lazy val do</a></li>
-<li><a href="http://daily-scala.blogspot.com/2009/11/non-strict-lazy-collections.html" target="_blank" rel="external">Non-strict lazy collections</a></li>
-<li><a href="http://www.amazon.com/Effective-Java-Edition-Joshua-Bloch/dp/0321356683/ref=sr_1_1?ie=UTF8&amp;qid=1393396679&amp;sr=8-1&amp;keywords=effective+java" target="_blank" rel="external">Effective Java 2nd edition</a></li>
-</ol>
-]]></content>
-    <summary type="html"><![CDATA[<h3 id="延迟初始化">延迟初始化</h3>
-<p><a href="http://zh.wikipedia.org/wiki/%E5%BB%B6%E8%BF%9F%E5%88%9D%E5%A7%8B%E5%8C%96%E6%A8%A1%E5%BC%8F" target="_blank" rel="external"><strong>延迟初始化</strong></a>是程序设计中减少开销、提高性能的一种做法，同时它也是创建型设计模式中的一种。在<em>Effective Java</em>里，Bloch是这么描述延迟初始化的，</p>
-<blockquote>
-<p>Lazy initialization is the act of delaying the initialization of a field until its<br>value is needed. If the value is never needed, the field is never initialized.</p>
-</blockquote>
-]]></summary>
-    
-      <category term="Scala" scheme="http://hongbinzuo.github.io/tags/Scala/"/>
-    
-      <category term="Design Patterns" scheme="http://hongbinzuo.github.io/tags/Design-Patterns/"/>
     
   </entry>
   
