@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives: 2014/1 | Freelemon&#39;s open world</title>
+  <title>A tip for Ubuntu 14.04 update | Freelemon&#39;s open world</title>
   <meta name="author" content="Hongbin Zuo">
   
   <meta name="description" content="Think before write.">
@@ -11,7 +11,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  
+  <meta property="og:title" content="A tip for Ubuntu 14.04 update"/>
   <meta property="og:site_name" content="Freelemon&#39;s open world"/>
 
   
@@ -59,85 +59,81 @@
 <div class="clearfix"></div>
 </header>
   <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper">
-<h2 class="archive-title">2014/1</h2>
-
-
-  <div class="archive">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
     
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2014-01-28T05:53:21.000Z"><a href="/2014/01/28/gorm-query/">Jan 28 2014</a></time>
-            
-              <h1 class="title"><a href="/2014/01/28/gorm-query/">GORM查询</a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2014-01-23T08:49:03.000Z"><a href="/2014/01/23/grails-encounters-mysql/">Jan 23 2014</a></time>
-            
-              <h1 class="title"><a href="/2014/01/23/grails-encounters-mysql/">当Grails遇上MySQL</a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2014-01-22T08:17:09.000Z"><a href="/2014/01/22/grails-a-quick-start/">Jan 22 2014</a></time>
-            
-              <h1 class="title"><a href="/2014/01/22/grails-a-quick-start/">Grails初体验</a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2014-01-13T02:25:01.000Z"><a href="/2014/01/13/reading-note-on-wg-java-developer-groovy-a-little/">Jan 13 2014</a></time>
-            
-              <h1 class="title"><a href="/2014/01/13/reading-note-on-wg-java-developer-groovy-a-little/">Reading Note on WG Java Developer Groovy a little</a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2014-01-07T07:03:55.000Z"><a href="/2014/01/07/reading-note-on-wg-java-devloper-chapter-6/">Jan 7 2014</a></time>
-            
-              <h1 class="title"><a href="/2014/01/07/reading-note-on-wg-java-devloper-chapter-6/">Reading Note on WG Java Developer Chapter 6</a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2014-01-02T08:09:05.000Z"><a href="/2014/01/02/reading-note-on-code-complete-2/">Jan 2 2014</a></time>
-            
-              <h1 class="title"><a href="/2014/01/02/reading-note-on-code-complete-2/">Reading Note on Code Complete 2</a></h1>
-            
-          </header>
-        </div>
-      </article>
+      <img src="">
     
   </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2014-11-06T17:14:41.000Z"><a href="/2014/11/07/A-tip-for-Ubuntu-1404-update/">Nov 7 2014</a></time>
+      
+      
+  
+    <h1 class="title">A tip for Ubuntu 14.04 update</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>安装了Ubuntu 14.04之后，出现一个小问题，软件自动更新时经常提示空间不足。搜一下，下面的链接提供了一些解决方案。<br><a href="http://askubuntu.com/questions/2793/how-do-i-remove-or-hide-old-kernel-versions-to-clean-up-the-boot-menu" target="_blank" rel="external">http://askubuntu.com/questions/2793/how-do-i-remove-or-hide-old-kernel-versions-to-clean-up-the-boot-menu</a></p>
+<p>简单说想快速解决就是一条命令：<br><code>sudo apt-get remove --purge $(dpkg -l &#39;linux-image-*&#39; | sed &#39;/^ii/!d;/&#39;&quot;$(uname -r | sed &quot;s/\(.*\)-\([^0-9]\+\)/\1/&quot;)&quot;&#39;/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d&#39;)</code></p>
+<p>这条命令会移除所有除了当前版本之外所有旧的Kernel安装包，以腾出空间。当然，如果想要彻底解决这个问题，可以参考上面的文章。</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Ubuntu/">Ubuntu</a>
+  </div>
+
+        <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone"></a><a href="#" class="bds_tsina" data-cmd="tsina"></a><a href="#" class="bds_tqq" data-cmd="tqq"></a><a href="#" class="bds_renren" data-cmd="renren"></a><a href="#" class="bds_weixin" data-cmd="weixin"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdPic":"","bdStyle":"0","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+<section id="comment">
+
+<!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"freelemon"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- Duoshuo Comment END -->
+
+</section>
+
+
+
+
 </div></div>
     <aside id="sidebar" class="alignright">
   <div class="search">
