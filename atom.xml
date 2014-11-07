@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Write, Code, Share, Learn]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://hongbinzuo.github.io/"/>
-  <updated>2014-11-07T06:23:02.684Z</updated>
+  <updated>2014-11-07T13:18:18.275Z</updated>
   <id>http://hongbinzuo.github.io/</id>
   
   <author>
@@ -13,6 +13,57 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Future]]></title>
+    <link href="http://hongbinzuo.github.io/2014/11/07/Future/"/>
+    <id>http://hongbinzuo.github.io/2014/11/07/Future/</id>
+    <published>2014-11-07T12:04:44.000Z</published>
+    <updated>2014-11-07T13:17:38.000Z</updated>
+    <content type="html"><![CDATA[<p>之前在看《Java程序员修炼之道》（主要讲的是Java 7的新特性）的时候就看过并发这块儿，但是感觉看完过段儿时间印象也有点儿模糊。最近重温Java并发编程，拿起了《Java并发编程实战》，只能用四个字儿来形容：干货太多。书里讲的几乎没有废话，大部分例子也都不错，对于理解新的Java并发编程模型很有帮助。不过，也有些例子可能受篇幅所限，讲解的不够细致，所以我就需要从网上再找些相对丰富的例子补充上以加深理解。Future就是其中一例。</p>
+<a id="more"></a>
+
+<p>下面的代码段摘自<a href="http://java.dzone.com/articles/javautilconcurrentfuture" target="_blank" rel="external">java.util.concurrent.Future Basics</a>，感觉这篇教程讲解虽然基础但是很清晰，看看代码基本上就理解Future的简单用法了。</p>
+<h3 id="单线程应用">单线程应用</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">public String downloadContents(URL url) throws IOException {</div><div class="line">    <span class="keyword">try</span>(InputStream input = url.openStream()) {</div><div class="line">        <span class="keyword">return</span> IOUtils.toString(input, StandardCharsets.UTF_8);</div><div class="line">    }</div><div class="line">}</div><div class="line"></div><div class="line">//<span class="keyword">...</span></div><div class="line"></div><div class="line">final String contents = downloadContents(new URL(<span class="string">"http://www.example.com"</span>));</div></pre></td></tr></table></figure>
+
+<h3 id="使用Future接口，并行处理">使用Future接口，并行处理</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">public static Future&lt;String&gt; startDownloading(URL url) {</div><div class="line">    //<span class="keyword">...</span></div><div class="line">}</div><div class="line"></div><div class="line">final Future&lt;String&gt; contentsFuture = startDownloading(new URL(<span class="string">"http://www.example.com"</span>));</div><div class="line">//other computation</div><div class="line">final String contents = contentsFuture.get();</div></pre></td></tr></table></figure>
+
+<h3 id="调用isDone方法判断是否执行完成">调用isDone方法判断是否执行完成</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">final</span> Future&lt;String&gt; contentsFuture = startDownloading(<span class="keyword">new</span> URL(<span class="string">"http://www.example.com"</span>));</div><div class="line"><span class="keyword">while</span> (!contentsFuture.isDone()) {</div><div class="line">    askUserToWait();</div><div class="line">    doSomeComputationInTheMeantime();</div><div class="line">}</div><div class="line">contentsFuture.<span class="keyword">get</span>();</div></pre></td></tr></table></figure>
+
+<h3 id="取消任务">取消任务</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">contentsFuture.<span class="built_in">cancel</span>(<span class="constant">true</span>);   <span class="comment"> //meh...</span></div></pre></td></tr></table></figure>
+
+<h3 id="两种获得Future实例的方法">两种获得Future实例的方法</h3>
+<h4 id="使用线程池">使用线程池</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> ExecutorService pool = Executors.newFixedThreadPool(<span class="number">10</span>);</div><div class="line"></div><div class="line"><span class="keyword">public</span> Future&lt;String&gt; <span class="title">startDownloading</span>(<span class="keyword">final</span> URL url) <span class="keyword">throws</span> IOException {</div><div class="line">    <span class="keyword">return</span> pool.submit(<span class="keyword">new</span> Callable&lt;String&gt;() {</div><div class="line">        <span class="annotation">@Override</span></div><div class="line">        <span class="keyword">public</span> String <span class="title">call</span>() <span class="keyword">throws</span> Exception {</div><div class="line">            <span class="keyword">try</span> (InputStream input = url.openStream()) {</div><div class="line">                <span class="keyword">return</span> IOUtils.toString(input, StandardCharsets.UTF_8);</div><div class="line">            }</div><div class="line">        }</div><div class="line">    });</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<h4 id="使用容器，如Spring或EJB">使用容器，如Spring或EJB</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="annotation">@Async</span></div><div class="line"><span class="keyword">public</span> Future&lt;String&gt; <span class="title">startDownloading</span>(<span class="keyword">final</span> URL url) <span class="keyword">throws</span> IOException {</div><div class="line">    <span class="keyword">try</span> (InputStream input = url.openStream()) {</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> AsyncResult&lt;&gt;(</div><div class="line">                IOUtils.toString(input, StandardCharsets.UTF_8)</div><div class="line">        );</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>代码实例能帮助理解，同时也要通读一下原文，注意其中的一些细节，比如超时和中断的处理逻辑等等。</p>
+<p>最后，我们摘抄《Java并发实战》第7章的例子看看相对完整的一个取消操作是怎么完成的：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> timedRun(Runnable r, <span class="keyword">long</span> timeout, TimeUnit unit) <span class="keyword">throws</span> InterruptedException {</div><div class="line">  Future&lt;?&gt; <span class="keyword">task</span> = taskExec.submit(r);</div><div class="line">  <span class="keyword">try</span> {</div><div class="line">    <span class="keyword">task</span>.get(timeout, unit);</div><div class="line">  } <span class="keyword">catch</span>(TimeoutException e) {</div><div class="line">    <span class="comment">// 接下来的任务将被取消</span></div><div class="line">  } <span class="keyword">catch</span>(ExecutionException e){</div><div class="line">    <span class="comment">// 如果在任务中抛出了异常，那么重新抛出异常</span></div><div class="line">    <span class="keyword">throw</span> launderThrowable(e.getCause());</div><div class="line">  } <span class="keyword">finally</span> {</div><div class="line">    <span class="comment">// 如果任务已经结束，那么执行取消操作也不会带来任何影响</span></div><div class="line">    <span class="comment">// 如果任务正在运行，那么将被中断</span></div><div class="line">    <span class="keyword">task</span>.cancel(<span class="keyword">true</span>);</div><div class="line">  }</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<h3 id="参考资源">参考资源</h3>
+<ul>
+<li><a href="http://www.cnblogs.com/hanyuan/archive/2013/03/10/2952229.html" target="_blank" rel="external">http://www.cnblogs.com/hanyuan/archive/2013/03/10/2952229.html</a></li>
+<li><a href="http://blog.csdn.net/lingchixin/article/details/38906849" target="_blank" rel="external">http://blog.csdn.net/lingchixin/article/details/38906849</a></li>
+<li><a href="http://10kloc.wordpress.com/2013/12/24/cancelling-tasks-in-executors/" target="_blank" rel="external">http://10kloc.wordpress.com/2013/12/24/cancelling-tasks-in-executors/</a></li>
+<li><a href="http://www.javacodegeeks.com/2011/09/java-concurrency-tutorial-callable.html" target="_blank" rel="external">http://www.javacodegeeks.com/2011/09/java-concurrency-tutorial-callable.html</a></li>
+<li><a href="http://www.journaldev.com/1090/java-callable-future-example" target="_blank" rel="external">http://www.journaldev.com/1090/java-callable-future-example</a></li>
+</ul>
+]]></content>
+    <summary type="html"><![CDATA[<p>之前在看《Java程序员修炼之道》（主要讲的是Java 7的新特性）的时候就看过并发这块儿，但是感觉看完过段儿时间印象也有点儿模糊。最近重温Java并发编程，拿起了《Java并发编程实战》，只能用四个字儿来形容：干货太多。书里讲的几乎没有废话，大部分例子也都不错，对于理解新的Java并发编程模型很有帮助。不过，也有些例子可能受篇幅所限，讲解的不够细致，所以我就需要从网上再找些相对丰富的例子补充上以加深理解。Future就是其中一例。</p>
+]]></summary>
+    
+      <category term="Java" scheme="http://hongbinzuo.github.io/tags/Java/"/>
+    
+      <category term="Concurrency" scheme="http://hongbinzuo.github.io/tags/Concurrency/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Hibernate Object States]]></title>
@@ -769,50 +820,6 @@
 <p>我认为这种模式也非常符合DRY（Don’t Repeat Yourself）原则，只使用一个函数就可以把相同类型的资源使用代码的重复部分去除，很好。</p>
 ]]></content>
     <summary type="html"><![CDATA[<p>按照<em>Scala in action</em>的说法，Scala中的借贷模式（Loan Pattern）相当于Java/C++中的模板方法（Template Method）模式。很遗憾，由于同样的原因，书中所附的引用链接已失效（囧），所以<br>只能从网上参考借贷模式的详解。我认为Knoldus的这篇博文<a href="http://blog.knoldus.com/2012/11/16/scalaknol-understanding-loan-pattern/" target="_blank" rel="external">理解借贷模式</a>写得非常不错，把这种模式的适用场景写得很清楚：</p>
-]]></summary>
-    
-      <category term="Scala" scheme="http://hongbinzuo.github.io/tags/Scala/"/>
-    
-      <category term="Design Patterns" scheme="http://hongbinzuo.github.io/tags/Design-Patterns/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Scala patterns (#4) - Strategy]]></title>
-    <link href="http://hongbinzuo.github.io/2014/03/02/scala-patterns---strategy/"/>
-    <id>http://hongbinzuo.github.io/2014/03/02/scala-patterns---strategy/</id>
-    <published>2014-03-02T07:38:41.000Z</published>
-    <updated>2014-08-04T00:00:34.000Z</updated>
-    <content type="html"><![CDATA[<p>策略模式是一种经典的设计模式，简而言之，就是做同一件事情，但在不同的场景中（或针对不同的对象）采用不同的算法。由于Scala简洁的语法和对高阶函数的支持，相比Java写出的代码会更加精简。</p>
-<p>下面给出几个例子来感受一下Scala中策略模式的写法，首先是<em>Scala in action</em>书中的例子。</p>
-<a id="more"></a>
-
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">def calculatePrice(product: String, taxingStrategy: String =&gt; Double) = {</div><div class="line">  <span class="keyword">...</span>  </div><div class="line">  val tax = taxingStrategy(product)</div><div class="line">  <span class="keyword">...</span></div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p>这个例子简直是简单地过分，只需要传入一个函数（参数是String类型，返回值是Double类型），借由传入函数来决定具体的计算方法（策略）就可以了。由于这个例子过分简单，我们再来看一个更具体的例子（来自<a href="http://memuser.blogspot.com/2008/03/design-patterns-in-scala.html#7399152332218666295" target="_blank" rel="external">Memetic Musings Blog</a>）：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">trait</span> <span class="title">TaxPayer</span></span></div><div class="line"><span class="class"><span class="keyword">case</span> <span class="keyword">class</span> <span class="title">Employee</span><span class="params">(sal: Long)</span> <span class="keyword">extends</span> <span class="title">TaxPayer</span></span></div><div class="line"><span class="class"><span class="keyword">case</span> <span class="keyword">class</span> <span class="title">NonProfitOrg</span><span class="params">(funds: BigInt)</span> <span class="keyword">extends</span> <span class="title">TaxPayer</span></span></div><div class="line"></div><div class="line"><span class="comment">//Consider a generic tax calculation function. (It can be in TaxPayer also).</span></div><div class="line"><span class="keyword">def</span> calculateTax[T &lt;: TaxPayer](victim: T, taxingStrategy: (T =&gt; long)) = {</div><div class="line">  taxingStrategy(victim)</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">val</span> employee = <span class="keyword">new</span> Employee(<span class="number">1000</span>)</div><div class="line"><span class="comment">//A strategy to calculate tax for employees</span></div><div class="line"><span class="keyword">def</span> empStrategy(e: Employee) = Math.ceil(e.sal * <span class="number">.3</span>) toLong</div><div class="line">calculateTax(employee, empStrategy)</div><div class="line"></div><div class="line"><span class="keyword">val</span> npo = <span class="keyword">new</span> NonProfitOrg(<span class="number">100000000</span>)</div><div class="line"><span class="comment">//The tax calculation strategy for npo is trivial, so we can inline it</span></div><div class="line">calculateTax(nonProfit, ((t: TaxPayer) =&gt; <span class="number">0</span>)</div></pre></td></tr></table></figure>
-
-<p>这个例子更加Scala一些，其中用到了类型上限<code>T &lt;: TaxPayer</code>，意思是T为TaxPayer类型及其子类型。其实仔细一看核心部分和第一个例子是一样的，只不过多用了一些对象的继承关系，使得Strategy的声明和实现更加明确化。</p>
-<p>最后一个例子来自于之前提到过的<a href="http://pavelfatin.com/design-patterns-in-scala/#strategy" target="_blank" rel="external">Design Patterns in Scala</a>，这篇博客的好处是能看到Java实现和Scala实现的比较：</p>
-<p><strong>Java实现</strong></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Strategy</span> </span>{</div><div class="line">    <span class="keyword">int</span> compute(<span class="keyword">int</span> a, <span class="keyword">int</span> b);</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Add</span> <span class="keyword">implements</span> <span class="title">Strategy</span> </span>{</div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compute</span>(<span class="keyword">int</span> a, <span class="keyword">int</span> b) { <span class="keyword">return</span> a + b; }</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Multiply</span> <span class="keyword">implements</span> <span class="title">Strategy</span> </span>{</div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compute</span>(<span class="keyword">int</span> a, <span class="keyword">int</span> b) { <span class="keyword">return</span> a * b; }</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Context</span>  </span>{</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Strategy strategy;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="title">Context</span>(Strategy strategy) { <span class="keyword">this</span>.strategy = strategy; }</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">use</span>(<span class="keyword">int</span> a, <span class="keyword">int</span> b) { strategy.compute(a, b); }</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">new</span> Context(<span class="keyword">new</span> Multiply()).use(<span class="number">2</span>, <span class="number">3</span>);</div></pre></td></tr></table></figure>
-
-<p><strong>Scala实现</strong></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="typedef"><span class="keyword">type</span> <span class="type">Strategy</span> = <span class="container">(<span class="type">Int</span>, <span class="type">Int</span>)</span> =&gt; <span class="type">Int</span> </span></div><div class="line"><span class="class"></span></div><div class="line"><span class="keyword">class</span> <span class="type">Context</span><span class="container">(<span class="title">computer</span>: <span class="type">Strategy</span>)</span> {</div><div class="line">  def use<span class="container">(<span class="title">a</span>: <span class="type">Int</span>, <span class="title">b</span>: <span class="type">Int</span>)</span>  { computer<span class="container">(<span class="title">a</span>, <span class="title">b</span>)</span> }</div><div class="line">}</div><div class="line"></div><div class="line">val add: <span class="type">Strategy</span> = _ + _</div><div class="line">val multiply: <span class="type">Strategy</span> = _ * _</div><div class="line"></div><div class="line">new <span class="type">Context</span><span class="container">(<span class="title">multiply</span>)</span>.use<span class="container">(2, 3)</span></div></pre></td></tr></table></figure>
-
-<p>是不是觉得尝到一点儿函数式编程的甜头儿了呢？:)</p>
-<p><strong>参考资源</strong></p>
-<ul>
-<li>维基百科对策略模式的定义：<a href="http://en.wikipedia.org/wiki/Strategy_pattern" target="_blank" rel="external">http://en.wikipedia.org/wiki/Strategy_pattern</a></li>
-<li>Stackoverflow中的问答：<a href="http://stackoverflow.com/questions/4950524/better-alternative-to-strategy-pattern-in-scala" target="_blank" rel="external">Better alternative to Strategy pattern in Scala?</a></li>
-<li>Design Patterns in Scala: <a href="http://memuser.blogspot.com/2008/03/design-patterns-in-scala.html" target="_blank" rel="external">http://memuser.blogspot.com/2008/03/design-patterns-in-scala.html</a> </li>
-<li>一个更加详细的策略模式实现：<a href="http://scalasim.blogspot.com/2010/09/strategy-pattern-and-traits.html" target="_blank" rel="external">http://scalasim.blogspot.com/2010/09/strategy-pattern-and-traits.html</a></li>
-<li>Design Patterns in Scala again: <a href="http://pavelfatin.com/design-patterns-in-scala" target="_blank" rel="external">http://pavelfatin.com/design-patterns-in-scala</a></li>
-<li>神奇的长文：<a href="http://alvinalexander.com/scala/how-scala-killed-oop-strategy-design-pattern" target="_blank" rel="external">How Scala killed the Strategy Pattern</a></li>
-</ul>
-]]></content>
-    <summary type="html"><![CDATA[<p>策略模式是一种经典的设计模式，简而言之，就是做同一件事情，但在不同的场景中（或针对不同的对象）采用不同的算法。由于Scala简洁的语法和对高阶函数的支持，相比Java写出的代码会更加精简。</p>
-<p>下面给出几个例子来感受一下Scala中策略模式的写法，首先是<em>Scala in action</em>书中的例子。</p>
 ]]></summary>
     
       <category term="Scala" scheme="http://hongbinzuo.github.io/tags/Scala/"/>
