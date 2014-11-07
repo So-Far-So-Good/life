@@ -78,6 +78,64 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2013-11-26T05:10:49.000Z"><a href="/2013/11/26/talk-about-di-again/">Nov 26 2013</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2013/11/26/talk-about-di-again/">Talk about DI again</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h1 id="再谈依赖注入">再谈依赖注入</h1>
+<p>理解了控制反转和依赖注入的基本概念之后，就可以了解一些实际的应用了。在《Java程序员修炼之道》第三章，作者深入剖析了依赖注入的技术背景和应用实例。</p>
+<p>主要内容包括：</p>
+<ol>
+<li>控制反转和依赖注入</li>
+<li>掌握依赖注入技术为什么如此重要</li>
+<li>JSR-330如何统一了Java中的DI</li>
+<li>常见的JSR-330的注解，如@Inject</li>
+<li>Guice 3简介，JSR-330的参考实现</li>
+</ol>
+
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2013/11/26/talk-about-di-again/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2013-11-22T14:43:57.000Z"><a href="/2013/11/22/ioc-and-di-intro/">Nov 22 2013</a></time>
       
       
@@ -278,85 +336,13 @@
 
 
 
-  <article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2013-11-08T15:13:36.000Z"><a href="/2013/11/08/the-first-blog-with-hexo/">Nov 8 2013</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2013/11/08/the-first-blog-with-hexo/">The first blog with Hexo</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="在Ubuntu_13-10_Linux环境下使用Hexo搭建Github博客系统">在Ubuntu 13.10 Linux环境下使用Hexo搭建Github博客系统</h2>
-<p><strong>Github的Git环境搭建</strong></p>
-<ul>
-<li>安装git：sudo apt-get install git </li>
-<li>生成SSH Key并验证连通性 <a href="https://help.github.com/articles/generating-ssh-keys" target="_blank" rel="external">https://help.github.com/articles/generating-ssh-keys</a></li>
-</ul>
-<p><strong>Github Pages博客搭建</strong></p>
-<ul>
-<li>主要参考下文中使用GitHub Pages建立博客的部分：<a href="http://beiyuu.com/github-pages/" target="_blank" rel="external">http://beiyuu.com/github-pages/</a></li>
-<li>需要注意的是Github的博客页面不一定能及时反映更新，有时需要等10分钟左右</li>
-</ul>
-<p><strong>安装Hexo</strong></p>
-<ul>
-<li>安装nodejs: sudo apt-get install nodejs<ul>
-<li>在不同的Linux环境或Ubuntu更早的版本安装nodejs，请参考：<a href="http://stackoverflow.com/questions/16302436/install-nodejs-on-ubuntu-12-10" target="_blank" rel="external">http://stackoverflow.com/questions/16302436/install-nodejs-on-ubuntu-12-10</a></li>
-</ul>
-</li>
-<li>安装npm: sudo apt-get install npm</li>
-<li>安装Hexo的方法主要参考Hexo的官方主页 <a href="http://zespia.tw/hexo" target="_blank" rel="external">http://zespia.tw/hexo</a></li>
-<li>如果npm需要代理访问，直接修改Linux环境的代理http(s)_proxy或者设置npm的代理都不能奏效，最后求助于Github的问题列表，指到SO的一则回答，依法照搬，OK！（注意加sudo）<a href="http://stackoverflow.com/questions/7559648/is-there-a-way-to-make-npm-install-the-command-to-work-behind-proxy" target="_blank" rel="external">http://stackoverflow.com/questions/7559648/is-there-a-way-to-make-npm-install-the-command-to-work-behind-proxy</a></li>
-<li>运行命令hexo init之后出错的解决方法：将hexo(/usr/local/bin/hexo)中的node改为nodejs即可</li>
-</ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ hexo init         </div><div class="line">/usr/bin/env: node: No such <span class="built_in">file</span> <span class="operator">or</span> <span class="built_in">directory</span></div></pre></td></tr></table></figure>
-
-
-<p>  这个问题已经提交到hexo的Github主页：<a href="https://github.com/tommy351/hexo/issues/355" target="_blank" rel="external">https://github.com/tommy351/hexo/issues/355</a><br>  [Update] Zippera回答了这个问题，建议是使用npm安装nodejs，而不是先安装nodejs </p>
-
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2013/11/08/the-first-blog-with-hexo/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
 
 <nav id="pagination">
   
     <a href="/page/9/" class="alignleft prev">Prev</a>
   
+  
+    <a href="/page/11/" class="alignright next">Next</a>
   
   <div class="clearfix"></div>
 </nav></div></div>
@@ -374,7 +360,7 @@
 <div class="widget tagcloud">
   <h3 class="title">Tag Cloud</h3>
   <div class="entry">
-    <a href="/tags/Concurrency/" style="font-size: 10.00px;">Concurrency</a><a href="/tags/DI/" style="font-size: 12.00px;">DI</a><a href="/tags/Design-Patterns/" style="font-size: 16.00px;">Design Patterns</a><a href="/tags/Emacs/" style="font-size: 10.00px;">Emacs</a><a href="/tags/FP/" style="font-size: 10.00px;">FP</a><a href="/tags/Gradle/" style="font-size: 10.00px;">Gradle</a><a href="/tags/Groovy/" style="font-size: 10.00px;">Groovy</a><a href="/tags/Hibernate/" style="font-size: 10.00px;">Hibernate</a><a href="/tags/IoC/" style="font-size: 10.00px;">IoC</a><a href="/tags/Java/" style="font-size: 18.00px;">Java</a><a href="/tags/JavaEE/" style="font-size: 10.00px;">JavaEE</a><a href="/tags/Javascript/" style="font-size: 10.00px;">Javascript</a><a href="/tags/Misc/" style="font-size: 10.00px;">Misc</a><a href="/tags/Redis/" style="font-size: 10.00px;">Redis</a><a href="/tags/Ruby/" style="font-size: 10.00px;">Ruby</a><a href="/tags/SBT/" style="font-size: 12.00px;">SBT</a><a href="/tags/Scala/" style="font-size: 20.00px;">Scala</a><a href="/tags/Spring/" style="font-size: 10.00px;">Spring</a><a href="/tags/Ubuntu/" style="font-size: 10.00px;">Ubuntu</a><a href="/tags/algorithms/" style="font-size: 10.00px;">algorithms</a><a href="/tags/appfuse/" style="font-size: 12.00px;">appfuse</a><a href="/tags/blog/" style="font-size: 10.00px;">blog</a><a href="/tags/email/" style="font-size: 10.00px;">email</a><a href="/tags/favorites/" style="font-size: 10.00px;">favorites</a><a href="/tags/github/" style="font-size: 10.00px;">github</a><a href="/tags/grails/" style="font-size: 14.00px;">grails</a><a href="/tags/hexo/" style="font-size: 12.00px;">hexo</a><a href="/tags/learning/" style="font-size: 10.00px;">learning</a><a href="/tags/maven/" style="font-size: 10.00px;">maven</a><a href="/tags/nodejs/" style="font-size: 10.00px;">nodejs</a><a href="/tags/play!/" style="font-size: 10.00px;">play!</a><a href="/tags/reading/" style="font-size: 16.00px;">reading</a><a href="/tags/test/" style="font-size: 12.00px;">test</a>
+    <a href="/tags/Concurrency/" style="font-size: 10.00px;">Concurrency</a><a href="/tags/DI/" style="font-size: 12.00px;">DI</a><a href="/tags/Design-Patterns/" style="font-size: 16.00px;">Design Patterns</a><a href="/tags/Emacs/" style="font-size: 10.00px;">Emacs</a><a href="/tags/FP/" style="font-size: 10.00px;">FP</a><a href="/tags/Gradle/" style="font-size: 10.00px;">Gradle</a><a href="/tags/Groovy/" style="font-size: 10.00px;">Groovy</a><a href="/tags/Hibernate/" style="font-size: 12.00px;">Hibernate</a><a href="/tags/IoC/" style="font-size: 10.00px;">IoC</a><a href="/tags/Java/" style="font-size: 18.00px;">Java</a><a href="/tags/JavaEE/" style="font-size: 12.00px;">JavaEE</a><a href="/tags/Javascript/" style="font-size: 10.00px;">Javascript</a><a href="/tags/Misc/" style="font-size: 10.00px;">Misc</a><a href="/tags/Redis/" style="font-size: 10.00px;">Redis</a><a href="/tags/Ruby/" style="font-size: 10.00px;">Ruby</a><a href="/tags/SBT/" style="font-size: 12.00px;">SBT</a><a href="/tags/Scala/" style="font-size: 20.00px;">Scala</a><a href="/tags/Spring/" style="font-size: 10.00px;">Spring</a><a href="/tags/Ubuntu/" style="font-size: 10.00px;">Ubuntu</a><a href="/tags/algorithms/" style="font-size: 10.00px;">algorithms</a><a href="/tags/appfuse/" style="font-size: 12.00px;">appfuse</a><a href="/tags/blog/" style="font-size: 10.00px;">blog</a><a href="/tags/email/" style="font-size: 10.00px;">email</a><a href="/tags/favorites/" style="font-size: 10.00px;">favorites</a><a href="/tags/github/" style="font-size: 10.00px;">github</a><a href="/tags/grails/" style="font-size: 14.00px;">grails</a><a href="/tags/hexo/" style="font-size: 12.00px;">hexo</a><a href="/tags/learning/" style="font-size: 10.00px;">learning</a><a href="/tags/maven/" style="font-size: 10.00px;">maven</a><a href="/tags/nodejs/" style="font-size: 10.00px;">nodejs</a><a href="/tags/play!/" style="font-size: 10.00px;">play!</a><a href="/tags/reading/" style="font-size: 16.00px;">reading</a><a href="/tags/test/" style="font-size: 12.00px;">test</a>
   </div>
 </div>
 

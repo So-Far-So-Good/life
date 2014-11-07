@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>hexo | Freelemon&#39;s open world</title>
+  <title>Hibernate Object States | Freelemon&#39;s open world</title>
   <meta name="author" content="Hongbin Zuo">
   
   <meta name="description" content="Think before write.">
@@ -11,7 +11,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  
+  <meta property="og:title" content="Hibernate Object States"/>
   <meta property="og:site_name" content="Freelemon&#39;s open world"/>
 
   
@@ -59,12 +59,7 @@
 <div class="clearfix"></div>
 </header>
   <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper">
-<h2 class="archive-title tag">hexo</h2>
-
-
-  
-    <article class="post">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
   
     <div class="gallery">
   <div class="photoset">
@@ -82,31 +77,47 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2014-02-05T05:00:58.000Z"><a href="/2014/02/05/hexo-migration-from-ubuntu-linux-to-windows/">Feb 5 2014</a></time>
+        <time datetime="2014-11-07T05:26:34.000Z"><a href="/2014/11/07/Hibernate-Object-States/">Nov 7 2014</a></time>
       
       
   
-    <h1 class="title"><a href="/2014/02/05/hexo-migration-from-ubuntu-linux-to-windows/">Hexo写作环境从Ubuntu迁移到Windows</a></h1>
+    <h1 class="title">Hibernate Object States</h1>
   
 
     </header>
     <div class="entry">
       
-        <h3 id="引言">引言</h3>
-<p>之前一直在Ubuntu Linux上写博客，不是很方便。今天抽空把Windows的环境也搭一搭。我自己电脑用的是Windows 8，不过本文对于大多数版本的Windows环境都适用。</p>
-<h3 id="迁移过程">迁移过程</h3>
-<p>首先，移步到Hexo的<a href="http://zipperary.com/categories/hexo/" target="_blank" rel="external">官方博客</a>，找到<a href="http://zipperary.com/2013/05/28/hexo-guide-2/" target="_blank" rel="external">Windows下部署的博文</a>，先把基础环境搭好。博主写得很详细，而且通俗易懂，就不用我多废话了。如果你是刚开始用Hexo写博客，就直接用这个当向导就可以了，如果你像我一样是从Linux下迁移过来的，那么需要把Node.js和Hexo环境安装好，然后按照下面的步骤继续进行。</p>
+        <p>Hibernate是一种对象/关系映射的持久化框架，它做的主要工作之一就是对象和数据库表记录之间的状态管理。Hibernate编程环境中操作的对象指的是Entity POJO对象，它存在四种状态：Transient, Persistent, Detached和Removed。下面是从网上摘录的一幅图（源自Java Persistence with Hibernate这本书），非常好地说明了这几种状态之间的转换关系。</p>
+<p><a id="more"></a><br><img alt="Hibernate对象状态转换图" src="/img/object-states.JPG" style="width: 750px;"></p>
+<p>从这幅图中，我们可以看到，</p>
+<ul>
+<li>对象刚刚创建时是Transient（瞬时）状态，意味着和数据库没有任何关系，只在内存中存在</li>
+<li>对象在保存或更新之后，进入Persistent（持久化）状态，此时数据库中已经有对象相应的记录，并生成了ID</li>
+<li>当调用Session的clear等方法后，对象从Persistent进入Detached状态，此时Hibernate从<strong>缓存</strong>中将此对象清除，但在数据库中依然存在</li>
+<li>Detached状态和Persistent状态可以相互转换，如图所示，如果保存更新对象，对象又从Detached状态进入Persistent状态</li>
+<li>也可以通过load或get方法从数据库中获取该对象，从而直接进入Persistent状态</li>
+<li>最后，调用Session的delete方法，对象就进入了不可逆转的Removed状态</li>
+</ul>
+<p>其实，这些状态变化还是比较符合常理的，所以只要了解基本原理，然后就可以写写代码验证即可。</p>
+<h3 id="参考">参考</h3>
+<ul>
+<li><a href="http://learningviacode.blogspot.com/2012/02/hibernate-object-life-cycle.html" target="_blank" rel="external">The Hibernate Object Life-Cycle</a></li>
+<li><a href="http://www.roseindia.net/hibernate/HibernateLifeCycle.shtml" target="_blank" rel="external">Hibernate Life Cycle</a></li>
+</ul>
 
       
     </div>
     <footer>
       
         
-          <div class="alignleft">
-            <a href="/2014/02/05/hexo-migration-from-ubuntu-linux-to-windows/#more" class="more-link">Read More</a>
-          </div>
         
-        
+  
+  <div class="tags">
+    <a href="/tags/Java/">Java</a>, <a href="/tags/Hibernate/">Hibernate</a>, <a href="/tags/JavaEE/">JavaEE</a>
+  </div>
+
+        <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone"></a><a href="#" class="bds_tsina" data-cmd="tsina"></a><a href="#" class="bds_tqq" data-cmd="tqq"></a><a href="#" class="bds_renren" data-cmd="renren"></a><a href="#" class="bds_weixin" data-cmd="weixin"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdPic":"","bdStyle":"0","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
       
       <div class="clearfix"></div>
     </footer>
@@ -115,87 +126,28 @@
 
 
 
-  
-    <article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2013-11-08T15:13:36.000Z"><a href="/2013/11/08/the-first-blog-with-hexo/">Nov 8 2013</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2013/11/08/the-first-blog-with-hexo/">The first blog with Hexo</a></h1>
-  
+<section id="comment">
 
-    </header>
-    <div class="entry">
-      
-        <h2 id="在Ubuntu_13-10_Linux环境下使用Hexo搭建Github博客系统">在Ubuntu 13.10 Linux环境下使用Hexo搭建Github博客系统</h2>
-<p><strong>Github的Git环境搭建</strong></p>
-<ul>
-<li>安装git：sudo apt-get install git </li>
-<li>生成SSH Key并验证连通性 <a href="https://help.github.com/articles/generating-ssh-keys" target="_blank" rel="external">https://help.github.com/articles/generating-ssh-keys</a></li>
-</ul>
-<p><strong>Github Pages博客搭建</strong></p>
-<ul>
-<li>主要参考下文中使用GitHub Pages建立博客的部分：<a href="http://beiyuu.com/github-pages/" target="_blank" rel="external">http://beiyuu.com/github-pages/</a></li>
-<li>需要注意的是Github的博客页面不一定能及时反映更新，有时需要等10分钟左右</li>
-</ul>
-<p><strong>安装Hexo</strong></p>
-<ul>
-<li>安装nodejs: sudo apt-get install nodejs<ul>
-<li>在不同的Linux环境或Ubuntu更早的版本安装nodejs，请参考：<a href="http://stackoverflow.com/questions/16302436/install-nodejs-on-ubuntu-12-10" target="_blank" rel="external">http://stackoverflow.com/questions/16302436/install-nodejs-on-ubuntu-12-10</a></li>
-</ul>
-</li>
-<li>安装npm: sudo apt-get install npm</li>
-<li>安装Hexo的方法主要参考Hexo的官方主页 <a href="http://zespia.tw/hexo" target="_blank" rel="external">http://zespia.tw/hexo</a></li>
-<li>如果npm需要代理访问，直接修改Linux环境的代理http(s)_proxy或者设置npm的代理都不能奏效，最后求助于Github的问题列表，指到SO的一则回答，依法照搬，OK！（注意加sudo）<a href="http://stackoverflow.com/questions/7559648/is-there-a-way-to-make-npm-install-the-command-to-work-behind-proxy" target="_blank" rel="external">http://stackoverflow.com/questions/7559648/is-there-a-way-to-make-npm-install-the-command-to-work-behind-proxy</a></li>
-<li>运行命令hexo init之后出错的解决方法：将hexo(/usr/local/bin/hexo)中的node改为nodejs即可</li>
-</ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ hexo init         </div><div class="line">/usr/bin/env: node: No such <span class="built_in">file</span> <span class="operator">or</span> <span class="built_in">directory</span></div></pre></td></tr></table></figure>
+<!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"freelemon"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- Duoshuo Comment END -->
 
-
-<p>  这个问题已经提交到hexo的Github主页：<a href="https://github.com/tommy351/hexo/issues/355" target="_blank" rel="external">https://github.com/tommy351/hexo/issues/355</a><br>  [Update] Zippera回答了这个问题，建议是使用npm安装nodejs，而不是先安装nodejs </p>
-
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2013/11/08/the-first-blog-with-hexo/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
+</section>
 
 
 
-  
 
-  <nav id="pagination">
-  
-  
-  <div class="clearfix"></div>
-</nav>
 </div></div>
     <aside id="sidebar" class="alignright">
   <div class="search">
