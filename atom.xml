@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Write, Code, Share, Learn]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://hongbinzuo.github.io/"/>
-  <updated>2014-11-07T13:18:18.275Z</updated>
+  <updated>2014-11-08T05:12:45.773Z</updated>
   <id>http://hongbinzuo.github.io/</id>
   
   <author>
@@ -13,6 +13,51 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[ThreadLocal]]></title>
+    <link href="http://hongbinzuo.github.io/2014/11/08/ThreadLocal/"/>
+    <id>http://hongbinzuo.github.io/2014/11/08/ThreadLocal/</id>
+    <published>2014-11-08T03:56:59.000Z</published>
+    <updated>2014-11-08T05:12:21.000Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>当访问共享的可变数据时，通常需要使用同步。一种避免使用同步的方式就是不共享数据。如果仅在单线程内访问数据，就不需要同步。这种技术被称为线程封闭，它是实现线程安全性的最简单方式之一。……在Swing中大量使用了线程封闭技术。……线程封闭技术的另一种常见应用是JDBC的Connection对象。</p>
+<p>Java语言及其核心库提供了一些机制来帮助维持线程封闭性，例如局部变量和ThreadLocal类，但即便如此，程序员仍然需要负责确保封闭在线程中的对象不会从线程中逸出。</p>
+</blockquote>
+<a id="more"></a>
+
+<p><strong>线程封闭</strong>的实现方式分为：</p>
+<ul>
+<li><strong>Ad-hoc线程封闭</strong>：完全由程序实现来确保线程封闭性，非常脆弱。</li>
+<li><strong>栈封闭</strong>：局部变量的固有属性之一就是封闭在执行线程中，它们位于执行线程的栈中，其他线程无法访问。比Ad-hoc更易于维护、更加健壮。需要注意的是基本类型的局部变量始终封闭在线程内（Java语言的语义保证），但是对象类型的局部变量则需要格外小心确保不会逸出。</li>
+<li><strong>ThreadLocal类</strong>：这是维持线程封闭的规范方法。</li>
+</ul>
+<blockquote>
+<p>这个类能使线程中的某个值与保存值的对象关联起来。ThreadLocal提供了get与set等访问接口或方法，这些方法为每个使用该变量的线程都存有一份独立的副本，因为get总是返回由当前执行线程在调用set时设置的最新值。</p>
+</blockquote>
+<p>下面是来自网上的一个例子，我稍微修改了一下，这样打印结果更容易理解：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadLocalExample</span> </span>{</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">MyRunnable</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>{</div><div class="line">        <span class="keyword">private</span> ThreadLocal&lt;Integer&gt; threadLocal =</div><div class="line">                <span class="keyword">new</span> ThreadLocal&lt;Integer&gt;();</div><div class="line"></div><div class="line">        <span class="annotation">@Override</span></div><div class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span>() {</div><div class="line">            <span class="keyword">int</span> myValue = (<span class="keyword">int</span>) (Math.random() * <span class="number">100</span>D);</div><div class="line">            System.out.println(Thread.currentThread().getName()</div><div class="line">                + <span class="string">": my value is set:"</span>+ myValue);</div><div class="line"></div><div class="line">            threadLocal.set(myValue);</div><div class="line"></div><div class="line">            <span class="keyword">try</span> {</div><div class="line">                Thread.sleep(<span class="number">2000</span>);</div><div class="line">            } <span class="keyword">catch</span> (InterruptedException e) {</div><div class="line">            }</div><div class="line"></div><div class="line">            System.out.println(Thread.currentThread().getName()</div><div class="line">                + <span class="string">": my value is:"</span>+ threadLocal.get());</div><div class="line">        }</div><div class="line">    }</div><div class="line"></div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(String[] args) {</div><div class="line">        MyRunnable sharedRunnableInstance = <span class="keyword">new</span> MyRunnable();</div><div class="line"></div><div class="line">        Thread thread1 = <span class="keyword">new</span> Thread(sharedRunnableInstance);</div><div class="line">        Thread thread2 = <span class="keyword">new</span> Thread(sharedRunnableInstance);</div><div class="line"></div><div class="line">        thread1.start();</div><div class="line">        thread2.start();</div><div class="line">    }</div><div class="line"></div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>运行结果如下：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Thread-<span class="number">0</span>: my <span class="keyword">value</span> <span class="keyword">is</span> <span class="keyword">set</span>:<span class="number">95</span></div><div class="line">Thread-<span class="number">1</span>: my <span class="keyword">value</span> <span class="keyword">is</span> <span class="keyword">set</span>:<span class="number">27</span></div><div class="line">Thread-<span class="number">1</span>: my <span class="keyword">value</span> <span class="keyword">is</span>:<span class="number">27</span></div><div class="line">Thread-<span class="number">0</span>: my <span class="keyword">value</span> <span class="keyword">is</span>:<span class="number">95</span></div></pre></td></tr></table></figure>
+
+<h3 id="参考资料">参考资料</h3>
+<ul>
+<li>文中引用部分摘自《Java并发编程实战》</li>
+<li>例子代码来自：<a href="http://tutorials.jenkov.com/java-concurrency/threadlocal.html" target="_blank" rel="external">http://tutorials.jenkov.com/java-concurrency/threadlocal.html</a></li>
+</ul>
+]]></content>
+    <summary type="html"><![CDATA[<blockquote>
+<p>当访问共享的可变数据时，通常需要使用同步。一种避免使用同步的方式就是不共享数据。如果仅在单线程内访问数据，就不需要同步。这种技术被称为线程封闭，它是实现线程安全性的最简单方式之一。……在Swing中大量使用了线程封闭技术。……线程封闭技术的另一种常见应用是JDBC的Connection对象。</p>
+<p>Java语言及其核心库提供了一些机制来帮助维持线程封闭性，例如局部变量和ThreadLocal类，但即便如此，程序员仍然需要负责确保封闭在线程中的对象不会从线程中逸出。</p>
+</blockquote>
+]]></summary>
+    
+      <category term="Java" scheme="http://hongbinzuo.github.io/tags/Java/"/>
+    
+      <category term="Concurrency" scheme="http://hongbinzuo.github.io/tags/Concurrency/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Future]]></title>
@@ -789,42 +834,6 @@
 ]]></summary>
     
       <category term="Scala" scheme="http://hongbinzuo.github.io/tags/Scala/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Scala patterns (#5) - the Loan Pattern]]></title>
-    <link href="http://hongbinzuo.github.io/2014/03/03/scala-loan-pattern/"/>
-    <id>http://hongbinzuo.github.io/2014/03/03/scala-loan-pattern/</id>
-    <published>2014-03-03T13:30:28.000Z</published>
-    <updated>2014-08-04T00:00:34.000Z</updated>
-    <content type="html"><![CDATA[<p>按照<em>Scala in action</em>的说法，Scala中的借贷模式（Loan Pattern）相当于Java/C++中的模板方法（Template Method）模式。很遗憾，由于同样的原因，书中所附的引用链接已失效（囧），所以<br>只能从网上参考借贷模式的详解。我认为Knoldus的这篇博文<a href="http://blog.knoldus.com/2012/11/16/scalaknol-understanding-loan-pattern/" target="_blank" rel="external">理解借贷模式</a>写得非常不错，把这种模式的适用场景写得很清楚：</p>
-<a id="more"></a>
-
-<blockquote>
-<p>Loan Pattern as the name suggests would loan a resource to your function. So if you break out the sentence. It would</p>
-<ul>
-<li>Create a resource which you can use</li>
-<li>Loan the resources to the function which would use it</li>
-<li>This function would be passed by the caller</li>
-<li>The resource would be destroyed</li>
-</ul>
-<p>As you would see, the advantages are multifold. First, I am not constrained by the function which can use the loaned resource. I can pass any function that I desire. Second, I am not concerned about the creation, destruction of the resource. The loan function takes care of it.</p>
-</blockquote>
-<p>除了这篇博文，还可以看一个Youtube的视频（<a href="https://www.youtube.com/watch?v=FKbTqezP8vQ" target="_blank" rel="external">地址</a>），这个8分钟左右的教学视频生动地讲解了借贷模式的例子，对于实际应用很有借鉴意义。</p>
-<p>另外可供参考的资源：</p>
-<ul>
-<li><a href="http://www.scalaloader.org/2013/03/loan-pattern-in-scala.html" target="_blank" rel="external">http://www.scalaloader.org/2013/03/loan-pattern-in-scala.html</a></li>
-<li><a href="http://www.iteye.com/topic/536958" target="_blank" rel="external">Scala Pattern 之 Loan Pattern（ITEye）</a></li>
-</ul>
-<p>我认为这种模式也非常符合DRY（Don’t Repeat Yourself）原则，只使用一个函数就可以把相同类型的资源使用代码的重复部分去除，很好。</p>
-]]></content>
-    <summary type="html"><![CDATA[<p>按照<em>Scala in action</em>的说法，Scala中的借贷模式（Loan Pattern）相当于Java/C++中的模板方法（Template Method）模式。很遗憾，由于同样的原因，书中所附的引用链接已失效（囧），所以<br>只能从网上参考借贷模式的详解。我认为Knoldus的这篇博文<a href="http://blog.knoldus.com/2012/11/16/scalaknol-understanding-loan-pattern/" target="_blank" rel="external">理解借贷模式</a>写得非常不错，把这种模式的适用场景写得很清楚：</p>
-]]></summary>
-    
-      <category term="Scala" scheme="http://hongbinzuo.github.io/tags/Scala/"/>
-    
-      <category term="Design Patterns" scheme="http://hongbinzuo.github.io/tags/Design-Patterns/"/>
     
   </entry>
   

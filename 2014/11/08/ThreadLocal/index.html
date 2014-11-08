@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>lambda and closure | Freelemon&#39;s open world</title>
+  <title>ThreadLocal | Freelemon&#39;s open world</title>
   <meta name="author" content="Hongbin Zuo">
   
   <meta name="description" content="Think before write.">
@@ -11,7 +11,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="lambda and closure"/>
+  <meta property="og:title" content="ThreadLocal"/>
   <meta property="og:site_name" content="Freelemon&#39;s open world"/>
 
   
@@ -77,44 +77,42 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2014-02-23T03:06:15.000Z"><a href="/2014/02/23/lambda-and-closure/">Feb 23 2014</a></time>
+        <time datetime="2014-11-08T03:56:59.000Z"><a href="/2014/11/08/ThreadLocal/">Nov 8 2014</a></time>
       
       
   
-    <h1 class="title">lambda and closure</h1>
+    <h1 class="title">ThreadLocal</h1>
   
 
     </header>
     <div class="entry">
       
-        <p>lambda又称为<strong>lambda表达式</strong>或<strong>lambda演算子</strong>，名字听起来挺高端，其实在编程语言里倒也不难理解。但是，和lamba相比<strong>闭包</strong>却没那么直观。这两个概念作为函数式编程基础的一部分，是必须要掌握的。另外，Java 8也引入了lambda表达式，C#也从版本3.0后开始支持lambda，可见这些函数式编程的特性已经逐渐被主流的面向对象语言所借鉴吸收。<br><a id="more"></a></p>
-<p>下面的正文部分译自<em>Scala in action</em>的一段解释，算是对这两个概念的初步澄清。在译文后面的参考链接中，我也列举了一些资源，从而帮助理解lambda和闭包的概念以及在不同语言中的应用。</p>
-<p><img alt="lambda算子" src="http://upload.wikimedia.org/wikipedia/commons/e/ee/Lambda_uc_lc.svg" style="width: 450px;"></p>
-<h3 id="lambda和闭包（closure）的区别是什么">lambda和闭包（closure）的区别是什么</h3>
-<p>lambda就是匿名函数——即没有名字的函数。前面你已经看到过一些例子了。闭包就是封闭在其定义所处环境的任意函数。让我们用一个例子来解释一下，比如，将一个百分比应用到一个列表上：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">scala&gt; <span class="keyword">List</span>(<span class="number">100</span>, <span class="number">200</span>, <span class="number">300</span>) map <span class="list">{ _ * 10/100 }</span></div><div class="line">res34: <span class="keyword">List</span>[Int] = <span class="keyword">List</span>(<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>)</div></pre></td></tr></table></figure>
+        <blockquote>
+<p>当访问共享的可变数据时，通常需要使用同步。一种避免使用同步的方式就是不共享数据。如果仅在单线程内访问数据，就不需要同步。这种技术被称为线程封闭，它是实现线程安全性的最简单方式之一。……在Swing中大量使用了线程封闭技术。……线程封闭技术的另一种常见应用是JDBC的Connection对象。</p>
+<p>Java语言及其核心库提供了一些机制来帮助维持线程封闭性，例如局部变量和ThreadLocal类，但即便如此，程序员仍然需要负责确保封闭在线程中的对象不会从线程中逸出。</p>
+</blockquote>
+<a id="more"></a>
 
-<p>在这个例子中，传递给map的函数就是一个lambda表达式（译者注：其中 <code>_ * 10/100</code>也可以写成<code>(x:Int) =&gt; x * 10/100</code>）或<code>x =&gt; x * 10/100</code>）。现在假设这个百分比数值会随着时间变化，所以要把当前的百分比数值存在一个变量里。</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">scala&gt; <span class="reserved">var</span> percentage = <span class="number">10</span></div><div class="line"><span class="attribute">percentage</span>: Int = <span class="number">10</span></div><div class="line">scala&gt; val <span class="function"><span class="title">applyPercentage</span> = <span class="params">(amount: Int)</span> =&gt;</span></div><div class="line">amount * percentage/<span class="number">100</span></div><div class="line"><span class="attribute">applyPercentage</span>: <span class="function"><span class="params">(Int)</span> =&gt;</span> Int = &lt;function1&gt;</div></pre></td></tr></table></figure>
+<p><strong>线程封闭</strong>的实现方式分为：</p>
+<ul>
+<li><strong>Ad-hoc线程封闭</strong>：完全由程序实现来确保线程封闭性，非常脆弱。</li>
+<li><strong>栈封闭</strong>：局部变量的固有属性之一就是封闭在执行线程中，它们位于执行线程的栈中，其他线程无法访问。比Ad-hoc更易于维护、更加健壮。需要注意的是基本类型的局部变量始终封闭在线程内（Java语言的语义保证），但是对象类型的局部变量则需要格外小心确保不会逸出。</li>
+<li><strong>ThreadLocal类</strong>：这是维持线程封闭的规范方法。</li>
+</ul>
+<blockquote>
+<p>这个类能使线程中的某个值与保存值的对象关联起来。ThreadLocal提供了get与set等访问接口或方法，这些方法为每个使用该变量的线程都存有一份独立的副本，因为get总是返回由当前执行线程在调用set时设置的最新值。</p>
+</blockquote>
+<p>下面是来自网上的一个例子，我稍微修改了一下，这样打印结果更容易理解：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadLocalExample</span> </span>{</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">MyRunnable</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>{</div><div class="line">        <span class="keyword">private</span> ThreadLocal&lt;Integer&gt; threadLocal =</div><div class="line">                <span class="keyword">new</span> ThreadLocal&lt;Integer&gt;();</div><div class="line"></div><div class="line">        <span class="annotation">@Override</span></div><div class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span>() {</div><div class="line">            <span class="keyword">int</span> myValue = (<span class="keyword">int</span>) (Math.random() * <span class="number">100</span>D);</div><div class="line">            System.out.println(Thread.currentThread().getName()</div><div class="line">                + <span class="string">": my value is set:"</span>+ myValue);</div><div class="line"></div><div class="line">            threadLocal.set(myValue);</div><div class="line"></div><div class="line">            <span class="keyword">try</span> {</div><div class="line">                Thread.sleep(<span class="number">2000</span>);</div><div class="line">            } <span class="keyword">catch</span> (InterruptedException e) {</div><div class="line">            }</div><div class="line"></div><div class="line">            System.out.println(Thread.currentThread().getName()</div><div class="line">                + <span class="string">": my value is:"</span>+ threadLocal.get());</div><div class="line">        }</div><div class="line">    }</div><div class="line"></div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(String[] args) {</div><div class="line">        MyRunnable sharedRunnableInstance = <span class="keyword">new</span> MyRunnable();</div><div class="line"></div><div class="line">        Thread thread1 = <span class="keyword">new</span> Thread(sharedRunnableInstance);</div><div class="line">        Thread thread2 = <span class="keyword">new</span> Thread(sharedRunnableInstance);</div><div class="line"></div><div class="line">        thread1.start();</div><div class="line">        thread2.start();</div><div class="line">    }</div><div class="line"></div><div class="line">}</div></pre></td></tr></table></figure>
 
-<p>在这种情况下，<code>applyPercentage</code>就是一个闭包，因为它保持了它被创建时的环境，此处主要是<code>percentage</code>变量：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="input"><span class="prompt">scala&gt;</span> percentage = <span class="number">20</span></span></div><div class="line"><span class="symbol">percentage:</span> <span class="constant">Int</span> = <span class="number">20</span></div><div class="line"><span class="input"><span class="prompt">scala&gt;</span> <span class="constant">List</span>(<span class="number">100</span>, <span class="number">200</span>, <span class="number">300</span>) map applyPercentage</span></div><div class="line"><span class="symbol">res33:</span> <span class="constant">List</span>[<span class="constant">Int</span>] = <span class="constant">List</span>(<span class="number">20</span>, <span class="number">40</span>, <span class="number">60</span>)</div></pre></td></tr></table></figure>
+<p>运行结果如下：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Thread-<span class="number">0</span>: my <span class="keyword">value</span> <span class="keyword">is</span> <span class="keyword">set</span>:<span class="number">95</span></div><div class="line">Thread-<span class="number">1</span>: my <span class="keyword">value</span> <span class="keyword">is</span> <span class="keyword">set</span>:<span class="number">27</span></div><div class="line">Thread-<span class="number">1</span>: my <span class="keyword">value</span> <span class="keyword">is</span>:<span class="number">27</span></div><div class="line">Thread-<span class="number">0</span>: my <span class="keyword">value</span> <span class="keyword">is</span>:<span class="number">95</span></div></pre></td></tr></table></figure>
 
-<p>lambda和闭包是不同的概念，但却紧密相关。</p>
-<h3 id="参考资源">参考资源</h3>
-<ol>
-<li>中文维基百科：<a href="http://zh.wikipedia.org/wiki/%CE%9B%E6%BC%94%E7%AE%97" target="_blank" rel="external">λ演算的定义</a></li>
-<li>中文维基百科：<a href="http://zh.wikipedia.org/wiki/%E5%8C%BF%E5%90%8D%E5%87%BD%E6%95%B0" target="_blank" rel="external">匿名函数的定义及其在编程语言中的应用情况</a></li>
-<li>中文维基百科：<a href="http://zh.wikipedia.org/zh-cn/%E9%97%AD%E5%8C%85_(%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6)" target="_blank" rel="external">闭包的定义</a></li>
-<li>酷壳：<a href="http://coolshell.cn/articles/6731.html" target="_blank" rel="external">理解Javascript的闭包</a></li>
-<li>阮一峰的网络日志：<a href="http://www.ruanyifeng.com/blog/2009/08/learning_javascript_closures.html" target="_blank" rel="external">学习Javascript的闭包</a></li>
-<li>知乎：<a href="http://www.zhihu.com/question/20125256" target="_blank" rel="external">Lambda表达式有何用处？如何使用？</a></li>
-<li>徐青枫的技术博客：<a href="http://www.cnblogs.com/xuqingfeng/archive/2013/04/26/about-Java8-lambda-expression.html" target="_blank" rel="external">说说Java8中的Lambda表达式</a></li>
-<li>Stackoverflow：<a href="http://stackoverflow.com/questions/5443510/closure-in-java-7" target="_blank" rel="external">Closure in Java 7</a></li>
-<li>Oracle文档库：<a href="http://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html" target="_blank" rel="external">Java 8的lambda表达式指南</a></li>
-<li>MSDN：<a href="http://msdn.microsoft.com/zh-cn/library/bb397687.aspx" target="_blank" rel="external">C#中的lambda表达式编程指南</a></li>
-<li>Stackoverflow：<a href="http://stackoverflow.com/questions/7627098/what-is-a-lambda-expression-in-c11" target="_blank" rel="external">C++ 11中的lambda表达式讨论</a></li>
-</ol>
+<h3 id="参考资料">参考资料</h3>
+<ul>
+<li>文中引用部分摘自《Java并发编程实战》</li>
+<li>例子代码来自：<a href="http://tutorials.jenkov.com/java-concurrency/threadlocal.html" target="_blank" rel="external">http://tutorials.jenkov.com/java-concurrency/threadlocal.html</a></li>
+</ul>
 
       
     </div>
@@ -124,7 +122,7 @@
         
   
   <div class="tags">
-    <a href="/tags/Scala/">Scala</a>
+    <a href="/tags/Java/">Java</a>, <a href="/tags/Concurrency/">Concurrency</a>
   </div>
 
         <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone"></a><a href="#" class="bds_tsina" data-cmd="tsina"></a><a href="#" class="bds_tqq" data-cmd="tqq"></a><a href="#" class="bds_renren" data-cmd="renren"></a><a href="#" class="bds_weixin" data-cmd="weixin"></a></div>
