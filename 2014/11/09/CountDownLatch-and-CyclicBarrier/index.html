@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Groovy | Freelemon&#39;s open world</title>
+  <title>CountDownLatch and CyclicBarrier | Freelemon&#39;s open world</title>
   <meta name="author" content="Hongbin Zuo">
   
   <meta name="description" content="Think before write.">
@@ -11,7 +11,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  
+  <meta property="og:title" content="CountDownLatch and CyclicBarrier"/>
   <meta property="og:site_name" content="Freelemon&#39;s open world"/>
 
   
@@ -59,12 +59,7 @@
 <div class="clearfix"></div>
 </header>
   <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper">
-<h2 class="archive-title tag">Groovy</h2>
-
-
-  
-    <article class="post">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
   
     <div class="gallery">
   <div class="photoset">
@@ -82,24 +77,38 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2014-01-13T02:25:01.000Z"><a href="/2014/01/13/reading-note-on-wg-java-developer-groovy-a-little/">Jan 13 2014</a></time>
+        <time datetime="2014-11-09T15:38:59.000Z"><a href="/2014/11/09/CountDownLatch-and-CyclicBarrier/">Nov 9 2014</a></time>
       
       
   
-    <h1 class="title"><a href="/2014/01/13/reading-note-on-wg-java-developer-groovy-a-little/">Reading Note on WG Java Developer Groovy a little</a></h1>
+    <h1 class="title">CountDownLatch and CyclicBarrier</h1>
   
 
     </header>
     <div class="entry">
       
-        <h1 id="《Java程序员修炼之道》之Groovy入门">《Java程序员修炼之道》之Groovy入门</h1>
-<h3 id="简介">简介</h3>
-<p>Groovy是JVM上的一种动态语言，主要用来解决快速Web开发、原型设计、脚本处理以及其他很多问题。一个简单的例子是把Java Bean转成XML输出，使用Java会比较笨拙，而用Groovy完成则非常简洁。Groovy实现的Java不具备的几个语言特性如下：</p>
+        <p>CountDownLatch和CyclicBarrier从字面上理解是“向下数的门闩”和“循环的障碍”，觉得怪怪的，但是即便翻译成更加书面语的“闭锁”或“栅栏”也并不容易理解。《Java并发编程实战》中详细讲解了两者的作用，也举了例子，但理解起来印象不深。如果只是从异同的角度去比较两者，网上倒是有不少文章，但是对于编程实践往往不如通俗的例子来得实在。</p>
+<a id="more"></a>
+
+<p>经过一番比较，发现<a href="http://blog.csdn.net/kuyuyingzi/article/details/19155697" target="_blank" rel="external">CSDN博客酷鱼影子</a>写的不错，下面摘录原博客的一些内容来解释这两者的适用场景。摘录内容略有修改，如果有版权问题，请作者告知。</p>
+<p>— 摘录内容（例子参考原博文） —</p>
+<p>在多线程程序设计中，经常会遇到一个线程等待一个或多个线程的场景，遇到这样的场景应该如何解决？如果是一个线程等待另一个线程，可以通过<code>wait()</code>和<code>notify()</code>来实现；如果是一个线程等待多个线程，那么可以使用CountDownLatch和CyclicBarrier来实现比较好的控制。</p>
+<h3 id="CountDownLatch">CountDownLatch</h3>
+<p>下面来详细描述CountDownLatch的应用场景：例如百米赛跑中8名运动员同时起跑，由于速度的快慢，肯定会出现先到终点和晚到终点的情况，而终点有个统计成绩的仪器，当所有选手到达终点时，它会统计所有人的成绩并进行排序，然后把结果发送到汇报成绩的系统。其实这就是一个CountDownLatch的应用场景：一个线程（终点统计成绩的仪器）或多个线程<strong>等待其他线程</strong>（8名运动员）运行达到某一目标后进行自己的下一步工作，而被等待的“其他线程”达到这个目标后继续自己下面的任务。</p>
+<p>那么，如何来通过CountDownLatch来实现上述场景的线程控制和调度呢？</p>
+<p>JDK中CountDownLatch类有一个常用的构造方法：<code>CountDownLatch(int count)</code>以及两个常用的方法：<code>await()</code>和<code>countdown()</code>。其中count是一个计数器中的初始化数字，比如初始化的数字是2，当一个线程里调用了<code>countdown()</code>，则这个计数器就减一，当线程调用了<code>await()</code>，则这个线程就等待这个计数器变为0，当这个计数器变为0时，这个线程就继续自己下面的工作。</p>
+<h3 id="CyclicBarrier">CyclicBarrier</h3>
+<p>下面详细描述下CyclicBarrier的应用场景：有四个游戏玩家玩游戏，游戏有三个关卡，每个关卡必须要所有玩家都到达后才能允许通关。其实这个场景里的玩家中如果有玩家A先到了关卡1，他必须等待其他所有玩家都到达关卡1时才能通过，也就是说线程之间<strong>需要互相等待</strong>，这和CountDownLatch的应用场景有区别，CountDownLatch里的线程是到了运行的目标后继续干自己的其他事情，而这里的线程需要等待其他线程后才能继续完成下面的工作。</p>
+<p>JDK中CyclicBarrier类有两个常用的构造方法：</p>
+<p> 1.<code>CyclicBarrier(int parties)</code></p>
+<p>这里的parties也是一个计数器，例如，初始化时parties里的计数是3，于是拥有该CyclicBarrier对象的线程当parties的计数为3时就唤醒，注：这里parties里的计数在运行时当调用<code>CyclicBarrier:await()</code>时，计数就加1，一直加到初始的值。</p>
+<p> 2.<code>CyclicBarrier(int parties, Runnable barrierAction)</code></p>
+<p>这里的parties与上一个构造方法的解释是一样的，这里需要解释的是第二个参数（Runnable barrierAction）,这个参数是一个实现Runnable接口的类的对象，也就是说当parties加到初始值时就执行barrierAction的内容。</p>
+<p>— 摘录内容结束 —</p>
+<p>其实细读一下Javadoc也是可以的，讲得也比较清楚：</p>
 <ul>
-<li>函数字面值（<a href="http://zh.wikipedia.org/wiki/%E9%97%AD%E5%8C%85_(%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6)" target="_blank" rel="external">闭包</a>）</li>
-<li>对集合的一等（即语法内置）支持</li>
-<li>对正则表达式的一等支持</li>
-<li>对XML处理一等支持</li>
+<li><a href="https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/CountDownLatch.html" target="_blank" rel="external">CountDownLatch的Javadoc</a></li>
+<li><a href="https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/CyclicBarrier.html" target="_blank" rel="external">CylicBarrier的Javadoc</a></li>
 </ul>
 
       
@@ -107,11 +116,14 @@
     <footer>
       
         
-          <div class="alignleft">
-            <a href="/2014/01/13/reading-note-on-wg-java-developer-groovy-a-little/#more" class="more-link">Read More</a>
-          </div>
         
-        
+  
+  <div class="tags">
+    <a href="/tags/Java/">Java</a>, <a href="/tags/Concurrency/">Concurrency</a>
+  </div>
+
+        <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone"></a><a href="#" class="bds_tsina" data-cmd="tsina"></a><a href="#" class="bds_tqq" data-cmd="tqq"></a><a href="#" class="bds_renren" data-cmd="renren"></a><a href="#" class="bds_weixin" data-cmd="weixin"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdPic":"","bdStyle":"0","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
       
       <div class="clearfix"></div>
     </footer>
@@ -120,13 +132,28 @@
 
 
 
-  
+<section id="comment">
 
-  <nav id="pagination">
-  
-  
-  <div class="clearfix"></div>
-</nav>
+<!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"freelemon"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- Duoshuo Comment END -->
+
+</section>
+
+
+
+
 </div></div>
     <aside id="sidebar" class="alignright">
   <div class="search">

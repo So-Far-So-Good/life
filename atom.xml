@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Write, Code, Share, Learn]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://hongbinzuo.github.io/"/>
-  <updated>2014-11-08T05:12:45.773Z</updated>
+  <updated>2014-11-09T16:27:24.541Z</updated>
   <id>http://hongbinzuo.github.io/</id>
   
   <author>
@@ -13,6 +13,45 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[CountDownLatch and CyclicBarrier]]></title>
+    <link href="http://hongbinzuo.github.io/2014/11/09/CountDownLatch-and-CyclicBarrier/"/>
+    <id>http://hongbinzuo.github.io/2014/11/09/CountDownLatch-and-CyclicBarrier/</id>
+    <published>2014-11-09T15:38:59.000Z</published>
+    <updated>2014-11-09T16:26:08.000Z</updated>
+    <content type="html"><![CDATA[<p>CountDownLatch和CyclicBarrier从字面上理解是“向下数的门闩”和“循环的障碍”，觉得怪怪的，但是即便翻译成更加书面语的“闭锁”或“栅栏”也并不容易理解。《Java并发编程实战》中详细讲解了两者的作用，也举了例子，但理解起来印象不深。如果只是从异同的角度去比较两者，网上倒是有不少文章，但是对于编程实践往往不如通俗的例子来得实在。</p>
+<a id="more"></a>
+
+<p>经过一番比较，发现<a href="http://blog.csdn.net/kuyuyingzi/article/details/19155697" target="_blank" rel="external">CSDN博客酷鱼影子</a>写的不错，下面摘录原博客的一些内容来解释这两者的适用场景。摘录内容略有修改，如果有版权问题，请作者告知。</p>
+<p>— 摘录内容（例子参考原博文） —</p>
+<p>在多线程程序设计中，经常会遇到一个线程等待一个或多个线程的场景，遇到这样的场景应该如何解决？如果是一个线程等待另一个线程，可以通过<code>wait()</code>和<code>notify()</code>来实现；如果是一个线程等待多个线程，那么可以使用CountDownLatch和CyclicBarrier来实现比较好的控制。</p>
+<h3 id="CountDownLatch">CountDownLatch</h3>
+<p>下面来详细描述CountDownLatch的应用场景：例如百米赛跑中8名运动员同时起跑，由于速度的快慢，肯定会出现先到终点和晚到终点的情况，而终点有个统计成绩的仪器，当所有选手到达终点时，它会统计所有人的成绩并进行排序，然后把结果发送到汇报成绩的系统。其实这就是一个CountDownLatch的应用场景：一个线程（终点统计成绩的仪器）或多个线程<strong>等待其他线程</strong>（8名运动员）运行达到某一目标后进行自己的下一步工作，而被等待的“其他线程”达到这个目标后继续自己下面的任务。</p>
+<p>那么，如何来通过CountDownLatch来实现上述场景的线程控制和调度呢？</p>
+<p>JDK中CountDownLatch类有一个常用的构造方法：<code>CountDownLatch(int count)</code>以及两个常用的方法：<code>await()</code>和<code>countdown()</code>。其中count是一个计数器中的初始化数字，比如初始化的数字是2，当一个线程里调用了<code>countdown()</code>，则这个计数器就减一，当线程调用了<code>await()</code>，则这个线程就等待这个计数器变为0，当这个计数器变为0时，这个线程就继续自己下面的工作。</p>
+<h3 id="CyclicBarrier">CyclicBarrier</h3>
+<p>下面详细描述下CyclicBarrier的应用场景：有四个游戏玩家玩游戏，游戏有三个关卡，每个关卡必须要所有玩家都到达后才能允许通关。其实这个场景里的玩家中如果有玩家A先到了关卡1，他必须等待其他所有玩家都到达关卡1时才能通过，也就是说线程之间<strong>需要互相等待</strong>，这和CountDownLatch的应用场景有区别，CountDownLatch里的线程是到了运行的目标后继续干自己的其他事情，而这里的线程需要等待其他线程后才能继续完成下面的工作。</p>
+<p>JDK中CyclicBarrier类有两个常用的构造方法：</p>
+<p> 1.<code>CyclicBarrier(int parties)</code></p>
+<p>这里的parties也是一个计数器，例如，初始化时parties里的计数是3，于是拥有该CyclicBarrier对象的线程当parties的计数为3时就唤醒，注：这里parties里的计数在运行时当调用<code>CyclicBarrier:await()</code>时，计数就加1，一直加到初始的值。</p>
+<p> 2.<code>CyclicBarrier(int parties, Runnable barrierAction)</code></p>
+<p>这里的parties与上一个构造方法的解释是一样的，这里需要解释的是第二个参数（Runnable barrierAction）,这个参数是一个实现Runnable接口的类的对象，也就是说当parties加到初始值时就执行barrierAction的内容。</p>
+<p>— 摘录内容结束 —</p>
+<p>其实细读一下Javadoc也是可以的，讲得也比较清楚：</p>
+<ul>
+<li><a href="https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/CountDownLatch.html" target="_blank" rel="external">CountDownLatch的Javadoc</a></li>
+<li><a href="https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/CyclicBarrier.html" target="_blank" rel="external">CylicBarrier的Javadoc</a></li>
+</ul>
+]]></content>
+    <summary type="html"><![CDATA[<p>CountDownLatch和CyclicBarrier从字面上理解是“向下数的门闩”和“循环的障碍”，觉得怪怪的，但是即便翻译成更加书面语的“闭锁”或“栅栏”也并不容易理解。《Java并发编程实战》中详细讲解了两者的作用，也举了例子，但理解起来印象不深。如果只是从异同的角度去比较两者，网上倒是有不少文章，但是对于编程实践往往不如通俗的例子来得实在。</p>
+]]></summary>
+    
+      <category term="Java" scheme="http://hongbinzuo.github.io/tags/Java/"/>
+    
+      <category term="Concurrency" scheme="http://hongbinzuo.github.io/tags/Concurrency/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[ThreadLocal]]></title>
@@ -798,42 +837,6 @@
       <category term="Scala" scheme="http://hongbinzuo.github.io/tags/Scala/"/>
     
       <category term="Design Patterns" scheme="http://hongbinzuo.github.io/tags/Design-Patterns/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Scala resources]]></title>
-    <link href="http://hongbinzuo.github.io/2014/03/03/scala-resources/"/>
-    <id>http://hongbinzuo.github.io/2014/03/03/scala-resources/</id>
-    <published>2014-03-03T15:05:29.000Z</published>
-    <updated>2014-08-04T00:00:34.000Z</updated>
-    <content type="html"><![CDATA[<p>整理一下Scala的互联网学习资源，本文会持续更新。</p>
-<a id="more"></a>
-
-<h3 id="博客类">博客类</h3>
-<h4 id="英文博客">英文博客</h4>
-<ul>
-<li><a href="http://blog.knoldus.com/category/scala-3/" target="_blank" rel="external">http://blog.knoldus.com/category/scala-3/</a> <font size="2">持续更新，来自实战，绝对有料</font></li>
-<li><a href="http://www.codecommit.com/blog/category/scala" target="_blank" rel="external">http://www.codecommit.com/blog/category/scala</a> <font size="2">文章不少，内容丰富，于2010年底停止更新</font></li>
-<li><a href="http://pavelfatin.com/category/scala-2/" target="_blank" rel="external">http://pavelfatin.com/category/scala-2/</a> <font size="2">文章不多，但有深度</font></li>
-<li><a href="http://alvinalexander.com/search/node/scala" target="_blank" rel="external">http://alvinalexander.com/search/node/scala</a> <font size="2">持续更新，内容不错</font></li>
-<li><a href="http://henkelmann.eu/scala" target="_blank" rel="external">http://henkelmann.eu/scala</a> <font size="2">博客用Lift搭建，并有Github的Scala项目</font></li>
-<li><a href="http://daily-scala.blogspot.com/search/label/Scala" target="_blank" rel="external">http://daily-scala.blogspot.com/search/label/Scala</a> <font size="2">例子很多，已于2012年停止更新</font></li>
-<li><a href="http://www.scalaloader.org/search/label/Scala" target="_blank" rel="external">http://www.scalaloader.org/search/label/Scala</a> <font size="2">文章不错，已于2013年3月停止更新</font></li>
-<li><a href="http://scalasim.blogspot.com/" target="_blank" rel="external">http://scalasim.blogspot.com/</a> <font size="2">文章不多，已于2010年停止更新</font> </li>
-<li><a href="http://memuser.blogspot.com/search/label/Scala" target="_blank" rel="external">http://memuser.blogspot.com/search/label/Scala</a> <font size="2">文章不多，仅供参考</font></li>
-</ul>
-<h4 id="中文博客">中文博客</h4>
-<ul>
-<li><a href="http://hongjiang.info/category/programming/scala/" target="_blank" rel="external">http://hongjiang.info/category/programming/scala/</a> <font size="2">阿里巴巴hongjiang的技术博客</font></li>
-<li><a href="http://www.kaopua.com/blog/tags/scala" target="_blank" rel="external">http://www.kaopua.com/blog/tags/scala</a> <font size="2">诺铁的笔记</font></li>
-<li><a href="http://hongbinzuo.github.io/tags/Scala/" target="_blank" rel="external">http://hongbinzuo.github.io/tags/Scala/</a> <font size="2">博主本人博客，持续更新</font></li>
-</ul>
-]]></content>
-    <summary type="html"><![CDATA[<p>整理一下Scala的互联网学习资源，本文会持续更新。</p>
-]]></summary>
-    
-      <category term="Scala" scheme="http://hongbinzuo.github.io/tags/Scala/"/>
     
   </entry>
   
