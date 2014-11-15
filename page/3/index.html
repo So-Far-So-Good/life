@@ -78,17 +78,19 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2014-09-06T03:42:09.000Z"><a href="/2014/09/06/Redis-setup/">Sep 6 2014</a></time>
+        <time datetime="2014-03-28T01:09:15.000Z"><a href="/2014/03/28/appfuse-(2)/">Mar 28 2014</a></time>
       
       
   
-    <h1 class="title"><a href="/2014/09/06/Redis-setup/">Redis setup</a></h1>
+    <h1 class="title"><a href="/2014/03/28/appfuse-(2)/">Appfuse (2)</a></h1>
   
 
     </header>
     <div class="entry">
       
-        <p>Redis是一个非常流行的No-SQL数据库，在互联网网站的技术架构中应用相当广泛。这几天通过阅读《Redis in action》学习Redis，准备用博客简单记录一些有用的信息，以供未来参考。第一篇是Redis的开发环境搭建，这里使用的是书中推荐的Python开发环境，整个搭建过程比较简单。</p>
+        <p>书接上文。</p>
+<p>Eclipse里编译成功之后，下一个要执行的任务是下载Appfuse的全部源码。按照官网的方法就是一条命令，很简单：<code>mvn appfuse:full-source</code>，但实际的过程往往并不顺利。</p>
+<p>首先要注意的是，在下载源码之前不要修改pom.xml，否则可能遇到一些奇怪的问题。</p>
 
       
     </div>
@@ -96,7 +98,7 @@
       
         
           <div class="alignleft">
-            <a href="/2014/09/06/Redis-setup/#more" class="more-link">Read More</a>
+            <a href="/2014/03/28/appfuse-(2)/#more" class="more-link">Read More</a>
           </div>
         
         
@@ -127,18 +129,18 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2014-08-14T15:03:20.000Z"><a href="/2014/08/14/Prototype-in-Javascript/">Aug 14 2014</a></time>
+        <time datetime="2014-03-27T13:21:41.000Z"><a href="/2014/03/27/appfuse-in-eclipse/">Mar 27 2014</a></time>
       
       
   
-    <h1 class="title"><a href="/2014/08/14/Prototype-in-Javascript/">Prototype in Javascript</a></h1>
+    <h1 class="title"><a href="/2014/03/27/appfuse-in-eclipse/">Appfuse (1)</a></h1>
   
 
     </header>
     <div class="entry">
       
-        <p>最近又有机会重新学习了一下Javascript的基础语法，越发觉得这门语言和传统的、面向对象的静态类型语言的区别很明显。多语言使用者经常出现的问题就是使用A语言写出B语言风格的程序，这种情况屡见不鲜——话说我写Java风格的C++程序也是非常流畅的。</p>
-<p>Javascript语言基础里有两个特性我觉得值得深入了解一下，分别是原型（Prototype）和闭包（Closure）。当然，Javascript也有很多其他高级特性比如函数式编程，也许以后有机会我们可以深入探究一下。今天主要看一下Javascript里原型式继承是怎么做的。</p>
+        <p>以前也用过Appfuse，不过一直也没怎么深入，最近又有机会玩一玩儿，顺便记录一下。</p>
+<p><a href="http://appfuse.org/display/APF/Home" target="_blank" rel="external">Appfuse</a>是一个很有意思的项目，可以把它看成是Java企业应用开发的一个最佳实践集合。在Maven的帮助下，可以生成基于Struts，Spring MVC或者Wicket等一些框架的组合，这样就免去了最初搭建脚手架（Scaffolding）的过程。这在Play Framework和Grails出现之前应该算是比较方便的，再加上作者Matt Raible（他的<a href="http://raibledesigns.com/" target="_blank" rel="external">博客地址</a>）本身在Java圈子里也有小有名气，所以这个项目还是有一定人气的。今天看了一下，最新版的Appfuse 3.0已经支持Spring 4和Java 7/Maven 3（最低要求）了，可见人家也是与时俱进的，我们就来尝试一把。</p>
 
       
     </div>
@@ -146,7 +148,7 @@
       
         
           <div class="alignleft">
-            <a href="/2014/08/14/Prototype-in-Javascript/#more" class="more-link">Read More</a>
+            <a href="/2014/03/27/appfuse-in-eclipse/#more" class="more-link">Read More</a>
           </div>
         
         
@@ -177,25 +179,27 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2014-08-13T11:14:43.000Z"><a href="/2014/08/13/Manacher/">Aug 13 2014</a></time>
+        <time datetime="2014-03-25T13:44:38.000Z"><a href="/2014/03/25/a-small-compatability-issue-of-plays-sbt/">Mar 25 2014</a></time>
       
       
   
-    <h1 class="title"><a href="/2014/08/13/Manacher/">Manacher</a></h1>
+    <h1 class="title"><a href="/2014/03/25/a-small-compatability-issue-of-plays-sbt/">Play做Build的小坑儿一枚</a></h1>
   
 
     </header>
     <div class="entry">
       
-        <p>最近在研究算法，今天重点学习了一下Manacher算法（俗称“马拉车”算法，也即<a href="http://en.wikipedia.org/wiki/Longest_palindromic_substring" target="_blank" rel="external">最长回文子串问题</a>的最佳解法），不禁为算法发明者拍案叫绝。算法的精巧之处在于充分利用了原问题的关键信息：回文串。</p>
-<p>前段时间参加了<a href="http://weibo.com/julyweibo" target="_blank" rel="external">July</a>组织的算法班，遗憾的是当时算法的基础并不好没听透，所以现在只好重听一下邹博的讲课录音，听完之后似乎明白又似乎不太明白，囧。把原C++程序改成成Java代码之后，Exception退出，囧++。智商已成事实，只好使用网络搜索大法，力求加深理解。在找了一些博客之后，略感失望，可能不是人家讲得不清楚，而是自己理解能力有限吧，不过为了参考方便，还是列举如下：<br>
+        <p>在看《Play for Scala》，跟着做点小练习。</p>
+<h3 id="小坑儿">小坑儿</h3>
+<p>第二章给出了一个比较全面的Web应用，这个应用在显示详情页面的时候，需要依赖外部库，所以需要更新构建脚本。书里提到的是用<code>project/Build.scala</code>这个文件，结果出现编译错误，大意是<code>Build.scala</code>应该是有对象或类的定义的，明显是把它当成普通的Scala文件了，这很奇怪。</p>
+
       
     </div>
     <footer>
       
         
           <div class="alignleft">
-            <a href="/2014/08/13/Manacher/#more" class="more-link">Read More</a>
+            <a href="/2014/03/25/a-small-compatability-issue-of-plays-sbt/#more" class="more-link">Read More</a>
           </div>
         
         
@@ -226,18 +230,17 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2014-08-06T15:08:50.000Z"><a href="/2014/08/06/Understand-Spring/">Aug 6 2014</a></time>
+        <time datetime="2014-03-19T11:18:01.000Z"><a href="/2014/03/19/a-quick-web-application-with-sbt/">Mar 19 2014</a></time>
       
       
   
-    <h1 class="title"><a href="/2014/08/06/Understand-Spring/">Understanding Spring</a></h1>
+    <h1 class="title"><a href="/2014/03/19/a-quick-web-application-with-sbt/">A quick web application with SBT</a></h1>
   
 
     </header>
     <div class="entry">
       
-        <p>今天在公司做了一个Spring入门的介绍，感觉思路值得总结一下，可能对于以后深入理解类似主题有些帮助。</p>
-<p>在多年以前的一个公司，我曾经参与过一段时间的Java企业应用开发，如果没有记错的话，应该是电信工单运维类的项目。我那时还比较青涩，对于Java企业开发以及相关框架和架构都理解的不深。当时组里有个架构师，是他主持了开发的设计决策，应该选的就是Struts/Spring/Hibernate这个经典组合。但是，项目持续的时间并不长，再加之任务繁杂，而我主要负责写前端页面实现，所以对于这些框架开发的精髓也并没有特别深入的了解，有点遗憾。但就是在这个项目，我认识的这位架构师，非常推荐阎宏的书《Java与模式》，所以我听从他的建议买了这本书，我的评价是：如果用Java语言做面向对象设计，这本书到现在依然有较高的阅读价值。</p>
+        <p>In the chapter 6 of <em>Scala in action</em>, the author decides to show something concrete. The example is a web application that provide Kanban service. It’s called <strong>weKanban</strong>. In order to get this example to run, there’s something to do for project setup, Scala web development and database development and so on. Here I would like to briefly describe the procedure to get it working for current environment, because some libraries used by the example are outdated in the book.</p>
 
       
     </div>
@@ -245,7 +248,7 @@
       
         
           <div class="alignleft">
-            <a href="/2014/08/06/Understand-Spring/#more" class="more-link">Read More</a>
+            <a href="/2014/03/19/a-quick-web-application-with-sbt/#more" class="more-link">Read More</a>
           </div>
         
         
@@ -276,17 +279,18 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2014-08-05T15:54:23.000Z"><a href="/2014/08/05/A-little-Emacs/">Aug 5 2014</a></time>
+        <time datetime="2014-03-18T13:29:02.000Z"><a href="/2014/03/18/install-vm-ubuntu-1310/">Mar 18 2014</a></time>
       
       
   
-    <h1 class="title"><a href="/2014/08/05/A-little-Emacs/">A little Emacs</a></h1>
+    <h1 class="title"><a href="/2014/03/18/install-vm-ubuntu-1310/">安装Ubuntu 13.10虚拟机</a></h1>
   
 
     </header>
     <div class="entry">
       
-        <p>最近看了《程序员的呐喊》，对我的影响可能比较大，Steve对于Lisp和Emacs的推崇使我不得不重新审视自己之前的一些观点。我也尝试着说服自己花一点时间来做些实验，看看自己学习了某些传说中的工具，到底会产生什么样的影响。工具只是工具，这句话在大部分情况下是适用的，只是对于Emacs这个神一样的编辑器来说，是否适用呢？带着这个问题，我开始了我的Emacs之旅。</p>
+        <p>倒腾Windows开发环境还是挺费劲的，尤其是经常使用开源软件的话。安装Cygwin神马的都烦了，还不如直接装个虚拟机。小伙伴前段时间装了一个，嘿嘿，这下方便了，按图索骥少费工夫，开装。</p>
+<p>参考：<a href="http://youfei.github.io/2014/02/27/others-1/" target="_blank" rel="external">http://youfei.github.io/2014/02/27/others-1/</a></p>
 
       
     </div>
@@ -294,7 +298,154 @@
       
         
           <div class="alignleft">
-            <a href="/2014/08/05/A-little-Emacs/#more" class="more-link">Read More</a>
+            <a href="/2014/03/18/install-vm-ubuntu-1310/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2014-03-14T15:49:28.000Z"><a href="/2014/03/14/why-twitter-uses-java/">Mar 14 2014</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2014/03/14/why-twitter-uses-java/">Why Twitter Uses Java</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>Rails在Web应用快速开发方面几乎很少有框架能与之媲美，但是Rails的性能和系统架构的友好性和Java平台相比可能还是存在一定的劣势。大多数的Web应用，Rails是足能抵挡的，比如现在Github在用Rails，而Twitter以前也主要用Rails。但是Twitter毕竟是一个数一数二的高并发大流量的网站，所以它总会对性能有更高的要求。下面的译文段落来自InfoQ中的<a href="http://www.infoq.com/articles/twitter-java-use" target="_blank" rel="external">一篇访谈</a>，主要是讲Twitter是为什么迁移部分代码和服务到Java平台的。</p>
+
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2014/03/14/why-twitter-uses-java/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2014-03-04T04:25:31.000Z"><a href="/2014/03/04/kestrel-combinator/">Mar 4 2014</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2014/03/04/kestrel-combinator/">Scala patterns (#6) - Kestrel combinator</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>Kestrel combinator并不是一种传统的设计模式，这个叫法是在1985年出版的<em>To Mock the Mockingbird</em>这本书里提到的，可以参考<em>Scala in action</em>作者引用的<a href="http://mng.bz/WKns" target="_blank" rel="external">资源地址</a>详细了解这种模式，其中的例子使用的是Ruby语言。我理解这种模式的意义主要是产生<strong>副作用</strong>，即在不改变原有类或对象定义的情况下，使用一段附加函数体来达到产生副作用的目的。</p>
+
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2014/03/04/kestrel-combinator/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2014-03-03T15:05:29.000Z"><a href="/2014/03/03/scala-resources/">Mar 3 2014</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2014/03/03/scala-resources/">Scala resources</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>整理一下Scala的互联网学习资源，本文会持续更新。</p>
+
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2014/03/03/scala-resources/#more" class="more-link">Read More</a>
           </div>
         
         

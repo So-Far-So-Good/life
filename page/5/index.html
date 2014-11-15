@@ -78,18 +78,18 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2014-03-18T13:29:02.000Z"><a href="/2014/03/18/install-vm-ubuntu-1310/">Mar 18 2014</a></time>
+        <time datetime="2014-02-21T12:48:04.000Z"><a href="/2014/02/21/oop-in-scala/">Feb 21 2014</a></time>
       
       
   
-    <h1 class="title"><a href="/2014/03/18/install-vm-ubuntu-1310/">安装Ubuntu 13.10虚拟机</a></h1>
+    <h1 class="title"><a href="/2014/02/21/oop-in-scala/">Scala中的面向对象编程</a></h1>
   
 
     </header>
     <div class="entry">
       
-        <p>倒腾Windows开发环境还是挺费劲的，尤其是经常使用开源软件的话。安装Cygwin神马的都烦了，还不如直接装个虚拟机。小伙伴前段时间装了一个，嘿嘿，这下方便了，按图索骥少费工夫，开装。</p>
-<p>参考：<a href="http://youfei.github.io/2014/02/27/others-1/" target="_blank" rel="external">http://youfei.github.io/2014/02/27/others-1/</a></p>
+        <p>前几天看到一篇有关Scala的文章，其中对它的发展有些担心：Scala会不会成为下一个C++？这种担心也并非毫无道理，看完<em>Scala in action</em>的第三章，我的感觉是Scala确实强大，但也增加了一些不必要的特性，或者换句话说，有些特性是一般应用开发者不需要关心的，只有库开发者才有必要掌握。所以，在适当的时候，我需要把Martin的Scala开发水平等级和Twitter的Effective Scala再好好研究一下，以免过早被一些高级的语法细节纠缠却忽视了实用性强的基本特性。</p>
+<p>第三章<em>OOP in Scala</em>中介绍了Scala面向对象编程方面的一些基本概念，这些概念或者说语法元素有的是和Java类似的，有的是全新的，所以有必要简单总结一下再继续阅读。</p>
 
       
     </div>
@@ -97,7 +97,7 @@
       
         
           <div class="alignleft">
-            <a href="/2014/03/18/install-vm-ubuntu-1310/#more" class="more-link">Read More</a>
+            <a href="/2014/02/21/oop-in-scala/#more" class="more-link">Read More</a>
           </div>
         
         
@@ -128,17 +128,17 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2014-03-14T15:49:28.000Z"><a href="/2014/03/14/why-twitter-uses-java/">Mar 14 2014</a></time>
+        <time datetime="2014-02-19T11:32:42.000Z"><a href="/2014/02/19/rest-client-scala-script/">Feb 19 2014</a></time>
       
       
   
-    <h1 class="title"><a href="/2014/03/14/why-twitter-uses-java/">Why Twitter Uses Java</a></h1>
+    <h1 class="title"><a href="/2014/02/19/rest-client-scala-script/">REST client scala script</a></h1>
   
 
     </header>
     <div class="entry">
       
-        <p>Rails在Web应用快速开发方面几乎很少有框架能与之媲美，但是Rails的性能和系统架构的友好性和Java平台相比可能还是存在一定的劣势。大多数的Web应用，Rails是足能抵挡的，比如现在Github在用Rails，而Twitter以前也主要用Rails。但是Twitter毕竟是一个数一数二的高并发大流量的网站，所以它总会对性能有更高的要求。下面的译文段落来自InfoQ中的<a href="http://www.infoq.com/articles/twitter-java-use" target="_blank" rel="external">一篇访谈</a>，主要是讲Twitter是为什么迁移部分代码和服务到Java平台的。</p>
+        <p><em>This post is written in English</em>, because I read <a href="http://michaelochurch.wordpress.com/2012/07/27/six-languages-to-master/" target="_blank" rel="external">one article</a> recently that says English is one of the key (programming) languages you need to master. I cannot agree more, :). English is very important for progammers, especially if you want to be a top programmer in specific area. There are much more great resources in English than in other languages, so why not start to write some posts or articles in English and make yourself comfortable with reading, writing and thinking? I appologize for any readers of this blog who do not master English well, but I have to do it for me and for you, because anyhow we need improve ourselves up to the next level and it’s almost impossible without English. Get used to it and you’ll be happy with it soon.</p>
 
       
     </div>
@@ -146,7 +146,7 @@
       
         
           <div class="alignleft">
-            <a href="/2014/03/14/why-twitter-uses-java/#more" class="more-link">Read More</a>
+            <a href="/2014/02/19/rest-client-scala-script/#more" class="more-link">Read More</a>
           </div>
         
         
@@ -177,25 +177,24 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2014-03-04T04:25:31.000Z"><a href="/2014/03/04/kestrel-combinator/">Mar 4 2014</a></time>
+        <time datetime="2014-02-17T14:06:47.000Z"><a href="/2014/02/17/gradle123/">Feb 17 2014</a></time>
       
       
   
-    <h1 class="title"><a href="/2014/03/04/kestrel-combinator/">Scala patterns (#6) - Kestrel combinator</a></h1>
+    <h1 class="title"><a href="/2014/02/17/gradle123/">Gradle 1-2-3</a></h1>
   
 
     </header>
     <div class="entry">
       
-        <p>Kestrel combinator并不是一种传统的设计模式，这个叫法是在1985年出版的<em>To Mock the Mockingbird</em>这本书里提到的，可以参考<em>Scala in action</em>作者引用的<a href="http://mng.bz/WKns" target="_blank" rel="external">资源地址</a>详细了解这种模式，其中的例子使用的是Ruby语言。我理解这种模式的意义主要是产生<strong>副作用</strong>，即在不改变原有类或对象定义的情况下，使用一段附加函数体来达到产生副作用的目的。</p>
-
+        <p>上一篇提到了Gradle，没想到这么快就用上了。Twitter的Scala教程<sup>1</sup>基本看完之后，就开始看<a href="http://www.amazon.com/Scala-Action-Nilanjan-Raychaudhuri/dp/1935182757/ref=sr_1_1?ie=UTF8&amp;qid=1392621526&amp;sr=8-1&amp;keywords=scala+in+action" target="_blank" rel="external">《Scala in Action》</a><sup>2</sup>了，作者在书的第二章给出了一个例子：用Scala写一个Http客户端，实现命令模式的REST请求交互，在例子中作者使用了Jetty/Maven构建后台的Java Servlet。我想这是一个学习Gradle的好机会，于是就有了<em>Gradle的1-2-3</em>作为入门篇。<br>
       
     </div>
     <footer>
       
         
           <div class="alignleft">
-            <a href="/2014/03/04/kestrel-combinator/#more" class="more-link">Read More</a>
+            <a href="/2014/02/17/gradle123/#more" class="more-link">Read More</a>
           </div>
         
         
@@ -226,25 +225,24 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2014-03-03T15:05:29.000Z"><a href="/2014/03/03/scala-resources/">Mar 3 2014</a></time>
+        <time datetime="2014-02-13T15:50:13.000Z"><a href="/2014/02/13/sbt-is-not-simple/">Feb 13 2014</a></time>
       
       
   
-    <h1 class="title"><a href="/2014/03/03/scala-resources/">Scala resources</a></h1>
+    <h1 class="title"><a href="/2014/02/13/sbt-is-not-simple/">SBT真的简单吗？</a></h1>
   
 
     </header>
     <div class="entry">
       
-        <p>整理一下Scala的互联网学习资源，本文会持续更新。</p>
-
+        <p>正在学习Twitter的Scala教程，前面的基础部分就是复习，相对容易理解一些。一看到Advanced Types这一节，尤其是后面的部分就有点缺氧。终于熬着算是看完了这一节，心想：这下轻松了，看看SBT（Simple Build Tool），动手实验一下，没有那么多抽象概念了，多好！谁知道还是想错了，SBT并不简单。<br>
       
     </div>
     <footer>
       
         
           <div class="alignleft">
-            <a href="/2014/03/03/scala-resources/#more" class="more-link">Read More</a>
+            <a href="/2014/02/13/sbt-is-not-simple/#more" class="more-link">Read More</a>
           </div>
         
         
@@ -275,17 +273,67 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2014-03-03T13:30:28.000Z"><a href="/2014/03/03/scala-loan-pattern/">Mar 3 2014</a></time>
+        <time datetime="2014-02-10T14:44:08.000Z"><a href="/2014/02/10/scala-for-the-impatient/">Feb 10 2014</a></time>
       
       
   
-    <h1 class="title"><a href="/2014/03/03/scala-loan-pattern/">Scala patterns (#5) - the Loan Pattern</a></h1>
+    <h1 class="title"><a href="/2014/02/10/scala-for-the-impatient/">Scala for the Impatient</a></h1>
   
 
     </header>
     <div class="entry">
       
-        <p>按照<em>Scala in action</em>的说法，Scala中的借贷模式（Loan Pattern）相当于Java/C++中的模板方法（Template Method）模式。很遗憾，由于同样的原因，书中所附的引用链接已失效（囧），所以<br>只能从网上参考借贷模式的详解。我认为Knoldus的这篇博文<a href="http://blog.knoldus.com/2012/11/16/scalaknol-understanding-loan-pattern/" target="_blank" rel="external">理解借贷模式</a>写得非常不错，把这种模式的适用场景写得很清楚：</p>
+        <h3 id="关于这本书">关于这本书</h3>
+<p>花了两周左右的零散时间把这本书的免费部分（初级语法/A1 Level/共9章）读完了，同时也做完了比较有代表性的习题。感觉有些收获，起码对Scala语言有了基本的认识，并且通过上手操练，也积累了一些入门经验。不过，由于Scala的一些语法还是比较反直觉，并且语法规则、编程范式较多，因此距离真正掌握这门语言还差得远。本书中提到了Scala语言创建者Martin Odersky对于Scala开发技能的水平划分（见下图），我应该刚刚才达到A1水平。<br>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2014/02/10/scala-for-the-impatient/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2014-02-05T08:22:04.000Z"><a href="/2014/02/05/scala-is-serious/">Feb 5 2014</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2014/02/05/scala-is-serious/">Scala不容小视</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>春节这几天学习了一下Scala，因为每天时间都非常有限，也就平均1到2个小时的样子，所以只关注了两个资源，一个是Coursera上Scala语言发明者Martin Odersky的<a href="https://class.coursera.org/progfun-003" target="_blank" rel="external">Functional Programming Principles in Scala</a>课程，另一个是Typesafe上的电子书<a href="http://typesafe.com/resources/book/scala-for-the-impatient" target="_blank" rel="external"><em>Scala for the impatient</em></a>。</p>
+<p>Coursera上的课程还是不错的，很正宗、原汁原味，对于深入理解Scala的函数式编程范式非常有帮助，但是后面的一些内容对于应用开发者来说应该是有点难了（呵呵，我自己感受啊），更适用于中高级应用开发或者库开发者，所以在看完了前5周的课程之后，为了能重新巩固基础，我使用了第二个资源，即<em>Scala for the impatient</em>。作为后续的学习计划，当然还是要学完Coursera，然后把课程中推荐的书看一下。</p>
 
       
     </div>
@@ -293,7 +341,108 @@
       
         
           <div class="alignleft">
-            <a href="/2014/03/03/scala-loan-pattern/#more" class="more-link">Read More</a>
+            <a href="/2014/02/05/scala-is-serious/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2014-02-05T05:00:58.000Z"><a href="/2014/02/05/hexo-migration-from-ubuntu-linux-to-windows/">Feb 5 2014</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2014/02/05/hexo-migration-from-ubuntu-linux-to-windows/">Hexo写作环境从Ubuntu迁移到Windows</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h3 id="引言">引言</h3>
+<p>之前一直在Ubuntu Linux上写博客，不是很方便。今天抽空把Windows的环境也搭一搭。我自己电脑用的是Windows 8，不过本文对于大多数版本的Windows环境都适用。</p>
+<h3 id="迁移过程">迁移过程</h3>
+<p>首先，移步到Hexo的<a href="http://zipperary.com/categories/hexo/" target="_blank" rel="external">官方博客</a>，找到<a href="http://zipperary.com/2013/05/28/hexo-guide-2/" target="_blank" rel="external">Windows下部署的博文</a>，先把基础环境搭好。博主写得很详细，而且通俗易懂，就不用我多废话了。如果你是刚开始用Hexo写博客，就直接用这个当向导就可以了，如果你像我一样是从Linux下迁移过来的，那么需要把Node.js和Hexo环境安装好，然后按照下面的步骤继续进行。</p>
+
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2014/02/05/hexo-migration-from-ubuntu-linux-to-windows/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2014-01-28T05:53:21.000Z"><a href="/2014/01/28/gorm-query/">Jan 28 2014</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2014/01/28/gorm-query/">GORM查询</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>GORM是Grails中的一项关键技术，也就是Grails的ORM层，对底层的Hibernate进行了包装，提供了特定的语法，并兼容原有的数据&gt;库查询方式如HQL等。</p>
+<p>根据官方推荐的教程<a href="http://timsporcic.github.io/GORM-Recipes/" target="_blank" rel="external">GORM Recipes</a>，我们可以逐步了解如何使用GORM的方式进行<br>数据库表的操作（教程的例子中使用了两个表，是一对多的关系），并举例说明了如何执行常见的SQL查询。由于原来的test-bed代<br>码是基于Grails 2.0.4的，如果直接下载使用会报错，所以我用<code>grails create-app</code>新建了一个项目，然后把相关代码导入到这个<br>新项目中就可以运行了。除了框架之外，实际上主要是<code>BootStrap.groovy</code>和domain中的<code>Artist.groovy</code>、<code>Work.groovy</code>三个文&gt;件作为支持代码。我把原来教程的脚本练习了一遍，并把联系的脚本源码放到scripts目录中，然后fork了一个repo，地址在：<a href="https://github.com/hongbinzuo/GORM-Recipes" target="_blank" rel="external">GORM Recipes for Grails 2.3.5</a>，可供参考。<br>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2014/01/28/gorm-query/#more" class="more-link">Read More</a>
           </div>
         
         

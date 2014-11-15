@@ -78,18 +78,17 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2014-08-04T15:33:08.000Z"><a href="/2014/08/04/Its-complex/">Aug 4 2014</a></time>
+        <time datetime="2014-03-03T13:30:28.000Z"><a href="/2014/03/03/scala-loan-pattern/">Mar 3 2014</a></time>
       
       
   
-    <h1 class="title"><a href="/2014/08/04/Its-complex/">It&#39;s complex</a></h1>
+    <h1 class="title"><a href="/2014/03/03/scala-loan-pattern/">Scala patterns (#5) - the Loan Pattern</a></h1>
   
 
     </header>
     <div class="entry">
       
-        <p>事情有点复杂，不知道从哪里说起。因为没什么主题，索性就叫杂感吧。</p>
-<p>这段时间又重新学起了Java EE的知识，算作是之前一直没有认真了解的一个代价吧。一个礼拜多的时间看完了Java EE 6 Tutorial，也把有些典型的例子看了看，这次的感觉是原来Java EE还算好，没有想象的沉重，尤其是EJB，新的版本3.1已经算是轻量级的开发技术了。也从网上看了一些评论，主要是Java EE和Spring的比较，如果真的做一个新的企业应用项目，可能还是有点难以取舍。Spring的发展很快，现在已经出到4.0，而Java EE也并不示弱，现在已经有了Java EE 7。从历史上来看，Java EE在较早的版本名声不好，因为过于沉重了，所以Spring顺理成章地赢得了很大的市场，所以现在Java EE想要赢回这场持久战，还真得需要点耐心。一般来说，因为Spring并不受JCP的控制，所以在应用先进思想方面要更敏捷一些，而Java EE涵盖多个JSR的标准更新需要协调各方意见，步调怕是要略显迟缓。另外，Spring集成其他框架的灵活性是Java EE难以比拟的。所以，可能需要考察开发项目的特性，充分了解两种主要框架的能力和缺陷，以作判断。最后一句，Java EE因为包含很多标准来适配企业开发的方方面面，但并不见得在实际的项目都能用到，所以还是要量体裁衣，不要过多的Upfront Design。</p>
+        <p>按照<em>Scala in action</em>的说法，Scala中的借贷模式（Loan Pattern）相当于Java/C++中的模板方法（Template Method）模式。很遗憾，由于同样的原因，书中所附的引用链接已失效（囧），所以<br>只能从网上参考借贷模式的详解。我认为Knoldus的这篇博文<a href="http://blog.knoldus.com/2012/11/16/scalaknol-understanding-loan-pattern/" target="_blank" rel="external">理解借贷模式</a>写得非常不错，把这种模式的适用场景写得很清楚：</p>
 
       
     </div>
@@ -97,7 +96,7 @@
       
         
           <div class="alignleft">
-            <a href="/2014/08/04/Its-complex/#more" class="more-link">Read More</a>
+            <a href="/2014/03/03/scala-loan-pattern/#more" class="more-link">Read More</a>
           </div>
         
         
@@ -128,19 +127,18 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2014-03-28T01:09:15.000Z"><a href="/2014/03/28/appfuse-(2)/">Mar 28 2014</a></time>
+        <time datetime="2014-03-02T07:38:41.000Z"><a href="/2014/03/02/scala-patterns---strategy/">Mar 2 2014</a></time>
       
       
   
-    <h1 class="title"><a href="/2014/03/28/appfuse-(2)/">Appfuse (2)</a></h1>
+    <h1 class="title"><a href="/2014/03/02/scala-patterns---strategy/">Scala patterns (#4) - Strategy</a></h1>
   
 
     </header>
     <div class="entry">
       
-        <p>书接上文。</p>
-<p>Eclipse里编译成功之后，下一个要执行的任务是下载Appfuse的全部源码。按照官网的方法就是一条命令，很简单：<code>mvn appfuse:full-source</code>，但实际的过程往往并不顺利。</p>
-<p>首先要注意的是，在下载源码之前不要修改pom.xml，否则可能遇到一些奇怪的问题。</p>
+        <p>策略模式是一种经典的设计模式，简而言之，就是做同一件事情，但在不同的场景中（或针对不同的对象）采用不同的算法。由于Scala简洁的语法和对高阶函数的支持，相比Java写出的代码会更加精简。</p>
+<p>下面给出几个例子来感受一下Scala中策略模式的写法，首先是<em>Scala in action</em>书中的例子。</p>
 
       
     </div>
@@ -148,7 +146,7 @@
       
         
           <div class="alignleft">
-            <a href="/2014/03/28/appfuse-(2)/#more" class="more-link">Read More</a>
+            <a href="/2014/03/02/scala-patterns---strategy/#more" class="more-link">Read More</a>
           </div>
         
         
@@ -179,18 +177,17 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2014-03-27T13:21:41.000Z"><a href="/2014/03/27/appfuse-in-eclipse/">Mar 27 2014</a></time>
+        <time datetime="2014-03-02T03:25:27.000Z"><a href="/2014/03/02/scala-successor-value/">Mar 2 2014</a></time>
       
       
   
-    <h1 class="title"><a href="/2014/03/27/appfuse-in-eclipse/">Appfuse (1)</a></h1>
+    <h1 class="title"><a href="/2014/03/02/scala-successor-value/">Scala patterns (#3) - Successor Value</a></h1>
   
 
     </header>
     <div class="entry">
       
-        <p>以前也用过Appfuse，不过一直也没怎么深入，最近又有机会玩一玩儿，顺便记录一下。</p>
-<p><a href="http://appfuse.org/display/APF/Home" target="_blank" rel="external">Appfuse</a>是一个很有意思的项目，可以把它看成是Java企业应用开发的一个最佳实践集合。在Maven的帮助下，可以生成基于Struts，Spring MVC或者Wicket等一些框架的组合，这样就免去了最初搭建脚手架（Scaffolding）的过程。这在Play Framework和Grails出现之前应该算是比较方便的，再加上作者Matt Raible（他的<a href="http://raibledesigns.com/" target="_blank" rel="external">博客地址</a>）本身在Java圈子里也有小有名气，所以这个项目还是有一定人气的。今天看了一下，最新版的Appfuse 3.0已经支持Spring 4和Java 7/Maven 3（最低要求）了，可见人家也是与时俱进的，我们就来尝试一把。</p>
+        <p>其实这个设计模式也不是Scala语言特有的，只是因为在<em>Scala in action</em>（下文中提到的书都是指本书）中提到，因此做一个小结。在书的第五章Functional Programming中讨论函数式编程的时候，谈到了纯函数式编程、面向对象编程和非纯函数式编程的一些特点。Scala是一门杂糅的编程语言，它不是纯函数式语言，这样就涉及到一个问题：如何尽量多地使用它的函数式特性，同时避免或者减少对于对象状态的改变。作者在这时举了一个小例子，就是Successor Value模式（书中也叫Functional Object模式，但是没有查到相关资料）。</p>
 
       
     </div>
@@ -198,7 +195,7 @@
       
         
           <div class="alignleft">
-            <a href="/2014/03/27/appfuse-in-eclipse/#more" class="more-link">Read More</a>
+            <a href="/2014/03/02/scala-successor-value/#more" class="more-link">Read More</a>
           </div>
         
         
@@ -229,19 +226,17 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2014-03-25T13:44:38.000Z"><a href="/2014/03/25/a-small-compatability-issue-of-plays-sbt/">Mar 25 2014</a></time>
+        <time datetime="2014-02-28T15:02:42.000Z"><a href="/2014/02/28/functional-programming-at-first-glance/">Feb 28 2014</a></time>
       
       
   
-    <h1 class="title"><a href="/2014/03/25/a-small-compatability-issue-of-plays-sbt/">Play做Build的小坑儿一枚</a></h1>
+    <h1 class="title"><a href="/2014/02/28/functional-programming-at-first-glance/">Functional programming matters</a></h1>
   
 
     </header>
     <div class="entry">
       
-        <p>在看《Play for Scala》，跟着做点小练习。</p>
-<h3 id="小坑儿">小坑儿</h3>
-<p>第二章给出了一个比较全面的Web应用，这个应用在显示详情页面的时候，需要依赖外部库，所以需要更新构建脚本。书里提到的是用<code>project/Build.scala</code>这个文件，结果出现编译错误，大意是<code>Build.scala</code>应该是有对象或类的定义的，明显是把它当成普通的Scala文件了，这很奇怪。</p>
+        <p>During the reading of <em>Scala in action</em>, I found the reference link quoted by the author(Nilanjan Raychaudhuri), which is an introductionary article about functional programming. I’ve learned that functional programming is minority compared to object oriented programming, which means it is not popular, but being a curious programmer, I am eager to know for a long time why it has its attractiveness, where it is being used and how it can be used to solve real world problems. </p>
 
       
     </div>
@@ -249,7 +244,7 @@
       
         
           <div class="alignleft">
-            <a href="/2014/03/25/a-small-compatability-issue-of-plays-sbt/#more" class="more-link">Read More</a>
+            <a href="/2014/02/28/functional-programming-at-first-glance/#more" class="more-link">Read More</a>
           </div>
         
         
@@ -280,17 +275,21 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2014-03-19T11:18:01.000Z"><a href="/2014/03/19/a-quick-web-application-with-sbt/">Mar 19 2014</a></time>
+        <time datetime="2014-02-26T12:59:06.000Z"><a href="/2014/02/26/lazy-in-scala/">Feb 26 2014</a></time>
       
       
   
-    <h1 class="title"><a href="/2014/03/19/a-quick-web-application-with-sbt/">A quick web application with SBT</a></h1>
+    <h1 class="title"><a href="/2014/02/26/lazy-in-scala/">Scala Patterns(#2) - Lazy initialization</a></h1>
   
 
     </header>
     <div class="entry">
       
-        <p>In the chapter 6 of <em>Scala in action</em>, the author decides to show something concrete. The example is a web application that provide Kanban service. It’s called <strong>weKanban</strong>. In order to get this example to run, there’s something to do for project setup, Scala web development and database development and so on. Here I would like to briefly describe the procedure to get it working for current environment, because some libraries used by the example are outdated in the book.</p>
+        <h3 id="延迟初始化">延迟初始化</h3>
+<p><a href="http://zh.wikipedia.org/wiki/%E5%BB%B6%E8%BF%9F%E5%88%9D%E5%A7%8B%E5%8C%96%E6%A8%A1%E5%BC%8F" target="_blank" rel="external"><strong>延迟初始化</strong></a>是程序设计中减少开销、提高性能的一种做法，同时它也是创建型设计模式中的一种。在<em>Effective Java</em>里，Bloch是这么描述延迟初始化的，</p>
+<blockquote>
+<p>Lazy initialization is the act of delaying the initialization of a field until its<br>value is needed. If the value is never needed, the field is never initialized.</p>
+</blockquote>
 
       
     </div>
@@ -298,7 +297,151 @@
       
         
           <div class="alignleft">
-            <a href="/2014/03/19/a-quick-web-application-with-sbt/#more" class="more-link">Read More</a>
+            <a href="/2014/02/26/lazy-in-scala/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2014-02-25T10:24:35.000Z"><a href="/2014/02/25/scala-patterns---option/">Feb 25 2014</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2014/02/25/scala-patterns---option/">Scala patterns (#1) - Option</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>自从1994年<a href="http://zh.wikipedia.org/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%9A%E5%8F%AF%E5%A4%8D%E7%94%A8%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%BD%AF%E4%BB%B6%E7%9A%84%E5%9F%BA%E7%A1%80" target="_blank" rel="external">《设计模式：可复用面向对象软件的基础》</a>问世以来，设计模式就备受关注，虽然业界褒贬不一，而且有人专门写了<a href="http://en.wikipedia.org/wiki/Anti-pattern" target="_blank" rel="external">反模式</a>来陈述其弊端，但大家对它的作用大部分还是认可的，尤其是在面向对象编程领域。但是，正如Brooks所说的<a href="http://zh.wikipedia.org/wiki/%E6%B2%A1%E6%9C%89%E9%93%B6%E5%BC%B9" target="_blank" rel="external">“天下没有免费的银弹”</a>，软件的本质问题是管理复杂度，所以能用设计模式解决问题，它必然也会带来衍生问题，工具都有利弊，如何更好地使用工具才是王道。为了减少对设计模式的滥用和简化设计（既然可复用，为什么不直接让语言天生支持呢？），多年以来，人们一直期望在语言层面增加对可复用编程模式（pattern/paradigm）的支持，而这些想法确实也逐渐被多种现代编程语言所采纳。<br>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2014/02/25/scala-patterns---option/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2014-02-23T03:06:15.000Z"><a href="/2014/02/23/lambda-and-closure/">Feb 23 2014</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2014/02/23/lambda-and-closure/">lambda and closure</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>lambda又称为<strong>lambda表达式</strong>或<strong>lambda演算子</strong>，名字听起来挺高端，其实在编程语言里倒也不难理解。但是，和lamba相比<strong>闭包</strong>却没那么直观。这两个概念作为函数式编程基础的一部分，是必须要掌握的。另外，Java 8也引入了lambda表达式，C#也从版本3.0后开始支持lambda，可见这些函数式编程的特性已经逐渐被主流的面向对象语言所借鉴吸收。<br>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2014/02/23/lambda-and-closure/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2014-02-22T08:20:53.000Z"><a href="/2014/02/22/scala-levels/">Feb 22 2014</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2014/02/22/scala-levels/">Scala levels</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>Martin曾于2010年在Scala讨论组内参与过一个<a href="http://scala-programming-language.1934581.n4.nabble.com/Is-Scala-an-expert-language-td3073403i60.html" target="_blank" rel="external">讨论</a>，并在最后总结了Scala语言的水平等级，发表在Scala语言官网上（<a href="http://www.scala-lang.org/old/node/8610" target="_blank" rel="external">原文地址</a>）<sup>1</sup>，目的是为Scala语言初学者和爱好者提供参考。在前面的博文<a href="http://hongbinzuo.github.io/2014/02/10/scala-for-the-impatient/" target="_blank" rel="external">Scala for the impatient</a>中书的作者也提到过，基本上分为应用开发和库开发两个大类，而每个大类可以细分成三个等级，以下为相关原文的翻译<sup>2</sup>：<br>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2014/02/22/scala-levels/#more" class="more-link">Read More</a>
           </div>
         
         
