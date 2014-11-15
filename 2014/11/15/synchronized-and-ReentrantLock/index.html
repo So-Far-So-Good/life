@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Page 5 | Java | Freelemon&#39;s open world</title>
+  <title>synchronized and ReentrantLock | Freelemon&#39;s open world</title>
   <meta name="author" content="Hongbin Zuo">
   
   <meta name="description" content="Think before write.">
@@ -11,7 +11,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  
+  <meta property="og:title" content="synchronized and ReentrantLock"/>
   <meta property="og:site_name" content="Freelemon&#39;s open world"/>
 
   
@@ -59,12 +59,7 @@
 <div class="clearfix"></div>
 </header>
   <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper">
-<h2 class="archive-title tag">Java</h2>
-
-
-  
-    <article class="post">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
   
     <div class="gallery">
   <div class="photoset">
@@ -82,37 +77,37 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2013-11-26T05:10:49.000Z"><a href="/2013/11/26/talk-about-di-again/">Nov 26 2013</a></time>
+        <time datetime="2014-11-15T06:57:23.000Z"><a href="/2014/11/15/synchronized-and-ReentrantLock/">Nov 15 2014</a></time>
       
       
   
-    <h1 class="title"><a href="/2013/11/26/talk-about-di-again/">Talk about DI again</a></h1>
+    <h1 class="title">synchronized and ReentrantLock</h1>
   
 
     </header>
     <div class="entry">
       
-        <h1 id="再谈依赖注入">再谈依赖注入</h1>
-<p>理解了控制反转和依赖注入的基本概念之后，就可以了解一些实际的应用了。在《Java程序员修炼之道》第三章，作者深入剖析了依赖注入的技术背景和应用实例。</p>
-<p>主要内容包括：</p>
-<ol>
-<li>控制反转和依赖注入</li>
-<li>掌握依赖注入技术为什么如此重要</li>
-<li>JSR-330如何统一了Java中的DI</li>
-<li>常见的JSR-330的注解，如@Inject</li>
-<li>Guice 3简介，JSR-330的参考实现</li>
-</ol>
+        <p>ReentrantLock在加锁和内存上提供的语义与内置锁相同，此外它还提供了一些其他功能，包括定时的锁等待、可中断的锁等待、公平性，以及实现非块结构的加锁。ReentrantLock在性能上似乎优于内置锁，其中在Java 6中略有胜出，而在Java 5.0中则是远远胜出。那么为什么不放弃synchronized，并在所有新的并发代码中都使用ReentrantLock？事实上有些作者已经建议这么做，将synchronized作为一种“遗留”的结构，但这会将好事情变坏。</p>
+<a id="more"></a>
+
+<p>与显式锁相比，内置锁仍然具有很大的优势。内置锁为许多开发人员所熟悉，并且简洁紧凑，而且在许多现有的程序中都已经使用了内置锁——如果将这两种机制混合使用，那么不仅令人困惑，也容易发生错误。ReentrantLock的危险性比同步机制要高，如果忘记在finally块中调用unlock，那么虽然代码表面上能正常运行，但实际上已经埋下了一颗定时炸弹，并很有可能伤及其他代码。仅当内置锁不能满足需求时，才可以考虑使用ReentrantLock。</p>
+<p>…</p>
+<p>未来更有可能提升synchronized而不是ReentrantLock的性能。因为synchronized是JVM的内置属性，它更会执行一些优化，例如对线程封闭的锁对象的锁消除优化，通过增加锁的粒度来消除内置锁的同步，而如果通过基于类库的锁来实现这些功能，则可能性不大。除非将来需要在Java 5.0上部署应用程序，并且在该平台上确实需要ReentrantLock包含的可伸缩性，否则就性能方面来说，应该选择synchronized而不是ReentrantLock。</p>
+<p>——《Java并发编程实战》</p>
 
       
     </div>
     <footer>
       
         
-          <div class="alignleft">
-            <a href="/2013/11/26/talk-about-di-again/#more" class="more-link">Read More</a>
-          </div>
         
-        
+  
+  <div class="tags">
+    <a href="/tags/Java/">Java</a>, <a href="/tags/Concurrency/">Concurrency</a>
+  </div>
+
+        <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone"></a><a href="#" class="bds_tsina" data-cmd="tsina"></a><a href="#" class="bds_tqq" data-cmd="tqq"></a><a href="#" class="bds_renren" data-cmd="renren"></a><a href="#" class="bds_weixin" data-cmd="weixin"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdPic":"","bdStyle":"0","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
       
       <div class="clearfix"></div>
     </footer>
@@ -121,131 +116,28 @@
 
 
 
-  
-    <article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2013-11-19T06:48:59.000Z"><a href="/2013/11/19/java-swing-automation-test-study-(2nd-part)/">Nov 19 2013</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2013/11/19/java-swing-automation-test-study-(2nd-part)/">Java Swing Automation Test Study(2nd part)</a></h1>
-  
+<section id="comment">
 
-    </header>
-    <div class="entry">
-      
-        <h2 id="Java_Swing界面自动化测试初探（下）">Java Swing界面自动化测试初探（下）</h2>
-<p>本文下半部分主要介绍开源的Java Swing自动化测试工具，评价和注解完全基于个人粗浅理解。</p>
-<h3 id="FEST">FEST</h3>
-<blockquote>
-<p>FEST is a collection of libraries, released under the Apache 2.0 license, whose mission is to simplify software testing. It is composed of various modules, which can be used with TestNG or JUnit.</p>
-<p>Our users include: Google, Square, Eclipse Foundation, Oracle, IBM, Guidewire, and many more!</p>
-</blockquote>
-<p><strong>评价</strong>：五星<br><strong>官方网站</strong>：<a href="http://fest.easytesting.org/" target="_blank" rel="external">http://fest.easytesting.org/</a><br><strong>代码下载</strong>：<a href="https://code.google.com/p/fest/" target="_blank" rel="external">https://code.google.com/p/fest/</a><br><strong>主要特点</strong>：</p>
-<ul>
-<li>功能性Swing界面测试（Functional Swing GUI Testing）</li>
-<li>流畅的断言（Fluent Assertions）</li>
-<li>流畅的反射（Fluent Reflection）</li>
-<li>mockito 作为模拟框架（Mock framework）</li>
-<li>文档丰富，应用广泛</li>
-<li>第四届ATI自动化大奖第一名</li>
-<li>没有录播（Record-Play）的功能</li>
-</ul>
+<!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"freelemon"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- Duoshuo Comment END -->
 
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2013/11/19/java-swing-automation-test-study-(2nd-part)/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
+</section>
 
 
 
-  
-    <article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2013-11-18T16:11:43.000Z"><a href="/2013/11/19/java-swing-automation-test-study-(1st-part)/">Nov 19 2013</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2013/11/19/java-swing-automation-test-study-(1st-part)/">Java Swing Automation Test Study (1st part)</a></h1>
-  
 
-    </header>
-    <div class="entry">
-      
-        <h2 id="Java_Swing界面自动化测试初探（上）">Java Swing界面自动化测试初探（上）</h2>
-<p>最近有机会又学习了一下Java自动化测试框架，对于自动化测试有了进一步的了解。自动化测试的效果，业界一直都存在一些争论，不过我理解现在的基本共识是自动化测试（即利用程序实现测试工作）是有用的，至于对不同类型的软件能起到多大的作用就要依情况而定。有的软件项目自动化测试可能可以覆盖大部分场景，有的可能只能覆盖较少部分。前一段时间看Robert C. Martin大叔的《程序员的职业素养》，其中对于测试的重视程度令人印象颇深。Martin大叔花了三章的篇幅来讲述测试，分别是测试驱动开发、验收测试和测试策略。而在测试驱动开发一章中，他谈到自己和Kent Beck的一次会面，看完Kent的展示之后，他说：“这让我目瞪口呆！”。Martin大叔的结论是：“此事已有定论！TDD确实可行。”</p>
-<p>当然是否是TDD是开发模式的选择，不一定要强求，但是对于自动化测试的重要性，大家应该是广泛认同的。在Jeff Atwood最新出版的博客文集（中文版译名《高效能程序员的修炼》）中，Jeff引用了J.Timothy King的一篇文章，题为《我同情那些不写单元测试的傻瓜》，并由此而展开了对于测试重要性和方法的探讨，并警示大家，不要因为不喜欢测试驱动就不写测试了，这是非常错误的。自动化测试活动在保障产品质量、提高开发效率和持续交付能起到十分关键的作用。</p>
-<p>具体到我们实际的开发工作，Java自动化测试起源较早，敏捷声明的发起人之一、XP方法的倡导者Kent和Erich（《设计模式》作者之一）合作创建了JUnit单元测试框架，在Java世界里享有盛誉并成为事实上的标准。不过，现在还有一个更加流行的选择，TestNG。TestNG不仅在单元测试方面，而且在组件测试方面，甚至在功能和系统测试上都有很大的帮助。当然，本文主要不是讨论测试框架，我们主要讨论Java世界里的界面测试问题。有关自动化测试框架的话题，可参考相关网站。<br>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2013/11/19/java-swing-automation-test-study-(1st-part)/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-
-  <nav id="pagination">
-  
-    <a href="/tags/Java/page/4/" class="alignleft prev">Prev</a>
-  
-  
-  <div class="clearfix"></div>
-</nav>
 </div></div>
     <aside id="sidebar" class="alignright">
   <div class="search">

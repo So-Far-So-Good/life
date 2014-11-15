@@ -78,6 +78,104 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2014-11-15T06:57:23.000Z"><a href="/2014/11/15/synchronized-and-ReentrantLock/">Nov 15 2014</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2014/11/15/synchronized-and-ReentrantLock/">synchronized and ReentrantLock</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>ReentrantLock在加锁和内存上提供的语义与内置锁相同，此外它还提供了一些其他功能，包括定时的锁等待、可中断的锁等待、公平性，以及实现非块结构的加锁。ReentrantLock在性能上似乎优于内置锁，其中在Java 6中略有胜出，而在Java 5.0中则是远远胜出。那么为什么不放弃synchronized，并在所有新的并发代码中都使用ReentrantLock？事实上有些作者已经建议这么做，将synchronized作为一种“遗留”的结构，但这会将好事情变坏。</p>
+
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2014/11/15/synchronized-and-ReentrantLock/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2014-11-15T06:21:33.000Z"><a href="/2014/11/15/lock()-and-lockInterruptibly()/">Nov 15 2014</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2014/11/15/lock()-and-lockInterruptibly()/">lock() and lockInterruptibly()</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>在Lock接口中有两个方法，一个是lock方法，一个是lockInterruptibly方法，它们之间具体有什么区别呢？</p>
+<blockquote>
+<p>lock()是拿不到lock就不罢休，不然线程就一直block。lockInterruptibly会优先响应线程中断，处理响应的方式是抛出InterruptedException。</p>
+</blockquote>
+<p>可以参考一下 <a href="http://huangyunbin.iteye.com/blog/2013543" target="_blank" rel="external">http://huangyunbin.iteye.com/blog/2013543</a> ，我也大概看了一下lock和lockInterruptibly的相关源码，但是感觉原博说的有点不太对，不过因为现在没有太多时间深究，可以现从应用的角度来理解即可。原博中举的例子不错，这里就不重复引用了。</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2014-11-15T04:13:26.000Z"><a href="/2014/11/15/TryLock/">Nov 15 2014</a></time>
       
       
@@ -198,104 +296,6 @@
         
           <div class="alignleft">
             <a href="/2014/11/08/ThreadLocal/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  <article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2014-11-07T12:04:44.000Z"><a href="/2014/11/07/Future/">Nov 7 2014</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2014/11/07/Future/">Future</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>之前在看《Java程序员修炼之道》（主要讲的是Java 7的新特性）的时候就看过并发这块儿，但是感觉看完过段儿时间印象也有点儿模糊。最近重温Java并发编程，拿起了《Java并发编程实战》，只能用四个字儿来形容：干货太多。书里讲的几乎没有废话，大部分例子也都不错，对于理解新的Java并发编程模型很有帮助。不过，也有些例子可能受篇幅所限，讲解的不够细致，所以我就需要从网上再找些相对丰富的例子补充上以加深理解。Future就是其中一例。</p>
-
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2014/11/07/Future/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  <article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2014-11-07T05:26:34.000Z"><a href="/2014/11/07/Hibernate-Object-States/">Nov 7 2014</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2014/11/07/Hibernate-Object-States/">Hibernate Object States</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>Hibernate是一种对象/关系映射的持久化框架，它做的主要工作之一就是对象和数据库表记录之间的状态管理。Hibernate编程环境中操作的对象指的是Entity POJO对象，它存在四种状态：Transient, Persistent, Detached和Removed。下面是从网上摘录的一幅图（源自Java Persistence with Hibernate这本书），非常好地说明了这几种状态之间的转换关系。</p>
-<p>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2014/11/07/Hibernate-Object-States/#more" class="more-link">Read More</a>
           </div>
         
         
