@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Write, Code, Share, Learn]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://hongbinzuo.github.io/"/>
-  <updated>2014-11-09T16:27:24.541Z</updated>
+  <updated>2014-11-15T04:56:45.979Z</updated>
   <id>http://hongbinzuo.github.io/</id>
   
   <author>
@@ -13,6 +13,38 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[TryLock]]></title>
+    <link href="http://hongbinzuo.github.io/2014/11/15/TryLock/"/>
+    <id>http://hongbinzuo.github.io/2014/11/15/TryLock/</id>
+    <published>2014-11-15T04:13:26.000Z</published>
+    <updated>2014-11-15T04:56:30.000Z</updated>
+    <content type="html"><![CDATA[<p>《Java并发编程实战》这本书的缺点是有些例子给的不完整，所以想直接复制代码、运行看结果还是比较费力的，第13章显示锁的一个例子就是这样。在这种情况下，只能自己写或求助于互联网。下面用网上的一个小例子演示带有超时功能的tryLock的基本用法。关于Lock和同步代码块的区别以及更深入的研究，后续博文会有所涉及。</p>
+<a id="more"></a>
+
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.freelemon.concurrency.chp13;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.concurrent.TimeUnit;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.locks.Lock;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.locks.ReentrantLock;</div><div class="line"></div><div class="line"><span class="javadoc">/**</span></div><div class="line"> * Created with IntelliJ IDEA.</div><div class="line"> * User: hongbin</div><div class="line"> * Date: 14-11-15</div><div class="line"> * Time: 上午11:41</div><div class="line"> * To change this template use File | Settings | File Templates.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ReentrantLockingDemo</span> </span>{</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Lock lock = <span class="keyword">new</span> ReentrantLock();</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(<span class="keyword">final</span> String... args){</div><div class="line">        <span class="keyword">new</span> ReentrantLockingDemo().go();</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title">go</span>(){</div><div class="line">        <span class="keyword">new</span> Thread(newRunnable(), <span class="string">"Thread-1"</span>).start();</div><div class="line">        <span class="keyword">new</span> Thread(newRunnable(), <span class="string">"Thread-2"</span>).start();</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keyword">private</span> Runnable <span class="title">newRunnable</span>(){</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Runnable(){</div><div class="line"></div><div class="line">            <span class="annotation">@Override</span></div><div class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span>() {</div><div class="line">                do{</div><div class="line">                    <span class="keyword">try</span>{</div><div class="line">                        <span class="keyword">if</span> (lock.tryLock(<span class="number">500</span>, TimeUnit.MILLISECONDS)){</div><div class="line">                            <span class="keyword">try</span>{</div><div class="line">                                System.out.println(<span class="string">"Locked thread "</span> + Thread.currentThread().getName());</div><div class="line">                                Thread.sleep(<span class="number">1000</span>);</div><div class="line">                            } <span class="keyword">finally</span> {</div><div class="line">                                lock.unlock();</div><div class="line">                                    System.out.println(<span class="string">"unlocked locked thread "</span> + Thread.currentThread().getName());</div><div class="line">                            }</div><div class="line">                            <span class="keyword">break</span>;</div><div class="line">                        } <span class="keyword">else</span> {</div><div class="line">                            System.out.println(<span class="string">"unable to lock thread "</span> + Thread.currentThread().getName() + <span class="string">", will try again."</span>);</div><div class="line">                        }</div><div class="line">                    } <span class="keyword">catch</span> (InterruptedException e) {</div><div class="line">                        e.printStackTrace();</div><div class="line">                    }</div><div class="line"></div><div class="line">                } <span class="keyword">while</span>(<span class="keyword">true</span>);</div><div class="line">            }</div><div class="line">        };</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>运行结果如下：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Locked <span class="keyword">thread</span> <span class="keyword">Thread</span><span class="subst">-</span><span class="number">2</span></div><div class="line">unable <span class="keyword">to</span> lock <span class="keyword">thread</span> <span class="keyword">Thread</span><span class="subst">-</span><span class="number">1</span>, will try again<span class="built_in">.</span></div><div class="line">unlocked locked <span class="keyword">thread</span> <span class="keyword">Thread</span><span class="subst">-</span><span class="number">2</span></div><div class="line">Locked <span class="keyword">thread</span> <span class="keyword">Thread</span><span class="subst">-</span><span class="number">1</span></div><div class="line">unlocked locked <span class="keyword">thread</span> <span class="keyword">Thread</span><span class="subst">-</span><span class="number">1</span></div></pre></td></tr></table></figure>
+
+<h3 id="参考资料">参考资料</h3>
+<ul>
+<li>Credit属于 <a href="http://robaustin.wikidot.com/reentrantlock" target="_blank" rel="external">http://robaustin.wikidot.com/reentrantlock</a></li>
+</ul>
+<h3 id="PS">PS</h3>
+<ul>
+<li>上一篇谈到了CountDownLatch和CyclicBarrier，例子代码详见<a href="https://github.com/hongbinzuo/dojo/blob/master/src/com/freelemon/concurrency/countdownlatch/CountDownLatchTest.java" target="_blank" rel="external">https://github.com/hongbinzuo/dojo/blob/master/src/com/freelemon/concurrency/countdownlatch/CountDownLatchTest.java</a> 和 <a href="https://github.com/hongbinzuo/dojo/blob/master/src/com/freelemon/concurrency/cyclicbarrier/GameBarrier.java" target="_blank" rel="external">https://github.com/hongbinzuo/dojo/blob/master/src/com/freelemon/concurrency/cyclicbarrier/GameBarrier.java</a></li>
+</ul>
+]]></content>
+    <summary type="html"><![CDATA[<p>《Java并发编程实战》这本书的缺点是有些例子给的不完整，所以想直接复制代码、运行看结果还是比较费力的，第13章显示锁的一个例子就是这样。在这种情况下，只能自己写或求助于互联网。下面用网上的一个小例子演示带有超时功能的tryLock的基本用法。关于Lock和同步代码块的区别以及更深入的研究，后续博文会有所涉及。</p>
+]]></summary>
+    
+      <category term="Java" scheme="http://hongbinzuo.github.io/tags/Java/"/>
+    
+      <category term="Concurrency" scheme="http://hongbinzuo.github.io/tags/Concurrency/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[CountDownLatch and CyclicBarrier]]></title>
@@ -814,29 +846,6 @@
       <category term="Java" scheme="http://hongbinzuo.github.io/tags/Java/"/>
     
       <category term="Scala" scheme="http://hongbinzuo.github.io/tags/Scala/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Scala patterns (#6) - Kestrel combinator]]></title>
-    <link href="http://hongbinzuo.github.io/2014/03/04/kestrel-combinator/"/>
-    <id>http://hongbinzuo.github.io/2014/03/04/kestrel-combinator/</id>
-    <published>2014-03-04T04:25:31.000Z</published>
-    <updated>2014-08-04T00:00:34.000Z</updated>
-    <content type="html"><![CDATA[<p>Kestrel combinator并不是一种传统的设计模式，这个叫法是在1985年出版的<em>To Mock the Mockingbird</em>这本书里提到的，可以参考<em>Scala in action</em>作者引用的<a href="http://mng.bz/WKns" target="_blank" rel="external">资源地址</a>详细了解这种模式，其中的例子使用的是Ruby语言。我理解这种模式的意义主要是产生<strong>副作用</strong>，即在不改变原有类或对象定义的情况下，使用一段附加函数体来达到产生副作用的目的。</p>
-<a id="more"></a>
-
-<p>这种模式在不同的语言里实现的方式也不一样。下面的一个例子来自<em>Scala in action</em>，其中使用了Scala的隐式转换（Implicit Conversion）特性来实现Kestrel combinator：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="class"><span class="keyword">object</span> <span class="title">Combinators</span> </span>{</div><div class="line">  implicit <span class="keyword">def</span> kestrel[A](a: A) = <span class="keyword">new</span> {</div><div class="line">    <span class="keyword">def</span> tap(sideEffect: A =&gt; Unit): A = {</div><div class="line">      sideEffect(a)</div><div class="line">      a</div><div class="line">    }</div><div class="line">  }</div><div class="line">}</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">case</span> <span class="keyword">class</span> <span class="title">Person</span><span class="params">(firstName: String, lastName: String)</span></span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">case</span> <span class="keyword">class</span> <span class="title">Mailer</span><span class="params">(mailAddress: String)</span> </span>{</div><div class="line">  <span class="keyword">def</span> mail(body: String) = { println(<span class="string">"Send mail here"</span> )}</div><div class="line">}</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">object</span> <span class="title">DemoKestrel</span> <span class="keyword">extends</span> <span class="title">App</span> </span>{</div><div class="line">  <span class="keyword">import</span> Combinators._</div><div class="line">  Person(<span class="string">"Nilanjan"</span>, <span class="string">"Raychaudhuri"</span>).tap(</div><div class="line">      p =&gt; {</div><div class="line">        println(<span class="string">"First name"</span> + p.firstName)</div><div class="line">        Mailer(<span class="string">"Some address"</span>)</div><div class="line">      }</div><div class="line">  ).lastName </div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p>这种模式具体用在什么场景下呢？再让我想想。。</p>
-]]></content>
-    <summary type="html"><![CDATA[<p>Kestrel combinator并不是一种传统的设计模式，这个叫法是在1985年出版的<em>To Mock the Mockingbird</em>这本书里提到的，可以参考<em>Scala in action</em>作者引用的<a href="http://mng.bz/WKns" target="_blank" rel="external">资源地址</a>详细了解这种模式，其中的例子使用的是Ruby语言。我理解这种模式的意义主要是产生<strong>副作用</strong>，即在不改变原有类或对象定义的情况下，使用一段附加函数体来达到产生副作用的目的。</p>
-]]></summary>
-    
-      <category term="Scala" scheme="http://hongbinzuo.github.io/tags/Scala/"/>
-    
-      <category term="Design Patterns" scheme="http://hongbinzuo.github.io/tags/Design-Patterns/"/>
     
   </entry>
   

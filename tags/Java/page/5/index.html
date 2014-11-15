@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Page 2 | Freelemon&#39;s open world</title>
+  <title>Page 5 | Java | Freelemon&#39;s open world</title>
   <meta name="author" content="Hongbin Zuo">
   
   <meta name="description" content="Think before write.">
@@ -60,7 +60,11 @@
 </header>
   <div id="content" class="inner">
     <div id="main-col" class="alignleft"><div id="wrapper">
-  <article class="post">
+<h2 class="archive-title tag">Java</h2>
+
+
+  
+    <article class="post">
   
     <div class="gallery">
   <div class="photoset">
@@ -78,74 +82,27 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2014-11-06T17:14:41.000Z"><a href="/2014/11/07/A-tip-for-Ubuntu-1404-update/">Nov 7 2014</a></time>
+        <time datetime="2013-11-18T16:11:43.000Z"><a href="/2013/11/19/java-swing-automation-test-study-(1st-part)/">Nov 19 2013</a></time>
       
       
   
-    <h1 class="title"><a href="/2014/11/07/A-tip-for-Ubuntu-1404-update/">A tip for Ubuntu 14.04 update</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>安装了Ubuntu 14.04之后，出现一个小问题，软件自动更新时经常提示空间不足。搜一下，下面的链接提供了一些解决方案。<br><a href="http://askubuntu.com/questions/2793/how-do-i-remove-or-hide-old-kernel-versions-to-clean-up-the-boot-menu" target="_blank" rel="external">http://askubuntu.com/questions/2793/how-do-i-remove-or-hide-old-kernel-versions-to-clean-up-the-boot-menu</a></p>
-<p>简单说想快速解决就是一条命令：<br><code>sudo apt-get remove --purge $(dpkg -l &#39;linux-image-*&#39; | sed &#39;/^ii/!d;/&#39;&quot;$(uname -r | sed &quot;s/\(.*\)-\([^0-9]\+\)/\1/&quot;)&quot;&#39;/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d&#39;)</code></p>
-<p>这条命令会移除所有除了当前版本之外所有旧的Kernel安装包，以腾出空间。当然，如果想要彻底解决这个问题，可以参考上面的文章。</p>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  <article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2014-11-06T13:11:49.000Z"><a href="/2014/11/06/Hibernate-Core-API/">Nov 6 2014</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2014/11/06/Hibernate-Core-API/">Hibernate Core API</a></h1>
+    <h1 class="title"><a href="/2013/11/19/java-swing-automation-test-study-(1st-part)/">Java Swing Automation Test Study (1st part)</a></h1>
   
 
     </header>
     <div class="entry">
       
-        <p>整理一下Hibernate核心API的笔记，感谢马老师。因为博客的发布形式，中间内容有些节略和修改。</p>
-<h2 id="关于API文档">关于API文档</h2>
-<p>因为Hibernate是属于JBoss的，按照JBoss的商业模式，文档和技术支持是收费的，所以官方不提供离线文档下载，只提供在线文档查看。当然，总有热心的网友看不过去，所以网上有非官方整理的API文档可供参考。</p>
-
+        <h2 id="Java_Swing界面自动化测试初探（上）">Java Swing界面自动化测试初探（上）</h2>
+<p>最近有机会又学习了一下Java自动化测试框架，对于自动化测试有了进一步的了解。自动化测试的效果，业界一直都存在一些争论，不过我理解现在的基本共识是自动化测试（即利用程序实现测试工作）是有用的，至于对不同类型的软件能起到多大的作用就要依情况而定。有的软件项目自动化测试可能可以覆盖大部分场景，有的可能只能覆盖较少部分。前一段时间看Robert C. Martin大叔的《程序员的职业素养》，其中对于测试的重视程度令人印象颇深。Martin大叔花了三章的篇幅来讲述测试，分别是测试驱动开发、验收测试和测试策略。而在测试驱动开发一章中，他谈到自己和Kent Beck的一次会面，看完Kent的展示之后，他说：“这让我目瞪口呆！”。Martin大叔的结论是：“此事已有定论！TDD确实可行。”</p>
+<p>当然是否是TDD是开发模式的选择，不一定要强求，但是对于自动化测试的重要性，大家应该是广泛认同的。在Jeff Atwood最新出版的博客文集（中文版译名《高效能程序员的修炼》）中，Jeff引用了J.Timothy King的一篇文章，题为《我同情那些不写单元测试的傻瓜》，并由此而展开了对于测试重要性和方法的探讨，并警示大家，不要因为不喜欢测试驱动就不写测试了，这是非常错误的。自动化测试活动在保障产品质量、提高开发效率和持续交付能起到十分关键的作用。</p>
+<p>具体到我们实际的开发工作，Java自动化测试起源较早，敏捷声明的发起人之一、XP方法的倡导者Kent和Erich（《设计模式》作者之一）合作创建了JUnit单元测试框架，在Java世界里享有盛誉并成为事实上的标准。不过，现在还有一个更加流行的选择，TestNG。TestNG不仅在单元测试方面，而且在组件测试方面，甚至在功能和系统测试上都有很大的帮助。当然，本文主要不是讨论测试框架，我们主要讨论Java世界里的界面测试问题。有关自动化测试框架的话题，可参考相关网站。<br>
       
     </div>
     <footer>
       
         
           <div class="alignleft">
-            <a href="/2014/11/06/Hibernate-Core-API/#more" class="more-link">Read More</a>
+            <a href="/2013/11/19/java-swing-automation-test-study-(1st-part)/#more" class="more-link">Read More</a>
           </div>
         
         
@@ -157,165 +114,16 @@
 
 
 
-
-  <article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2014-09-10T15:29:54.000Z"><a href="/2014/09/10/Top-8-free-readings/">Sep 10 2014</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2014/09/10/Top-8-free-readings/">Top 8 free readings</a></h1>
   
 
-    </header>
-    <div class="entry">
-      
-        <p>这是一个“信息大爆炸”的时代，在没有互联网的时候说这句话可能有人会怀疑，但是有了互联网之后大家都深信不疑。根据加州大学圣地亚哥分校的研究，一个典型的美国家庭在2008年平均收到3.6 ZB的信息，每人每天平均收到34 GB的信息，这只是2008年的研究结果，有人预测，每5年全世界的信息总量就会增加10倍。网络新闻、社交网络、邮箱、电视以及各种媒体每天都充斥你的左右，你是否也有信息焦虑症和选择困难症呢？</p>
-
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2014/09/10/Top-8-free-readings/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  <article class="post">
+  <nav id="pagination">
   
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
+    <a href="/tags/Java/page/4/" class="alignleft prev">Prev</a>
   
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2014-09-06T03:42:09.000Z"><a href="/2014/09/06/Redis-setup/">Sep 6 2014</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2014/09/06/Redis-setup/">Redis setup</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>Redis是一个非常流行的No-SQL数据库，在互联网网站的技术架构中应用相当广泛。这几天通过阅读《Redis in action》学习Redis，准备用博客简单记录一些有用的信息，以供未来参考。第一篇是Redis的开发环境搭建，这里使用的是书中推荐的Python开发环境，整个搭建过程比较简单。</p>
-
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2014/09/06/Redis-setup/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  <article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2014-08-14T15:03:20.000Z"><a href="/2014/08/14/Prototype-in-Javascript/">Aug 14 2014</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2014/08/14/Prototype-in-Javascript/">Prototype in Javascript</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>最近又有机会重新学习了一下Javascript的基础语法，越发觉得这门语言和传统的、面向对象的静态类型语言的区别很明显。多语言使用者经常出现的问题就是使用A语言写出B语言风格的程序，这种情况屡见不鲜——话说我写Java风格的C++程序也是非常流畅的。</p>
-<p>Javascript语言基础里有两个特性我觉得值得深入了解一下，分别是原型（Prototype）和闭包（Closure）。当然，Javascript也有很多其他高级特性比如函数式编程，也许以后有机会我们可以深入探究一下。今天主要看一下Javascript里原型式继承是怎么做的。</p>
-
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2014/08/14/Prototype-in-Javascript/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-
-<nav id="pagination">
-  
-    <a href="/" class="alignleft prev">Prev</a>
-  
-  
-    <a href="/page/3/" class="alignright next">Next</a>
   
   <div class="clearfix"></div>
-</nav></div></div>
+</nav>
+</div></div>
     <aside id="sidebar" class="alignright">
   <div class="search">
   <form action="//google.com/search" method="get" accept-charset="utf-8">

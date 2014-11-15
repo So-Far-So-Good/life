@@ -78,6 +78,55 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2014-11-15T04:13:26.000Z"><a href="/2014/11/15/TryLock/">Nov 15 2014</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2014/11/15/TryLock/">TryLock</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>《Java并发编程实战》这本书的缺点是有些例子给的不完整，所以想直接复制代码、运行看结果还是比较费力的，第13章显示锁的一个例子就是这样。在这种情况下，只能自己写或求助于互联网。下面用网上的一个小例子演示带有超时功能的tryLock的基本用法。关于Lock和同步代码块的区别以及更深入的研究，后续博文会有所涉及。</p>
+
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2014/11/15/TryLock/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2014-11-09T15:38:59.000Z"><a href="/2014/11/09/CountDownLatch-and-CyclicBarrier/">Nov 9 2014</a></time>
       
       
@@ -248,53 +297,6 @@
           <div class="alignleft">
             <a href="/2014/11/07/Hibernate-Object-States/#more" class="more-link">Read More</a>
           </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  <article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2014-11-06T17:14:41.000Z"><a href="/2014/11/07/A-tip-for-Ubuntu-1404-update/">Nov 7 2014</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2014/11/07/A-tip-for-Ubuntu-1404-update/">A tip for Ubuntu 14.04 update</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>安装了Ubuntu 14.04之后，出现一个小问题，软件自动更新时经常提示空间不足。搜一下，下面的链接提供了一些解决方案。<br><a href="http://askubuntu.com/questions/2793/how-do-i-remove-or-hide-old-kernel-versions-to-clean-up-the-boot-menu" target="_blank" rel="external">http://askubuntu.com/questions/2793/how-do-i-remove-or-hide-old-kernel-versions-to-clean-up-the-boot-menu</a></p>
-<p>简单说想快速解决就是一条命令：<br><code>sudo apt-get remove --purge $(dpkg -l &#39;linux-image-*&#39; | sed &#39;/^ii/!d;/&#39;&quot;$(uname -r | sed &quot;s/\(.*\)-\([^0-9]\+\)/\1/&quot;)&quot;&#39;/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d&#39;)</code></p>
-<p>这条命令会移除所有除了当前版本之外所有旧的Kernel安装包，以腾出空间。当然，如果想要彻底解决这个问题，可以参考上面的文章。</p>
-
-      
-    </div>
-    <footer>
-      
         
         
       
