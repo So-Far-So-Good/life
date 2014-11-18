@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Write, Code, Share, Learn]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://hongbinzuo.github.io/"/>
-  <updated>2014-11-17T16:07:12.865Z</updated>
+  <updated>2014-11-18T16:22:24.368Z</updated>
   <id>http://hongbinzuo.github.io/</id>
   
   <author>
@@ -13,6 +13,68 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[IoC/DI summary]]></title>
+    <link href="http://hongbinzuo.github.io/2014/11/18/IoCDI-summary/"/>
+    <id>http://hongbinzuo.github.io/2014/11/18/IoCDI-summary/</id>
+    <published>2014-11-17T16:15:35.000Z</published>
+    <updated>2014-11-18T16:21:19.000Z</updated>
+    <content type="html"><![CDATA[<p>下面的笔记根据Java私塾Spring公开视频教程整理并简化（你没看错，已经简化过了，^_^）。</p>
+<h3 id="IoC/DI的基本思想">IoC/DI的基本思想</h3>
+<ul>
+<li>把程序之间的依赖关系去掉</li>
+<li>把程序对象设置到IoC/DI容器的配置中，作为Bean</li>
+<li>由IoC/DI容器（下面简称容器）来管理Bean的创建、实例化</li>
+<li>由容器把Bean之间的关系注入到需要这些关系的对象里面</li>
+</ul>
+<a id="more"></a>
+
+<p>简而言之，就是把对象之间的依赖关系全部去掉，然后由容器来管理对象之间的依赖关系。</p>
+<h3 id="谁控制谁？">谁控制谁？</h3>
+<ul>
+<li>容器控制应用程序。</li>
+</ul>
+<h3 id="控制什么？">控制什么？</h3>
+<ul>
+<li>容器控制对象本身的创建、实例化。</li>
+<li>容器控制对象之间的依赖关系。</li>
+</ul>
+<h3 id="为何叫反转？">为何叫反转？</h3>
+<ul>
+<li>因为应用程序不能主动获取外部资源了，而是被动等待容器注入它所需要的资源，所以称为反转。</li>
+</ul>
+<h3 id="哪些方面反转了？">哪些方面反转了？</h3>
+<ul>
+<li>创建对象</li>
+<li>程序获得资源的方式</li>
+</ul>
+<h3 id="为何需要反转？">为何需要反转？</h3>
+<ul>
+<li>引入容器之后，体系更为松散，而且管理更加有序</li>
+<li>类之间真正实现了松散耦合，使得开发、测试、维护、升级都变得容易了</li>
+</ul>
+<p>IoC/DI并没有帮助我们实现任何业务功能，原本该由应用实现的功能，还是应用自身完成。</p>
+]]></content>
+    <summary type="html"><![CDATA[<p>下面的笔记根据Java私塾Spring公开视频教程整理并简化（你没看错，已经简化过了，^_^）。</p>
+<h3 id="IoC/DI的基本思想">IoC/DI的基本思想</h3>
+<ul>
+<li>把程序之间的依赖关系去掉</li>
+<li>把程序对象设置到IoC/DI容器的配置中，作为Bean</li>
+<li>由IoC/DI容器（下面简称容器）来管理Bean的创建、实例化</li>
+<li>由容器把Bean之间的关系注入到需要这些关系的对象里面</li>
+</ul>
+]]></summary>
+    
+      <category term="DI" scheme="http://hongbinzuo.github.io/tags/DI/"/>
+    
+      <category term="IoC" scheme="http://hongbinzuo.github.io/tags/IoC/"/>
+    
+      <category term="Spring" scheme="http://hongbinzuo.github.io/tags/Spring/"/>
+    
+      <category term="Architecture" scheme="http://hongbinzuo.github.io/tags/Architecture/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Two ways of Sequence Printer implementation]]></title>
@@ -764,53 +826,6 @@
       <category term="appfuse" scheme="http://hongbinzuo.github.io/tags/appfuse/"/>
     
       <category term="maven" scheme="http://hongbinzuo.github.io/tags/maven/"/>
-    
-      <category term="Java" scheme="http://hongbinzuo.github.io/tags/Java/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Appfuse (1)]]></title>
-    <link href="http://hongbinzuo.github.io/2014/03/27/appfuse-in-eclipse/"/>
-    <id>http://hongbinzuo.github.io/2014/03/27/appfuse-in-eclipse/</id>
-    <published>2014-03-27T13:21:41.000Z</published>
-    <updated>2014-08-04T00:00:34.000Z</updated>
-    <content type="html"><![CDATA[<p>以前也用过Appfuse，不过一直也没怎么深入，最近又有机会玩一玩儿，顺便记录一下。</p>
-<p><a href="http://appfuse.org/display/APF/Home" target="_blank" rel="external">Appfuse</a>是一个很有意思的项目，可以把它看成是Java企业应用开发的一个最佳实践集合。在Maven的帮助下，可以生成基于Struts，Spring MVC或者Wicket等一些框架的组合，这样就免去了最初搭建脚手架（Scaffolding）的过程。这在Play Framework和Grails出现之前应该算是比较方便的，再加上作者Matt Raible（他的<a href="http://raibledesigns.com/" target="_blank" rel="external">博客地址</a>）本身在Java圈子里也有小有名气，所以这个项目还是有一定人气的。今天看了一下，最新版的Appfuse 3.0已经支持Spring 4和Java 7/Maven 3（最低要求）了，可见人家也是与时俱进的，我们就来尝试一把。</p>
-<a id="more"></a>
-
-<p>根据<a href="http://appfuse.org/display/APF/AppFuse+QuickStart" target="_blank" rel="external">快速开始文档</a>，可以很快地下载项目。我选择使用Spring MVC，具体命令如下，其中的groupId和artifactId要换成自己项目的组织和名称：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ mvn archetype:generate -B <span class="variable">-DarchetypeGroupId=</span></div><div class="line">org.appfuse.archetypes <span class="variable">-DarchetypeArtifactId=</span>appfuse-modular-spring-archetype -D</div><div class="line"><span class="variable">archetypeVersion=</span><span class="number">3.0</span>.<span class="number">0</span> <span class="variable">-DgroupId=</span>com.mydemo <span class="variable">-DartifactId=</span>demo -DarchetypeR</div><div class="line"><span class="variable">epository=</span>http://oss.sonatype.org/content/repositories/appfuse</div></pre></td></tr></table></figure>
-
-<p>执行这条命令的条件是下载了Maven 3，并配置了Maven的执行路径，可以通过如下命令检查：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ mvn -<span class="keyword">version</span></div></pre></td></tr></table></figure>
-
-<p>下载完成之后，我选择先在Eclipse中编译，使用导入Maven项目的方式将源码导入，此时遇到了三个错误。</p>
-<p>第一个错误的具体信息如下：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Plugin execution <span class="keyword">not</span> covered by lifecycle <span class="keyword">configuration</span>: org.codehaus.mojo:hibernate3-maven-plugin:<span class="number">2.2</span>:hbm2ddl (execution: <span class="keyword">default</span>, phase: <span class="keyword">process</span>-test-resources)</div></pre></td></tr></table></figure>
-
-<p>谷歌搜索错误的解决方法, 可以参考下面两个帖子：</p>
-<ul>
-<li><a href="http://appfuse.547863.n4.nabble.com/POM-td4655717.html" target="_blank" rel="external">http://appfuse.547863.n4.nabble.com/POM-td4655717.html</a></li>
-<li><a href="http://wiki.eclipse.org/M2E_plugin_execution_not_covered" target="_blank" rel="external">http://wiki.eclipse.org/M2E_plugin_execution_not_covered</a></li>
-</ul>
-<p>文章实在比较冗长，m2e的wiki里面讲了三种方法，我采取了quick fix，选择忽略。</p>
-<p>第二个错误是在sample-data.xsd文件中报错：</p>
-<figure class="highlight Content"><figcaption><span>is not allowed in prolog```，</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">尝试了网上说的把文件存成ASNI格式，不成；试验了其他方法也不成，文件本身都是乱码。</div><div class="line">因为Appfuse开放源码，所以我直接找到这个文件把内容拷贝过来就好了，从文件头定义可以看出来它是UTF-16编码，所以肯定Windows系统加了什么乱糟糟的东西，参考[<span class="link_label">这篇博客</span>](<span class="link_url">http://blog.csdn.net/zhaoxu0312/article/details/8511792</span>)。sample-data.xsd源码的[<span class="link_label">位置</span>](<span class="link_url">https://github.com/appfuse/appfuse/blob/34dc1599636e15ab9e0372d67542321e25f1896c/web/common/src/test/resources/sample-data.xsd</span>)。</div><div class="line"></div><div class="line">第三个错误是文件default.jsp中报错：</div></pre></td></tr></table></figure>
-
-<p>syntax error on token “ne” invalid Assignmentoperator```。这个错误很奇怪，搜索一下找不到答案，而且我印象比较深，这个以前遇到过。后来随便改了改ne这个字符串，然后再改回来，最后使用Maven - Update Project，居然就好了。所以，Eclipse里面有些莫名其妙的问题可以通过Close/Reopen Project或者Update/Refresh Project来解决，呵呵。</p>
-<p>这篇博客主要记录了初次使用的Appfuse 3.0的一点体验，和遇到问题的一些解决方法，下一篇会讲讲编译运行的方法。</p>
-<p>BTW</p>
-<ul>
-<li>Appfuse采用Apache 2的<a href="http://static.appfuse.org/license.html" target="_blank" rel="external">license</a>，无论对开源软件还是商业化软件都是友好的。</li>
-<li>在Stackoverflow上看到了相似的问题，回答了一下下：<a href="http://stackoverflow.com/questions/22521568/errors-in-spring-mvc-appfuse-app-in-eclipse/22687468#22687468" target="_blank" rel="external">地址</a></li>
-</ul>
-]]></content>
-    <summary type="html"><![CDATA[<p>以前也用过Appfuse，不过一直也没怎么深入，最近又有机会玩一玩儿，顺便记录一下。</p>
-<p><a href="http://appfuse.org/display/APF/Home" target="_blank" rel="external">Appfuse</a>是一个很有意思的项目，可以把它看成是Java企业应用开发的一个最佳实践集合。在Maven的帮助下，可以生成基于Struts，Spring MVC或者Wicket等一些框架的组合，这样就免去了最初搭建脚手架（Scaffolding）的过程。这在Play Framework和Grails出现之前应该算是比较方便的，再加上作者Matt Raible（他的<a href="http://raibledesigns.com/" target="_blank" rel="external">博客地址</a>）本身在Java圈子里也有小有名气，所以这个项目还是有一定人气的。今天看了一下，最新版的Appfuse 3.0已经支持Spring 4和Java 7/Maven 3（最低要求）了，可见人家也是与时俱进的，我们就来尝试一把。</p>
-]]></summary>
-    
-      <category term="appfuse" scheme="http://hongbinzuo.github.io/tags/appfuse/"/>
     
       <category term="Java" scheme="http://hongbinzuo.github.io/tags/Java/"/>
     

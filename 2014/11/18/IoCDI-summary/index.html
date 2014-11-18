@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives: 2014/1 | Freelemon&#39;s open world</title>
+  <title>IoC/DI summary | Freelemon&#39;s open world</title>
   <meta name="author" content="Hongbin Zuo">
   
   <meta name="description" content="Think before write.">
@@ -11,7 +11,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  
+  <meta property="og:title" content="IoC/DI summary"/>
   <meta property="og:site_name" content="Freelemon&#39;s open world"/>
 
   
@@ -59,85 +59,113 @@
 <div class="clearfix"></div>
 </header>
   <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper">
-<h2 class="archive-title">2014/1</h2>
-
-
-  <div class="archive">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
     
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2014-01-28T05:53:21.000Z"><a href="/2014/01/28/gorm-query/">Jan 28 2014</a></time>
-            
-              <h1 class="title"><a href="/2014/01/28/gorm-query/">GORM查询</a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2014-01-23T08:49:03.000Z"><a href="/2014/01/23/grails-encounters-mysql/">Jan 23 2014</a></time>
-            
-              <h1 class="title"><a href="/2014/01/23/grails-encounters-mysql/">当Grails遇上MySQL</a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2014-01-22T08:17:09.000Z"><a href="/2014/01/22/grails-a-quick-start/">Jan 22 2014</a></time>
-            
-              <h1 class="title"><a href="/2014/01/22/grails-a-quick-start/">Grails初体验</a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2014-01-13T02:25:01.000Z"><a href="/2014/01/13/reading-note-on-wg-java-developer-groovy-a-little/">Jan 13 2014</a></time>
-            
-              <h1 class="title"><a href="/2014/01/13/reading-note-on-wg-java-developer-groovy-a-little/">Reading Note on WG Java Developer Groovy a little</a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2014-01-07T07:03:55.000Z"><a href="/2014/01/07/reading-note-on-wg-java-devloper-chapter-6/">Jan 7 2014</a></time>
-            
-              <h1 class="title"><a href="/2014/01/07/reading-note-on-wg-java-devloper-chapter-6/">Reading Note on WG Java Developer Chapter 6</a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2014-01-02T08:09:05.000Z"><a href="/2014/01/02/reading-note-on-code-complete-2/">Jan 2 2014</a></time>
-            
-              <h1 class="title"><a href="/2014/01/02/reading-note-on-code-complete-2/">Reading Note on Code Complete 2</a></h1>
-            
-          </header>
-        </div>
-      </article>
+      <img src="">
     
   </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2014-11-17T16:15:35.000Z"><a href="/2014/11/18/IoCDI-summary/">Nov 18 2014</a></time>
+      
+      
+  
+    <h1 class="title">IoC/DI summary</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>下面的笔记根据Java私塾Spring公开视频教程整理并简化（你没看错，已经简化过了，^_^）。</p>
+<h3 id="IoC/DI的基本思想">IoC/DI的基本思想</h3>
+<ul>
+<li>把程序之间的依赖关系去掉</li>
+<li>把程序对象设置到IoC/DI容器的配置中，作为Bean</li>
+<li>由IoC/DI容器（下面简称容器）来管理Bean的创建、实例化</li>
+<li>由容器把Bean之间的关系注入到需要这些关系的对象里面</li>
+</ul>
+<a id="more"></a>
+
+<p>简而言之，就是把对象之间的依赖关系全部去掉，然后由容器来管理对象之间的依赖关系。</p>
+<h3 id="谁控制谁？">谁控制谁？</h3>
+<ul>
+<li>容器控制应用程序。</li>
+</ul>
+<h3 id="控制什么？">控制什么？</h3>
+<ul>
+<li>容器控制对象本身的创建、实例化。</li>
+<li>容器控制对象之间的依赖关系。</li>
+</ul>
+<h3 id="为何叫反转？">为何叫反转？</h3>
+<ul>
+<li>因为应用程序不能主动获取外部资源了，而是被动等待容器注入它所需要的资源，所以称为反转。</li>
+</ul>
+<h3 id="哪些方面反转了？">哪些方面反转了？</h3>
+<ul>
+<li>创建对象</li>
+<li>程序获得资源的方式</li>
+</ul>
+<h3 id="为何需要反转？">为何需要反转？</h3>
+<ul>
+<li>引入容器之后，体系更为松散，而且管理更加有序</li>
+<li>类之间真正实现了松散耦合，使得开发、测试、维护、升级都变得容易了</li>
+</ul>
+<p>IoC/DI并没有帮助我们实现任何业务功能，原本该由应用实现的功能，还是应用自身完成。</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/DI/">DI</a>, <a href="/tags/IoC/">IoC</a>, <a href="/tags/Spring/">Spring</a>, <a href="/tags/Architecture/">Architecture</a>
+  </div>
+
+        <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone"></a><a href="#" class="bds_tsina" data-cmd="tsina"></a><a href="#" class="bds_tqq" data-cmd="tqq"></a><a href="#" class="bds_renren" data-cmd="renren"></a><a href="#" class="bds_weixin" data-cmd="weixin"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdPic":"","bdStyle":"0","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+<section id="comment">
+
+<!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"freelemon"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- Duoshuo Comment END -->
+
+</section>
+
+
+
+
 </div></div>
     <aside id="sidebar" class="alignright">
   <div class="search">
