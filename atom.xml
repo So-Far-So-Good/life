@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Write, Code, Share, Learn]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://hongbinzuo.github.io/"/>
-  <updated>2014-12-07T14:17:45.291Z</updated>
+  <updated>2014-12-07T14:21:44.112Z</updated>
   <id>http://hongbinzuo.github.io/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://hongbinzuo.github.io/2014/12/07/Performance-difference-for-splitting-strings/"/>
     <id>http://hongbinzuo.github.io/2014/12/07/Performance-difference-for-splitting-strings/</id>
     <published>2014-12-07T13:26:38.000Z</published>
-    <updated>2014-12-07T14:17:24.000Z</updated>
+    <updated>2014-12-07T14:21:37.000Z</updated>
     <content type="html"><![CDATA[<p>《Java程序性能优化》的3.1.3小节阐述了字符串分割的三种方法，并且用程序示例和图形说明了三种方法的性能差异。这三种方法分别是：split方法；使用StringTokenizer类；使用最原始的indexOf和substring方法。这三种方法的性能是依次增强的。但首先一个问题是：使用最后一种方法（本来应该是效率最高的）的例子试验时发现，这种方法却是最慢的，这是为什么呢？</p>
 <a id="more"></a>
 
@@ -39,7 +39,7 @@
 <ul>
 <li><a href="http://stackoverflow.com/questions/5965767/performance-of-stringtokenizer-class-vs-split-method-in-java" target="_blank" rel="external">StackOverflow上非常好的示例</a></li>
 <li><a href="http://docs.oracle.com/javase/6/docs/api/java/util/StringTokenizer.html" target="_blank" rel="external">StringTokenizer类的Javadoc</a></li>
-<li><a href="http://ben-sin.iteye.com/blog/659611" target="_blank" rel="external">关于split的一个讨论</a></li>
+<li><a href="http://ben-sin.iteye.com/blog/659611" target="_blank" rel="external">关于split和indexOf的一个讨论</a></li>
 <li><a href="https://commons.apache.org/proper/commons-lang/javadocs/api-2.6/org/apache/commons/lang/StringUtils.html" target="_blank" rel="external">Apache Commons的StringUtils类</a></li>
 </ul>
 ]]></content>
