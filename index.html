@@ -127,53 +127,6 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2014-11-20T13:22:06.000Z"><a href="/2014/11/20/Proxy-pattern/">Nov 20 2014</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2014/11/20/Proxy-pattern/">Proxy pattern</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>设计模式的难点并不是模式本身的逻辑推理，而是对于模式适用场景的深入理解。设计模式就像是你的常用工具箱，如果你经常使用它们，就会对工具箱里的每个工具了然于胸，能够运用自如。但是，也要避免拿着个锤头见着什么都像钉子的情况出现，那样的话，你就已经被你的工具给控制了。</p>
-<p>理解设计模式有个好处，设计模式就像是代码和架构的桥梁，它提供了中间层的抽象，它让你思考的粒度比代码层更大一些，从而可以在比实现更高的层面思考系统。当然，除了设计模式，常见的还有分析模式和架构模式，这也是从不同的维度进行抽象。如果有时间，应该多了解这些模式的起源、逻辑推理和应用场景，对于理解系统设计来说是很有好处的。</p>
-<p>今天只了解一种模式：代理模式。代理模式本身也好理解，假设有两个类Client和Service，那么代理模式引入了代理类ProxyService，Client还是访问和Service一样的接口，只是通过ProxyService，这样做的好处是可以在不改变Service代码的情况下，织入一些额外的逻辑，典型的例子就是日志、Spring AOP的动态代理等。代理模式的实现有两种，一种是静态代理，一种是动态代理。静态代理是代理类Service类载入虚拟机之前就写好了，而动态代理是可以在原有Service类载入的情况下，可以动态加入代理，扩展性和可维护性较好。</p>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  <article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
         <time datetime="2014-11-17T16:15:35.000Z"><a href="/2014/11/18/IoCDI-summary/">Nov 18 2014</a></time>
       
       
@@ -458,6 +411,55 @@
 
 
 
+  <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2014-11-09T15:38:59.000Z"><a href="/2014/11/09/CountDownLatch-and-CyclicBarrier/">Nov 9 2014</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2014/11/09/CountDownLatch-and-CyclicBarrier/">CountDownLatch and CyclicBarrier</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>CountDownLatch和CyclicBarrier从字面上理解是“向下数的门闩”和“循环的障碍”，觉得怪怪的，但是即便翻译成更加书面语的“闭锁”或“栅栏”也并不容易理解。《Java并发编程实战》中详细讲解了两者的作用，也举了例子，但理解起来印象不深。如果只是从异同的角度去比较两者，网上倒是有不少文章，但是对于编程实践往往不如通俗的例子来得实在。</p>
+
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2014/11/09/CountDownLatch-and-CyclicBarrier/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
 
 <nav id="pagination">
   
@@ -480,7 +482,7 @@
 <div class="widget tagcloud">
   <h3 class="title">Tag Cloud</h3>
   <div class="entry">
-    <a href="/tags/Architecture/" style="font-size: 12.00px;">Architecture</a><a href="/tags/Concurrency/" style="font-size: 16.00px;">Concurrency</a><a href="/tags/DI/" style="font-size: 14.00px;">DI</a><a href="/tags/Design-Pattern/" style="font-size: 10.00px;">Design Pattern</a><a href="/tags/Design-Patterns/" style="font-size: 16.00px;">Design Patterns</a><a href="/tags/Emacs/" style="font-size: 10.00px;">Emacs</a><a href="/tags/FP/" style="font-size: 10.00px;">FP</a><a href="/tags/Gradle/" style="font-size: 10.00px;">Gradle</a><a href="/tags/Groovy/" style="font-size: 10.00px;">Groovy</a><a href="/tags/Hibernate/" style="font-size: 12.00px;">Hibernate</a><a href="/tags/IoC/" style="font-size: 12.00px;">IoC</a><a href="/tags/Java/" style="font-size: 20.00px;">Java</a><a href="/tags/JavaEE/" style="font-size: 12.00px;">JavaEE</a><a href="/tags/Javascript/" style="font-size: 10.00px;">Javascript</a><a href="/tags/Misc/" style="font-size: 10.00px;">Misc</a><a href="/tags/REST/" style="font-size: 10.00px;">REST</a><a href="/tags/Redis/" style="font-size: 10.00px;">Redis</a><a href="/tags/Ruby/" style="font-size: 10.00px;">Ruby</a><a href="/tags/SBT/" style="font-size: 12.00px;">SBT</a><a href="/tags/SOA/" style="font-size: 10.00px;">SOA</a><a href="/tags/SOAP/" style="font-size: 10.00px;">SOAP</a><a href="/tags/Scala/" style="font-size: 18.00px;">Scala</a><a href="/tags/Spring/" style="font-size: 12.00px;">Spring</a><a href="/tags/Ubuntu/" style="font-size: 10.00px;">Ubuntu</a><a href="/tags/algorithms/" style="font-size: 10.00px;">algorithms</a><a href="/tags/appfuse/" style="font-size: 12.00px;">appfuse</a><a href="/tags/blog/" style="font-size: 10.00px;">blog</a><a href="/tags/email/" style="font-size: 10.00px;">email</a><a href="/tags/favorites/" style="font-size: 10.00px;">favorites</a><a href="/tags/github/" style="font-size: 10.00px;">github</a><a href="/tags/grails/" style="font-size: 14.00px;">grails</a><a href="/tags/hexo/" style="font-size: 12.00px;">hexo</a><a href="/tags/learning/" style="font-size: 10.00px;">learning</a><a href="/tags/maven/" style="font-size: 10.00px;">maven</a><a href="/tags/nodejs/" style="font-size: 10.00px;">nodejs</a><a href="/tags/play!/" style="font-size: 10.00px;">play!</a><a href="/tags/reading/" style="font-size: 16.00px;">reading</a><a href="/tags/test/" style="font-size: 12.00px;">test</a>
+    <a href="/tags/Architecture/" style="font-size: 13.33px;">Architecture</a><a href="/tags/Concurrency/" style="font-size: 16.67px;">Concurrency</a><a href="/tags/DI/" style="font-size: 15.00px;">DI</a><a href="/tags/Design-Pattern/" style="font-size: 10.00px;">Design Pattern</a><a href="/tags/Design-Patterns/" style="font-size: 16.67px;">Design Patterns</a><a href="/tags/Emacs/" style="font-size: 11.67px;">Emacs</a><a href="/tags/FP/" style="font-size: 11.67px;">FP</a><a href="/tags/Gradle/" style="font-size: 11.67px;">Gradle</a><a href="/tags/Groovy/" style="font-size: 11.67px;">Groovy</a><a href="/tags/Hibernate/" style="font-size: 13.33px;">Hibernate</a><a href="/tags/IoC/" style="font-size: 13.33px;">IoC</a><a href="/tags/Java/" style="font-size: 20.00px;">Java</a><a href="/tags/JavaEE/" style="font-size: 13.33px;">JavaEE</a><a href="/tags/Javascript/" style="font-size: 11.67px;">Javascript</a><a href="/tags/Misc/" style="font-size: 11.67px;">Misc</a><a href="/tags/REST/" style="font-size: 11.67px;">REST</a><a href="/tags/Redis/" style="font-size: 11.67px;">Redis</a><a href="/tags/Ruby/" style="font-size: 11.67px;">Ruby</a><a href="/tags/SBT/" style="font-size: 13.33px;">SBT</a><a href="/tags/SOA/" style="font-size: 11.67px;">SOA</a><a href="/tags/SOAP/" style="font-size: 11.67px;">SOAP</a><a href="/tags/Scala/" style="font-size: 18.33px;">Scala</a><a href="/tags/Spring/" style="font-size: 13.33px;">Spring</a><a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a><a href="/tags/algorithms/" style="font-size: 11.67px;">algorithms</a><a href="/tags/appfuse/" style="font-size: 13.33px;">appfuse</a><a href="/tags/blog/" style="font-size: 11.67px;">blog</a><a href="/tags/email/" style="font-size: 11.67px;">email</a><a href="/tags/favorites/" style="font-size: 11.67px;">favorites</a><a href="/tags/github/" style="font-size: 11.67px;">github</a><a href="/tags/grails/" style="font-size: 15.00px;">grails</a><a href="/tags/hexo/" style="font-size: 13.33px;">hexo</a><a href="/tags/learning/" style="font-size: 11.67px;">learning</a><a href="/tags/maven/" style="font-size: 11.67px;">maven</a><a href="/tags/nodejs/" style="font-size: 11.67px;">nodejs</a><a href="/tags/play!/" style="font-size: 11.67px;">play!</a><a href="/tags/reading/" style="font-size: 16.67px;">reading</a><a href="/tags/test/" style="font-size: 13.33px;">test</a>
   </div>
 </div>
 
