@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Write, Code, Share, Learn]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://hongbinzuo.github.io/"/>
-  <updated>2014-12-07T14:21:44.112Z</updated>
+  <updated>2014-12-08T11:46:04.750Z</updated>
   <id>http://hongbinzuo.github.io/</id>
   
   <author>
@@ -13,6 +13,27 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[WordCounter]]></title>
+    <link href="http://hongbinzuo.github.io/2014/12/08/WordCounter/"/>
+    <id>http://hongbinzuo.github.io/2014/12/08/WordCounter/</id>
+    <published>2014-12-08T11:28:05.000Z</published>
+    <updated>2014-12-08T11:43:40.000Z</updated>
+    <content type="html"><![CDATA[<p>题目：给出一个含有英文小说的文本文件，统计英文单词出现的频率并按照逆序打印。</p>
+<p>完整实现如下：</p>
+<a id="more"></a>
+
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WordCounter</span> </span>{</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(String[] args) {</div><div class="line">        <span class="keyword">try</span> {</div><div class="line">            List&lt;WordOccurrence&gt; list = WordCounter.doCount(<span class="string">"test.txt"</span>);</div><div class="line"></div><div class="line">            <span class="keyword">for</span>(WordOccurrence e:list)</div><div class="line">                System.out.println(e.word + <span class="string">":"</span>+ e.count);</div><div class="line"></div><div class="line">        } <span class="keyword">catch</span> (IOException e) {</div><div class="line">            e.printStackTrace();</div><div class="line">        }</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="javadoc">/**</span></div><div class="line">     * The word count container.</div><div class="line">     */</div><div class="line">    <span class="keyword">static</span> class WordOccurrence implements Comparable&lt;WordOccurrence&gt;{</div><div class="line">        String word;</div><div class="line">        <span class="keyword">int</span> count;</div><div class="line"></div><div class="line">        <span class="keyword">public</span> <span class="title">WordOccurrence</span>(String word, <span class="keyword">int</span> count){</div><div class="line">            <span class="keyword">this</span>.word = word;</div><div class="line">            <span class="keyword">this</span>.count = count;</div><div class="line">        }</div><div class="line"></div><div class="line">        <span class="javadoc">/**</span></div><div class="line">         * sort in reverse order.</div><div class="line">         *<span class="javadoctag"> @param</span> o</div><div class="line">         *<span class="javadoctag"> @return</span></div><div class="line">         */</div><div class="line">        <span class="annotation">@Override</span></div><div class="line">        <span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compareTo</span>(WordOccurrence o) {</div><div class="line">            <span class="keyword">if</span> ( <span class="keyword">this</span>.count &lt; o.count )</div><div class="line">                <span class="keyword">return</span> <span class="number">1</span>;</div><div class="line">            <span class="keyword">if</span> ( <span class="keyword">this</span>.count &gt; o.count )</div><div class="line">                <span class="keyword">return</span>  -<span class="number">1</span>;</div><div class="line">            <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">        }</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="javadoc">/**</span></div><div class="line">     * Count the occurrences of each word, and sort them in descending order.</div><div class="line">     *<span class="javadoctag"> @param</span> fileName the name of the file to be parsed</div><div class="line">     *<span class="javadoctag"> @return</span> the word list in descending order of occurrence</div><div class="line">     *<span class="javadoctag"> @throws</span> IOException</div><div class="line">     */</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> List&lt;WordOccurrence&gt; <span class="title">doCount</span>(String fileName) <span class="keyword">throws</span> IOException {</div><div class="line">        File file = <span class="keyword">new</span> File(fileName);</div><div class="line"></div><div class="line">        Reader fileReader = <span class="keyword">new</span> FileReader(file);</div><div class="line">        BufferedReader bufferedReader = <span class="keyword">new</span> BufferedReader(fileReader);</div><div class="line"></div><div class="line">        String line = <span class="keyword">null</span>;</div><div class="line">        Map&lt;String, Integer&gt; wordMap = <span class="keyword">new</span> HashMap&lt;String, Integer&gt;();</div><div class="line"></div><div class="line">        <span class="comment">// read into a hashmap first</span></div><div class="line">        <span class="keyword">while</span>( (line=bufferedReader.readLine())!= <span class="keyword">null</span>){</div><div class="line">            String[] words = line.split(Pattern.compile(<span class="string">"[ |,|.|!]"</span>).pattern());</div><div class="line"></div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; words.length ; i++) {</div><div class="line">                <span class="keyword">if</span> ( wordMap.containsKey(words[i])) {</div><div class="line">                    wordMap.put(words[i], wordMap.get(words[i]).intValue()+<span class="number">1</span>);</div><div class="line">                } <span class="keyword">else</span> {</div><div class="line">                    wordMap.put(words[i], <span class="number">1</span>);</div><div class="line">                }</div><div class="line">            }</div><div class="line">        }</div><div class="line"></div><div class="line">        <span class="comment">// read into a list that can be sorted because element class(WordOccurrence) implements Comparable interface</span></div><div class="line">        List&lt;WordOccurrence&gt; wordList = <span class="keyword">new</span> ArrayList();</div><div class="line">        <span class="keyword">for</span>( Iterator iterator= wordMap.keySet().iterator();iterator.hasNext();){</div><div class="line">            String key = (String)iterator.next();</div><div class="line"></div><div class="line">            WordOccurrence wordOccurrence = <span class="keyword">new</span> WordOccurrence(key, wordMap.get(key).intValue());</div><div class="line">            wordList.add(wordOccurrence);</div><div class="line">        }</div><div class="line"></div><div class="line">        Collections.sort(wordList);</div><div class="line"></div><div class="line">        <span class="keyword">return</span> wordList;</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+
+]]></content>
+    <summary type="html"><![CDATA[<p>题目：给出一个含有英文小说的文本文件，统计英文单词出现的频率并按照逆序打印。</p>
+<p>完整实现如下：</p>
+]]></summary>
+    
+      <category term="Java" scheme="http://hongbinzuo.github.io/tags/Java/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Performance difference for splitting strings]]></title>
@@ -788,29 +809,6 @@
       <category term="Java" scheme="http://hongbinzuo.github.io/tags/Java/"/>
     
       <category term="Spring" scheme="http://hongbinzuo.github.io/tags/Spring/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[A little Emacs]]></title>
-    <link href="http://hongbinzuo.github.io/2014/08/05/A-little-Emacs/"/>
-    <id>http://hongbinzuo.github.io/2014/08/05/A-little-Emacs/</id>
-    <published>2014-08-05T15:54:23.000Z</published>
-    <updated>2014-08-06T16:09:13.000Z</updated>
-    <content type="html"><![CDATA[<p>最近看了《程序员的呐喊》，对我的影响可能比较大，Steve对于Lisp和Emacs的推崇使我不得不重新审视自己之前的一些观点。我也尝试着说服自己花一点时间来做些实验，看看自己学习了某些传说中的工具，到底会产生什么样的影响。工具只是工具，这句话在大部分情况下是适用的，只是对于Emacs这个神一样的编辑器来说，是否适用呢？带着这个问题，我开始了我的Emacs之旅。</p>
-<a id="more"></a>
-
-<p>首先，Emacs在Windows上并不好玩，于是我把电脑系统换成了Ubuntu 14.04，并使用Emacs 24来学习。我使用的是陈冰写的一篇关于Emacs的博客《用一年的时间掌握Emacs》，看来我自己已经很有决心的样子，加油！</p>
-<p>我挑了一个周六的下午，按照Emacs的内置教程熟悉了Emacs的基本操作，包括光标移动、文件操作、查找等常用文本命令，感觉还不错，有点当初学习五笔字型的兴奋感（遗憾的是，五笔字型我已经全忘了，更遗憾的是，那天学习之后，一多半的命令也忘掉了）。随后，做了一些基本文本的练习之后顿感无聊：有Sublime和各种免费强大的IDE不用，干嘛花时间受这个罪？呃，既然已经开始，就当学习一种新技术，也许真的是“磨刀不误砍柴工”呢？忍了一下，找到了一个能够激励我学下去的方式：学习Org Mode的使用，也就是使用Emacs的<a href="http://orgmode.org/" target="_blank" rel="external">Org</a>来做笔记。于是，我在看完Org作者的一个视频教程之后，开始练习使用Org（哦，Evernote又哭了）。</p>
-<p>Org的使用并不是很顺畅，毕竟鼠标点点、GUI操作的习惯已经深入骨髓，真的不是一天两天能改的。但是，我硬着头皮，开始慢慢习惯。到目前为止，只能说Org我只掌握了皮毛，不过，好消息是我还没有厌烦。所以，我会接着使用Org，直到熟练掌握为止。</p>
-<p>其次，我也尝试着恢复博客的写作，虽然有点困难，但是最近在看李笑来的书《把时间当作朋友》，书中提到他每天写一篇高质量的博客，我顿觉自己过于懒散：不是没有时间，只是时间可能都没有被高效利用罢了。而我的博客基本使用纯文本的Markdown写成，所以Emacs就是最好的工具了。当然，我不确定Emacs是否内置支持了Markdown语法，不过这也没有太大关系。</p>
-<p>对于Emacs的配置，我觉得陈冰讲的很对，刚开始不要花太多时间自己摸索，直接照搬高手的配置就可以了。于是，我顺藤摸瓜，用了Steve Purcell的配置。基本体验还不错，以后如果觉得不够用再改。</p>
-<p>所以，目前Emacs主要用来写Org笔记和Markdown博客，也会经常编辑一些小的文本。现在的配置对于前端支持不错，不过我现在也没有太多时间写前端代码，因此体会不深。对于一般的Java项目开发，目前还是乖乖地用IDE比较好，感觉Emacs对Java支持的可能不够好，虽然也有JDE插件，但应该和IntelliJ相比还是有差距的。无论如何，我已经开始了Emacs之旅，希望用一段相对较长的时间，跨过小的磕磕绊绊，逐渐达到一个相对较高的使用水平。</p>
-]]></content>
-    <summary type="html"><![CDATA[<p>最近看了《程序员的呐喊》，对我的影响可能比较大，Steve对于Lisp和Emacs的推崇使我不得不重新审视自己之前的一些观点。我也尝试着说服自己花一点时间来做些实验，看看自己学习了某些传说中的工具，到底会产生什么样的影响。工具只是工具，这句话在大部分情况下是适用的，只是对于Emacs这个神一样的编辑器来说，是否适用呢？带着这个问题，我开始了我的Emacs之旅。</p>
-]]></summary>
-    
-      <category term="Emacs" scheme="http://hongbinzuo.github.io/tags/Emacs/"/>
     
   </entry>
   
