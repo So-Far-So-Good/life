@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Javascript | Freelemon&#39;s open world</title>
+  <title>Enter i3 | Freelemon&#39;s open world</title>
   <meta name="author" content="Hongbin Zuo">
   
   <meta name="description" content="Think before write.">
@@ -11,7 +11,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  
+  <meta property="og:title" content="Enter i3"/>
   <meta property="og:site_name" content="Freelemon&#39;s open world"/>
 
   
@@ -59,12 +59,7 @@
 <div class="clearfix"></div>
 </header>
   <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper">
-<h2 class="archive-title tag">Javascript</h2>
-
-
-  
-    <article class="post">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
   
     <div class="gallery">
   <div class="photoset">
@@ -82,29 +77,37 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2014-08-14T15:03:20.000Z"><a href="/2014/08/14/Prototype-in-Javascript/">Aug 14 2014</a></time>
+        <time datetime="2014-12-08T11:51:26.000Z"><a href="/2014/12/08/Enter-i3/">Dec 8 2014</a></time>
       
       
   
-    <h1 class="title"><a href="/2014/08/14/Prototype-in-Javascript/">Prototype in Javascript</a></h1>
+    <h1 class="title">Enter i3</h1>
   
 
     </header>
     <div class="entry">
       
-        <p>最近又有机会重新学习了一下Javascript的基础语法，越发觉得这门语言和传统的、面向对象的静态类型语言的区别很明显。多语言使用者经常出现的问题就是使用A语言写出B语言风格的程序，这种情况屡见不鲜——话说我写Java风格的C++程序也是非常流畅的。</p>
-<p>Javascript语言基础里有两个特性我觉得值得深入了解一下，分别是原型（Prototype）和闭包（Closure）。当然，Javascript也有很多其他高级特性比如函数式编程，也许以后有机会我们可以深入探究一下。今天主要看一下Javascript里原型式继承是怎么做的。</p>
+        <p>这几天Ubuntu系统特别慢，鉴于我之前Chrome浏览器经常干到50多个Tab，没事儿就开着IntelliJ和Eclipse的不良记录，我必须寻找更加节省内存、提高效率的方法。首先得反省自己，Chrome不能再开那么多Tab页面了，太吃内存了，最多开15个（^_^）。陈皓（@左耳朵耗子）前几天发了条微博说这事儿，但是Chrome还是得用，一是习惯了，二是还得用红杏插件。所以，我就想能不能让Ubuntu省点内存，于是，开始折腾。</p>
+<a id="more"></a>
+
+<p>查看任务管理器，发现Ubuntu自己的桌面管理器确实占用不少内存，于是到网上找解决方案，找来找去找到了<a href="http://xmonad.org/" target="_blank" rel="external">XMonad</a>，看起来很酷的感觉，赶紧装上重启，结果Bang！悲剧了～中间可能是我错误地执行了一条<code>startx</code>的命令，导致登录失败，于是网上搜索解决方案，坑吃坑吃总算解决了，结果XMonad不能用，瞬间脸都绿了，可能两三个小时过去了，我的人生啊～～piu！</p>
+<p>今天早上醒来想想，难道XMonad这么麻烦吗？找了一会儿，发现了这篇神文：<a href="http://www.draconianoverlord.com/2014/05/26/from-xmonad-to-i3.html" target="_blank" rel="external">From XMonad to i3</a>。其中提到了XMonad在Ubuntu14.04中不能正常工作（正是我的场景啊），同时提到了另一个窗口布局解决方案：<a href="http://i3wm.org/" target="_blank" rel="external">i3</a>。比起XMonad，我更喜欢这个名字，i3，简约、不装，再看主页，不错，比XMonad那种纯Geek范儿更对我的胃口！搞起～</p>
+<p>根据官方下载安装说明，一会儿就下载安装完成。重启，不用自己写配置文件，i3提示进行简略配置，大部分使用默认配置即可，这体验就一个字儿：舒服。找到常用的呼叫方法，比如<code>Mod</code>键（可以用<code>ALT</code>或<code>WIN</code>键，或加上<code>Shift</code>键）组合其他字母键呼叫操作系统功能，比如<code>Mod+D</code>呼叫系统命令，<code>Mod+Enter</code>呼叫终端，<code>Mod+Shift+Q</code>退出当前窗口等等。可以查看.i3/config文件查看KeyBindings，也可以打开i3的<a href="http://i3wm.org/docs/userguide.html#_default_keybindings" target="_blank" rel="external">UserGuide</a>边用边学，缺省的配置还配了一幅图，贴心。在Linux的世界里，能把极简主义和用户体验结合的这么好的工具，真不多见！</p>
+<p>现在我可以用Emacs写博客，IntelliJ写程序，Chrome上网，这不算什么，关键是每个都可以放大到全屏，这种专注的感觉是传统的拖拉拽、窗口覆盖不能比的，所以你还不赶紧试试？XMonad不错，但是我现在更喜欢i3！继续体验中。</p>
 
       
     </div>
     <footer>
       
         
-          <div class="alignleft">
-            <a href="/2014/08/14/Prototype-in-Javascript/#more" class="more-link">Read More</a>
-          </div>
         
-        
+  
+  <div class="tags">
+    <a href="/tags/Linux/">Linux</a>
+  </div>
+
+        <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone"></a><a href="#" class="bds_tsina" data-cmd="tsina"></a><a href="#" class="bds_tqq" data-cmd="tqq"></a><a href="#" class="bds_renren" data-cmd="renren"></a><a href="#" class="bds_weixin" data-cmd="weixin"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdPic":"","bdStyle":"0","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
       
       <div class="clearfix"></div>
     </footer>
@@ -113,13 +116,28 @@
 
 
 
-  
+<section id="comment">
 
-  <nav id="pagination">
-  
-  
-  <div class="clearfix"></div>
-</nav>
+<!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"freelemon"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- Duoshuo Comment END -->
+
+</section>
+
+
+
+
 </div></div>
     <aside id="sidebar" class="alignright">
   <div class="search">
