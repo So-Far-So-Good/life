@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Write, Code, Share, Learn]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://hongbinzuo.github.io/"/>
-  <updated>2014-12-08T12:35:22.534Z</updated>
+  <updated>2014-12-09T03:45:09.200Z</updated>
   <id>http://hongbinzuo.github.io/</id>
   
   <author>
@@ -13,6 +13,57 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[NIO basics]]></title>
+    <link href="http://hongbinzuo.github.io/2014/12/09/NIO-basics/"/>
+    <id>http://hongbinzuo.github.io/2014/12/09/NIO-basics/</id>
+    <published>2014-12-09T02:44:02.000Z</published>
+    <updated>2014-12-09T03:44:48.000Z</updated>
+    <content type="html"><![CDATA[<p>NIO是在JDK1.4引入的，代表New IO，具有以下特性：</p>
+<ul>
+<li>为所有的原始类型提供缓冲（Buffer）支持</li>
+<li>使用Java.nio.charset.Charset作为字符集编解码解决方案</li>
+<li>增加通道（Channel）对象，作为新的原始I/O抽象</li>
+<li>支持锁和内存映射文件的文件访问接口</li>
+<li>提供了基于Selector的异步网络IO</li>
+</ul>
+<a id="more"></a>
+
+<p>与流式的IO不同，NIO是基于块（Block）的，它以块为基本单位处理数据。在NIO中，最为重要的两个组件是缓冲Buffer和通道Channel。缓冲是一块连续的内存块，是NIO读写数据的中转地。通道表示缓冲数据的源头或目的地，它用于向缓冲读取或者写入数据，是访问缓冲的接口。</p>
+<p>下面用一个简单的实例来看一下NIO的基本用法：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">class</span> FileCopy {</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(String[] args) {</div><div class="line">        <span class="keyword">try</span> {</div><div class="line">            FileCopy.nioCopyFile(<span class="string">"test.txt"</span>, <span class="string">"testcp.txt"</span>);</div><div class="line">        } <span class="keyword">catch</span> (IOException e) {</div><div class="line">            e.printStackTrace();            }</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">nioCopyFile</span>(String resource, String destination) throws IOException {</div><div class="line">        FileInputStream fis = <span class="keyword">new</span> FileInputStream(resource);</div><div class="line">        FileOutputStream fos = <span class="keyword">new</span> FileOutputStream(destination);</div><div class="line">        FileChannel readChannel = fis.getChannel();</div><div class="line">        FileChannel writeChannel = fos.getChannel();</div><div class="line">        ByteBuffer buffer = ByteBuffer.allocate(<span class="number">1024</span>);</div><div class="line"></div><div class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>){</div><div class="line">            buffer.clear();</div><div class="line">            <span class="keyword">int</span> len = readChannel.read(buffer);</div><div class="line">            <span class="keyword">if</span> ( len == -<span class="number">1</span> )</div><div class="line">                <span class="keyword">break</span>;</div><div class="line"></div><div class="line">            buffer.flip();</div><div class="line">            writeChannel.write(buffer);</div><div class="line">        }</div><div class="line"></div><div class="line">        readChannel.close();</div><div class="line">        writeChannel.close();</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>实例中需要理解的几个点：</p>
+<ul>
+<li>本例实现了文件拷贝功能</li>
+<li>本例中使用了文件通道FileChannel，是Channel的一种</li>
+<li>FileChannel中的read和write方法通过操作Buffer达到读写文件的目的</li>
+<li>Buffer的常用方法<ul>
+<li>allocate：创建Buffer</li>
+<li>clear：position置0，mark清空，limit设置为capacity，为重新写入Buffer做准备</li>
+<li>flip：position置0，mark清空，limit设置为position，在读写切换时调用</li>
+</ul>
+</li>
+</ul>
+<p>Buffer是NIO中非常重要的一个类，我们会在后续的文章里说明它的基本原理和常用操作。</p>
+<p><em>注：本文大部分内容摘自《Java程序性能优化》（清华大学出版社 葛一鸣 等编著）</em></p>
+]]></content>
+    <summary type="html"><![CDATA[<p>NIO是在JDK1.4引入的，代表New IO，具有以下特性：</p>
+<ul>
+<li>为所有的原始类型提供缓冲（Buffer）支持</li>
+<li>使用Java.nio.charset.Charset作为字符集编解码解决方案</li>
+<li>增加通道（Channel）对象，作为新的原始I/O抽象</li>
+<li>支持锁和内存映射文件的文件访问接口</li>
+<li>提供了基于Selector的异步网络IO</li>
+</ul>
+]]></summary>
+    
+      <category term="Java" scheme="http://hongbinzuo.github.io/tags/Java/"/>
+    
+      <category term="NIO" scheme="http://hongbinzuo.github.io/tags/NIO/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Enter i3]]></title>
@@ -764,37 +815,6 @@
 ]]></summary>
     
       <category term="Javascript" scheme="http://hongbinzuo.github.io/tags/Javascript/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Manacher]]></title>
-    <link href="http://hongbinzuo.github.io/2014/08/13/Manacher/"/>
-    <id>http://hongbinzuo.github.io/2014/08/13/Manacher/</id>
-    <published>2014-08-13T11:14:43.000Z</published>
-    <updated>2014-08-13T21:11:43.000Z</updated>
-    <content type="html"><![CDATA[<p>最近在研究算法，今天重点学习了一下Manacher算法（俗称“马拉车”算法，也即<a href="http://en.wikipedia.org/wiki/Longest_palindromic_substring" target="_blank" rel="external">最长回文子串问题</a>的最佳解法），不禁为算法发明者拍案叫绝。算法的精巧之处在于充分利用了原问题的关键信息：回文串。</p>
-<p>前段时间参加了<a href="http://weibo.com/julyweibo" target="_blank" rel="external">July</a>组织的算法班，遗憾的是当时算法的基础并不好没听透，所以现在只好重听一下邹博的讲课录音，听完之后似乎明白又似乎不太明白，囧。把原C++程序改成成Java代码之后，Exception退出，囧++。智商已成事实，只好使用网络搜索大法，力求加深理解。在找了一些博客之后，略感失望，可能不是人家讲得不清楚，而是自己理解能力有限吧，不过为了参考方便，还是列举如下：<br><a id="more"></a></p>
-<ul>
-<li><a href="http://www.cnblogs.com/biyeymyhjob/archive/2012/10/04/2711527.html" target="_blank" rel="external">http://www.cnblogs.com/biyeymyhjob/archive/2012/10/04/2711527.html</a></li>
-<li><a href="http://www.felix021.com/blog/read.php?2040" target="_blank" rel="external">http://www.felix021.com/blog/read.php?2040</a></li>
-<li><a href="http://blog.csdn.net/ggggiqnypgjg/article/details/6645824" target="_blank" rel="external">http://blog.csdn.net/ggggiqnypgjg/article/details/6645824</a></li>
-<li><a href="http://zhuhongcheng.wordpress.com/2009/08/02/a-simple-linear-time-algorithm-for-finding-longest-palindrome-sub-string/" target="_blank" rel="external">http://zhuhongcheng.wordpress.com/2009/08/02/a-simple-linear-time-algorithm-for-finding-longest-palindrome-sub-string/</a></li>
-<li><a href="http://programmingpraxis.com/2010/10/15/find-the-longest-palindrome-in-a-string/" target="_blank" rel="external">http://programmingpraxis.com/2010/10/15/find-the-longest-palindrome-in-a-string/</a></li>
-</ul>
-<p>最后，经过一番比较之后，我还是觉着LeetCode上一篇文章写得不错，尤其是配图特别适合初学者理解。细读之后，感觉比较通透，将其C++代码转译成Java代码，也运行流畅。用几个字符串进行试验，结果正确，思路也逐渐清晰了。Leetcode上作者有两篇文章，第一篇讲的是最长回文子串的其他解法，包括暴力法、动态规划等，但都达不到O(N)的时间复杂度，在第二篇文章中作者重点讲解了唯一能达到O(N)的Manacher算法，算法本身很短，而其精要处也就那么两行。LeetCode的参考链接：</p>
-<ul>
-<li><a href="http://leetcode.com/2011/11/longest-palindromic-substring-part-ii.html" target="_blank" rel="external">http://leetcode.com/2011/11/longest-palindromic-substring-part-ii.html</a></li>
-</ul>
-<p>从Manacher算法学到的一个重要原则就是，如邹博所说，假设我们知道了前i项的解，那是不是对我们求解第i+1项有所帮助呢？:)</p>
-<p>附Java代码实现：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Manacher</span> </span>{</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(String[] args){</div><div class="line">        Manacher.testGetLongestPalindrome(<span class="string">"babcbabcbabcxa"</span>);</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">preProcess</span>(String s){</div><div class="line">        <span class="keyword">int</span> n = s.length();</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (n == <span class="number">0</span>) <span class="keyword">return</span> <span class="string">"^$"</span>;</div><div class="line">        String result = <span class="string">"^"</span>;</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) {</div><div class="line">            result += <span class="string">"#"</span> + s.charAt(i);</div><div class="line">        }</div><div class="line"></div><div class="line">        result += <span class="string">"#$"</span>;</div><div class="line">        <span class="keyword">return</span>  result;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testPreProcess</span>(String testStr){</div><div class="line">        String result = Manacher.preProcess(testStr);</div><div class="line">        System.out.print(result);</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testGetLongestPalindrome</span>(String testStr){</div><div class="line">        String result = Manacher.getLongestPalindrome(testStr);</div><div class="line">        System.out.print(result);</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">// the original implementation in C/C++</span></div><div class="line">    <span class="comment">// the source: http://leetcode.com/2011/11/longest-palindromic-substring-part-ii.html</span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getLongestPalindrome</span>(String s){</div><div class="line">        <span class="keyword">char</span>[] T = preProcess(s).toCharArray();</div><div class="line"></div><div class="line">        <span class="keyword">int</span> n = T.length;</div><div class="line">        <span class="keyword">int</span>[] P = <span class="keyword">new</span> <span class="keyword">int</span>[n];</div><div class="line"></div><div class="line">        <span class="keyword">int</span> C = <span class="number">0</span>, R = <span class="number">0</span>;</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; n-<span class="number">1</span>; i++) {</div><div class="line">            <span class="keyword">int</span> i_mirror = <span class="number">2</span>*C - i; <span class="comment">// equals to i' = C - (i-C)</span></div><div class="line"></div><div class="line">            <span class="keyword">if</span> ( i &lt; R ) {</div><div class="line">                P[i] = Math.min(R-i, P[i_mirror]);</div><div class="line">            } <span class="keyword">else</span>{</div><div class="line">                P[i] = <span class="number">0</span>;</div><div class="line">            }</div><div class="line"></div><div class="line">            <span class="comment">// Attempt to expand palindrome centered at i</span></div><div class="line">            <span class="keyword">while</span>( T[i+<span class="number">1</span>+P[i]] == T[i-<span class="number">1</span>-P[i]] )</div><div class="line">                P[i]++;</div><div class="line"></div><div class="line">            <span class="comment">// if palindrome centered at i expand past R</span></div><div class="line">            <span class="comment">// adjust center based on expanded palindrome</span></div><div class="line">            <span class="keyword">if</span> ( i + P[i] &gt; R) {</div><div class="line">                C = i;</div><div class="line">                R = i + P[i];</div><div class="line">            }</div><div class="line">        }</div><div class="line"></div><div class="line">        <span class="keyword">int</span> maxLen = <span class="number">0</span>;</div><div class="line">        <span class="keyword">int</span> centerIndex = <span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; n-<span class="number">1</span> ; i++) {</div><div class="line">            <span class="keyword">if</span> (P[i] &gt;  maxLen) {</div><div class="line">                maxLen = P[i];</div><div class="line">                centerIndex = i;</div><div class="line">            }</div><div class="line">        }</div><div class="line"></div><div class="line">        <span class="keyword">int</span> beginIndex = (centerIndex-<span class="number">1</span>-maxLen)/<span class="number">2</span>;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> s.substring(beginIndex, beginIndex+maxLen);</div><div class="line"></div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
-
-]]></content>
-    <summary type="html"><![CDATA[<p>最近在研究算法，今天重点学习了一下Manacher算法（俗称“马拉车”算法，也即<a href="http://en.wikipedia.org/wiki/Longest_palindromic_substring" target="_blank" rel="external">最长回文子串问题</a>的最佳解法），不禁为算法发明者拍案叫绝。算法的精巧之处在于充分利用了原问题的关键信息：回文串。</p>
-<p>前段时间参加了<a href="http://weibo.com/julyweibo" target="_blank" rel="external">July</a>组织的算法班，遗憾的是当时算法的基础并不好没听透，所以现在只好重听一下邹博的讲课录音，听完之后似乎明白又似乎不太明白，囧。把原C++程序改成成Java代码之后，Exception退出，囧++。智商已成事实，只好使用网络搜索大法，力求加深理解。在找了一些博客之后，略感失望，可能不是人家讲得不清楚，而是自己理解能力有限吧，不过为了参考方便，还是列举如下：<br>]]></summary>
-    
-      <category term="algorithms" scheme="http://hongbinzuo.github.io/tags/algorithms/"/>
     
   </entry>
   
