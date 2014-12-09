@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Write, Code, Share, Learn]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://hongbinzuo.github.io/"/>
-  <updated>2014-12-09T06:56:17.771Z</updated>
+  <updated>2014-12-09T11:11:35.410Z</updated>
   <id>http://hongbinzuo.github.io/</id>
   
   <author>
@@ -47,7 +47,7 @@
     <link href="http://hongbinzuo.github.io/2014/12/09/NIO-Buffer/"/>
     <id>http://hongbinzuo.github.io/2014/12/09/NIO-Buffer/</id>
     <published>2014-12-09T04:02:25.000Z</published>
-    <updated>2014-12-09T06:20:32.000Z</updated>
+    <updated>2014-12-09T11:08:46.000Z</updated>
     <content type="html"><![CDATA[<p>简要记录一下Buffer对象的基本原理和操作。</p>
 <h3 id="重要参数">重要参数</h3>
 <p>Buffer中有三个重要的参数，下面的表格描述了它们的作用和区别：</p>
@@ -107,6 +107,10 @@
 </li>
 </ol>
 <p>因为内容较多，这里只记录一个大纲，以后需要的时候方便检索。</p>
+<h3 id="参考资料">参考资料</h3>
+<ul>
+<li><a href="http://ifeve.com/buffers/" target="_blank" rel="external">并发编程网Java NIO教程Buffer部分</a></li>
+</ul>
 ]]></content>
     <summary type="html"><![CDATA[<p>简要记录一下Buffer对象的基本原理和操作。</p>
 <h3 id="重要参数">重要参数</h3>
