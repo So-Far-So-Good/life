@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Write, Code, Share, Learn]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://hongbinzuo.github.io/"/>
-  <updated>2014-12-09T06:21:26.244Z</updated>
+  <updated>2014-12-09T06:56:17.771Z</updated>
   <id>http://hongbinzuo.github.io/</id>
   
   <author>
@@ -13,6 +13,34 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Java performance tips]]></title>
+    <link href="http://hongbinzuo.github.io/2014/12/09/Java-performance-tips/"/>
+    <id>http://hongbinzuo.github.io/2014/12/09/Java-performance-tips/</id>
+    <published>2014-12-09T06:51:26.000Z</published>
+    <updated>2014-12-09T06:55:12.000Z</updated>
+    <content type="html"><![CDATA[<p>一些有助于改善性能的小技巧</p>
+<ol>
+<li>慎用异常</li>
+<li>使用局部变量</li>
+<li>位运算代替乘除法</li>
+<li>替换switch</li>
+<li>一维数组代替二维数组</li>
+<li>提取表达式</li>
+<li>展开循环</li>
+<li>布尔运算代替位运算</li>
+<li>使用arrayCopy()</li>
+<li>使用Buffer进行I/O操作</li>
+<li>使用clone()代替new</li>
+<li>静态方法替代实例方法</li>
+</ol>
+]]></content>
+    
+    
+      <category term="Java" scheme="http://hongbinzuo.github.io/tags/Java/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[NIO Buffer]]></title>
@@ -808,49 +836,6 @@
       <category term="learning" scheme="http://hongbinzuo.github.io/tags/learning/"/>
     
       <category term="reading" scheme="http://hongbinzuo.github.io/tags/reading/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Redis setup]]></title>
-    <link href="http://hongbinzuo.github.io/2014/09/06/Redis-setup/"/>
-    <id>http://hongbinzuo.github.io/2014/09/06/Redis-setup/</id>
-    <published>2014-09-06T03:42:09.000Z</published>
-    <updated>2014-09-09T14:33:03.000Z</updated>
-    <content type="html"><![CDATA[<p>Redis是一个非常流行的No-SQL数据库，在互联网网站的技术架构中应用相当广泛。这几天通过阅读《Redis in action》学习Redis，准备用博客简单记录一些有用的信息，以供未来参考。第一篇是Redis的开发环境搭建，这里使用的是书中推荐的Python开发环境，整个搭建过程比较简单。</p>
-<a id="more"></a>
-
-<h3 id="更新构建工具">更新构建工具</h3>
-<p>因为Redis是用C写的，我们将使用源码编译的方式安装Redis，所以可以使用如下命令（适用于Debian Linux）更新构建工具：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-<span class="built_in">get</span> <span class="keyword">update</span></div><div class="line">$ sudo apt-<span class="built_in">get</span> install <span class="keyword">make</span> gcc <span class="keyword">python</span>-dev</div></pre></td></tr></table></figure>
-
-<h3 id="下载源码包并安装">下载源码包并安装</h3>
-<p>从Redis官网下载最新稳定的安装包，如2.8.14并编译安装：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="char">$ </span>wget <span class="method">http:</span>//download.redis.io/releases/redis-<span class="number">2.8</span><span class="number">.14</span>.tar.gz</div><div class="line"><span class="char">$ </span>tar xzf redis-<span class="number">2.8</span><span class="number">.14</span>.tar.gz</div><div class="line"><span class="char">$ </span>cd redis-<span class="number">2.8</span><span class="number">.14</span></div><div class="line"><span class="char">$ </span>make</div><div class="line"><span class="char">$ </span>sudo make install</div></pre></td></tr></table></figure>
-
-<p>安装完成之后，启动Redis：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ redis-server redis.<span class="keyword">conf</span></div></pre></td></tr></table></figure>
-
-<p>我使用的操作系统是Ubuntu 14.04，系统已经默认安装了Python 2.7，所以只需要安装Redis的Python客户端开发库就可以了。我们使用Python的简易包安装工具<code>setuptools</code>来帮助我们安装。</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="char">$ </span>wget -q <span class="method">http:</span>//peak.telecommunity.com/dist/ez_setup.py</div><div class="line"><span class="char">$ </span>sudo python ez_setup.py</div><div class="line"><span class="char">$ </span>sudo python -m easy_install redis hiredis</div></pre></td></tr></table></figure>
-
-<p>注意，如果是通过代理上网的话，需要在<code>sudo</code>时带上环境，即：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ sudo -E <span class="keyword">python</span> ez_setup.<span class="keyword">py</span></div><div class="line">$ sudo -E <span class="keyword">python</span> -<span class="keyword">m</span> easy_install redis hiredis</div></pre></td></tr></table></figure>
-
-<h3 id="验证安装结果">验证安装结果</h3>
-<p>最后我们简单测试一下安装是否正常：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="input"><span class="prompt">$ python</span></span></div><div class="line">Python 2.7.6 (default, Mar 22 2014, 22:59:56)</div><div class="line">[GCC 4.8.2] on linux2</div><div class="line">Type "help", "copyright", "credits" or "license" for more information.</div><div class="line">&gt;&gt;&gt; import redis</div><div class="line"><span class="input"><span class="prompt">&gt;&gt;&gt;</span> conn = redis.<span class="constant">Redis</span>()</span></div><div class="line"><span class="input"><span class="prompt">Create a connection to Redis.</span></span></div><div class="line">&gt;&gt;&gt; conn.set(<span class="string">'hello'</span>, <span class="string">'world'</span>)</div><div class="line"><span class="input"><span class="prompt">True</span></span></div><div class="line">&gt;&gt;&gt; conn.get(<span class="string">'hello'</span>)</div><div class="line"><span class="constant">Get</span> the value</div><div class="line"><span class="string">'world'</span></div></pre></td></tr></table></figure>
-
-<p>一切OK。至此，Redis服务器和Python开发环境搭建成功。</p>
-<h3 id="参考资源">参考资源</h3>
-<ul>
-<li><a href="http://superuser.com/questions/258819/easy-install-will-not-connect-through-proxy" target="_blank" rel="external">easy install will not connect through proxy</a></li>
-</ul>
-]]></content>
-    <summary type="html"><![CDATA[<p>Redis是一个非常流行的No-SQL数据库，在互联网网站的技术架构中应用相当广泛。这几天通过阅读《Redis in action》学习Redis，准备用博客简单记录一些有用的信息，以供未来参考。第一篇是Redis的开发环境搭建，这里使用的是书中推荐的Python开发环境，整个搭建过程比较简单。</p>
-]]></summary>
-    
-      <category term="Redis" scheme="http://hongbinzuo.github.io/tags/Redis/"/>
     
   </entry>
   

@@ -82,6 +82,65 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2014-12-09T06:51:26.000Z"><a href="/2014/12/09/Java-performance-tips/">Dec 9 2014</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2014/12/09/Java-performance-tips/">Java performance tips</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>一些有助于改善性能的小技巧</p>
+<ol>
+<li>慎用异常</li>
+<li>使用局部变量</li>
+<li>位运算代替乘除法</li>
+<li>替换switch</li>
+<li>一维数组代替二维数组</li>
+<li>提取表达式</li>
+<li>展开循环</li>
+<li>布尔运算代替位运算</li>
+<li>使用arrayCopy()</li>
+<li>使用Buffer进行I/O操作</li>
+<li>使用clone()代替new</li>
+<li>静态方法替代实例方法</li>
+</ol>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  
+    <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2014-12-09T04:02:25.000Z"><a href="/2014/12/09/NIO-Buffer/">Dec 9 2014</a></time>
       
       
@@ -407,55 +466,6 @@
           <div class="alignleft">
             <a href="/2014/11/15/synchronized-and-ReentrantLock/#more" class="more-link">Read More</a>
           </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-    <article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2014-11-15T06:21:33.000Z"><a href="/2014/11/15/lock()-and-lockInterruptibly()/">Nov 15 2014</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2014/11/15/lock()-and-lockInterruptibly()/">lock() and lockInterruptibly()</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>在Lock接口中有两个方法，一个是lock方法，一个是lockInterruptibly方法，它们之间具体有什么区别呢？</p>
-<blockquote>
-<p>lock()是拿不到lock就不罢休，不然线程就一直block。lockInterruptibly会优先响应线程中断，处理响应的方式是抛出InterruptedException。</p>
-</blockquote>
-<p>可以参考一下 <a href="http://huangyunbin.iteye.com/blog/2013543" target="_blank" rel="external">http://huangyunbin.iteye.com/blog/2013543</a> ，我也大概看了一下lock和lockInterruptibly的相关源码，但是感觉原博说的有点不太对，不过因为现在没有太多时间深究，可以现从应用的角度来理解即可。原博中举的例子不错，这里就不重复引用了。</p>
-
-      
-    </div>
-    <footer>
-      
         
         
       
