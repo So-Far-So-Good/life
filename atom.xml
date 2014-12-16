@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Write, Code, Share, Learn]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://hongbinzuo.github.io/"/>
-  <updated>2014-12-16T16:14:08.702Z</updated>
+  <updated>2014-12-16T16:43:04.799Z</updated>
   <id>http://hongbinzuo.github.io/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://hongbinzuo.github.io/2014/12/16/Akka-Tutorial-with-Code-Conncurrency-and-Fault-Tolerance/"/>
     <id>http://hongbinzuo.github.io/2014/12/16/Akka-Tutorial-with-Code-Conncurrency-and-Fault-Tolerance/</id>
     <published>2014-12-16T14:19:51.000Z</published>
-    <updated>2014-12-16T16:13:47.000Z</updated>
+    <updated>2014-12-16T16:42:55.000Z</updated>
     <content type="html"><![CDATA[<h2 id="让并发和容错更容易：Akka示例教程（译文）">让并发和容错更容易：Akka示例教程（译文）</h2>
 <p>BY DIAGO CASTORINA</p>
 <p>翻译：<a href="http://weibo.com/openworld" target="_blank" rel="external">自由的柠檬</a></p>
@@ -68,7 +68,7 @@
 <h3 id="Actor系统">Actor系统</h3>
 <p>把一个复杂的问题不断分解成更小规模的子问题通常是一种可靠的解决问题的技术。这个方法对于计算机科学特别有效（和<a href="http://programmer.97things.oreilly.com/wiki/index.php/The_Single_Responsibility_Principle" target="_blank" rel="external">单一职责原则</a>一致），因为这样容易产生整洁的、模块化的代码，产生的冗余很少甚至没有，而且维护起来相对容易。</p>
 <p>在基于actor的设计里，使用这种技术有助于把actor的逻辑组织变成一个层级结构，也就是所谓的<a href="http://doc.akka.io/docs/akka/2.0/general/actor-systems.html" target="_blank" rel="external">Actor系统</a>。Actor系统提供了一个基础框架，通过这个系统actor之间可以进行交互。</p>
-<p><img alt="Actor" src="http://www.toptal.com/uploads/blog/image/321/toptal-blog-image-1395105846790.png" style="width: 600px;"></p>
+<p><img alt="Actor系统" src="http://www.toptal.com/uploads/blog/image/321/toptal-blog-image-1395105846790.png" style="width: 600px;"></p>
 <p>在Akka里面，和actor通信的唯一方式就是通过<code>ActorRef</code>。<code>ActorRef</code>代表actor的一个引用，可以阻止其他对象直接访问或操作这个actor的内部信息和状态。消息可以通过一个<code>ActorRef</code>以下面的语法协议中的一种发送到一个actor：<br> -<code>!</code>(“告知”) —— 发送消息并立即返回<br> -<code>?</code>(“请求”) —— 发送消息并返回一个Future对象，代表一个可能的应答</p>
 <p>每个actor都有一个收件箱，用来接收发送过来的消息。收件箱有多种实现方式可以选择，缺省的实现是先进先出（FIFO）队列。</p>
 <p>在处理多条消息时，一个actor包含多个实例变量来保持状态。Akka确保actor的每个实例都运行在自己的轻量级线程里，并保证每次只处理一条消息。这样一来，开发者不必担心同步或竞态条件，而每个actor的状态都可以被可靠地保持。</p>
