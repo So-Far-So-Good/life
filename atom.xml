@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Write, Code, Share, Learn]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://hongbinzuo.github.io/"/>
-  <updated>2014-12-17T02:29:28.308Z</updated>
+  <updated>2014-12-17T02:32:59.983Z</updated>
   <id>http://hongbinzuo.github.io/</id>
   
   <author>
@@ -838,14 +838,14 @@
     <link href="http://hongbinzuo.github.io/2014/11/07/A-tip-for-Ubuntu-1404-update/"/>
     <id>http://hongbinzuo.github.io/2014/11/07/A-tip-for-Ubuntu-1404-update/</id>
     <published>2014-11-06T17:14:41.000Z</published>
-    <updated>2014-11-06T17:20:41.000Z</updated>
+    <updated>2014-12-17T02:32:48.000Z</updated>
     <content type="html"><![CDATA[<p>安装了Ubuntu 14.04之后，出现一个小问题，软件自动更新时经常提示空间不足。搜一下，下面的链接提供了一些解决方案。<br><a href="http://askubuntu.com/questions/2793/how-do-i-remove-or-hide-old-kernel-versions-to-clean-up-the-boot-menu" target="_blank" rel="external">http://askubuntu.com/questions/2793/how-do-i-remove-or-hide-old-kernel-versions-to-clean-up-the-boot-menu</a></p>
 <p>简单说想快速解决就是一条命令：<br><code>sudo apt-get remove --purge $(dpkg -l &#39;linux-image-*&#39; | sed &#39;/^ii/!d;/&#39;&quot;$(uname -r | sed &quot;s/\(.*\)-\([^0-9]\+\)/\1/&quot;)&quot;&#39;/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d&#39;)</code></p>
 <p>这条命令会移除所有除了当前版本之外所有旧的Kernel安装包，以腾出空间。当然，如果想要彻底解决这个问题，可以参考上面的文章。</p>
 ]]></content>
     
     
-      <category term="Ubuntu" scheme="http://hongbinzuo.github.io/tags/Ubuntu/"/>
+      <category term="Linux" scheme="http://hongbinzuo.github.io/tags/Linux/"/>
     
   </entry>
   
