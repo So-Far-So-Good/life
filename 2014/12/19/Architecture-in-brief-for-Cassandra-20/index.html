@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Scala levels | Freelemon&#39;s open world</title>
+  <title>Architecture in brief for Cassandra 2.0 | Freelemon&#39;s open world</title>
   <meta name="author" content="Hongbin Zuo">
   
   <meta name="description" content="Think before write.">
@@ -11,7 +11,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="Scala levels"/>
+  <meta property="og:title" content="Architecture in brief for Cassandra 2.0"/>
   <meta property="og:site_name" content="Freelemon&#39;s open world"/>
 
   
@@ -77,117 +77,65 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2014-02-22T08:20:53.000Z"><a href="/2014/02/22/scala-levels/">Feb 22 2014</a></time>
+        <time datetime="2014-12-18T16:09:48.000Z"><a href="/2014/12/19/Architecture-in-brief-for-Cassandra-20/">Dec 19 2014</a></time>
       
       
   
-    <h1 class="title">Scala levels</h1>
+    <h1 class="title">Architecture in brief for Cassandra 2.0</h1>
   
 
     </header>
     <div class="entry">
       
-        <p>Martin曾于2010年在Scala讨论组内参与过一个<a href="http://scala-programming-language.1934581.n4.nabble.com/Is-Scala-an-expert-language-td3073403i60.html" target="_blank" rel="external">讨论</a>，并在最后总结了Scala语言的水平等级，发表在Scala语言官网上（<a href="http://www.scala-lang.org/old/node/8610" target="_blank" rel="external">原文地址</a>）<sup>1</sup>，目的是为Scala语言初学者和爱好者提供参考。在前面的博文<a href="http://hongbinzuo.github.io/2014/02/10/scala-for-the-impatient/" target="_blank" rel="external">Scala for the impatient</a>中书的作者也提到过，基本上分为应用开发和库开发两个大类，而每个大类可以细分成三个等级，以下为相关原文的翻译<sup>2</sup>：<br><a id="more"></a></p>
-<h6 id="A1级：初级应用程序员">A1级：初级应用程序员</h6>
+        <p><strong>翻译</strong>：<a href="http://weibo.com/openworld/" target="_blank" rel="external">自由的柠檬</a><br><strong>原文链接</strong>：<a href="http://www.datastax.com/documentation/cassandra/2.0/cassandra/architecture/architectureIntro_c.html" target="_blank" rel="external">http://www.datastax.com/documentation/cassandra/2.0/cassandra/architecture/architectureIntro_c.html</a><br><strong>版本</strong>：0.1(2014-12-19 00:09)</p>
+<a id="more"></a>
+
+<h2 id="Cassandra_2-0架构简介（译文）">Cassandra 2.0架构简介（译文）</h2>
+<p>Cassandra设计的目的是为了处理多节点上的大数据工作负载，同时不产生单点故障。它的架构基于一个重要的认识，那就是系统和硬件的故障会发生而且确实会发生。Cassandra通过使用异构节点的对等分布式系统来解决这个问题，其中数据分布在集群的所有节点之上。在集群里，每个节点每一秒钟都会交换信息。每个节点上顺序写入的提交日志记录下写操作以保证数据持久性。然后，数据会被索引并写入到一个叫做内存表（memtable）的内存结构，内存表很像一个回写缓存。一旦这个内存结构填满，数据就会以一种SSTable形式的数据文件写到磁盘上。所有的写操作在集群里都是自动分区和复制的。Cassandra使用一种叫做压缩（compaction）的过程定期整理SSTable，丢弃不用的数据和tombstones（数据已被删除的标志）。</p>
+<p>Cassandra是面向行的数据库。Cassandra的架构允许任意授权用户通过CQL语言连接到任何数据中心的任一节点。为了使用方便，CQL使用了和SQL相似的语法。从CQL的角度看，数据库是由表组成的。通常，集群为每个应用分配了一个键空间（keyspace）。开发者可以通过cqlsh或应用程序语言驱动访问CQL。</p>
+<p>客户端的读写请求可以发送到集群中的任何一个节点。当客户端发起一个请求连接到一个节点，那么这个节点就会作为这个客户端操作的协调者。协调者作为客户端应用和持有请求数据的节点之间的代理。协调者基于集群的配置情况来决定环上的哪个节点应该接收请求。更多细节参见<a href="http://www.datastax.com/documentation/cassandra/2.0/cassandra/architecture/architectureClientRequestsAbout_c.html" target="_blank" rel="external">客户端请求</a>。</p>
+<h3 id="关键结构">关键结构</h3>
 <ul>
-<li>类Java语句和表达式：标准操作符，方法调用，条件，循环，try/catch</li>
-<li>类，对象，定义，值，变量，导入，包</li>
-<li>方法调用的中缀表示法</li>
-<li>简单闭包</li>
-<li>集合及其相关操作如映射，过滤等</li>
-<li>for表达式</li>
+<li><p>节点<br>存储数据的地方。节点是Cassandra的基础组件。</p>
+</li>
+<li><p>数据中心<br>相关节点的集合。一个数据中心既可以是物理的，也可以是虚拟的。不同的工作负载应该使用独立的数据中心，或是物理的或是虚拟的。复制是由数据中心设置的。使用独立的数据中心可以防止Cassandra的事务被其他的工作负载影响，并且可以使请求尽量相互靠近，从而达到更低的延迟。根据复制因子的设定，数据可以被写到多个数据中心。然而，数据中心永远也不应该在物理上跨越多个地点。</p>
+</li>
+<li><p>集群<br>一个集群包含一个或多个数据中心。集群可以跨越物理上的多个地点。</p>
+</li>
+<li><p>提交日志<br>为了达到持久性，所有的数据都会先写到提交日志。在所有的数据都转存到SSTable之后，日志数据就可以归档、删除或者回收。</p>
+</li>
+<li><p>表<br>有序的列集合，通过行的形式获取数据。一个行包含多个列并有一个主键。键的第一部分是列名。</p>
+</li>
+<li><p>SSTable<br>排序的字符串表（SSTable）是一个不可变的数据文件，Cassandra把内存表定期地写到这个文件中。SSTable是只能追加的，并且顺序地存储在磁盘上，SSTable中维持着所有Cassandra表。</p>
+</li>
 </ul>
-<h6 id="A2级：中级应用程序员">A2级：中级应用程序员</h6>
+<h3 id="配置Cassandra的关键组件">配置Cassandra的关键组件</h3>
 <ul>
-<li>模式匹配</li>
-<li>特性组合</li>
-<li>递归，特别是尾递归</li>
-<li>XML字面量</li>
-</ul>
-<h6 id="A3级：专家级应用程序员">A3级：专家级应用程序员</h6>
+<li><p>Gossip<br>一种对等通信协议，用来在一个Cassandra集群中发现并共享其他节点位置和状态信息。为了在重启之后能立即使用，每个节点也会在本地持久化Gossip信息。</p>
+</li>
+<li><p>分区程序<br>分区程序决定如何把数据分布到集群中的多个节点，以及把数据的第一份拷贝放到哪个节点上。分区程序基本上就是计算分区键标记（token）的一个哈希函数。每一行都通过一个分区键唯一标识，并通过标记的值分发到整个集群。Murmur3Partitioner是新Cassandra集群的默认分区策略，并且对于大多数情况来说都是正确的选择。</p>
+<p>你必须为每个节点设置一个分区程序并且分配一个num_tokens的值。你设置的标记的数量取决于系统的硬件容量。如果没有使用虚拟节点（vnodes），那么可以使用initial_token的设置。</p>
+</li>
+<li><p>复制因子<br>集群内部复制节点的总数。复制因子为1意味着一个节点上的每一行只有一个拷贝。复制因子为2的意思是每行都有两个拷贝，而每个拷贝存在不同的节点上。所有的复制品都一样重要；没有首要的或主要的复制品。你可以为每个数据中心定义复制因子。通常情况下你应该设置大于1的复制策略，但是不能大于集群中节点的数量。</p>
+</li>
+<li><p>复制品存放策略<br>Cassandra在多个节点上存储数据的拷贝（复制品），以确保可靠性和容错性。复制策略决定把复制品存放在哪些节点上。数据的第一个复制品就是第一个拷贝；无论从哪个意义上说，它都不是唯一的。对于大多数部署来说，强烈推荐使用NetworkTopologyStrategy，因为如果将来需要扩展到多个数据中心的话就容易多了。</p>
+<p>当创建一个键空间时，你必须要定义复制品存放策略和你想要的复制品数量。</p>
+</li>
+<li><p>告密者（snitch）<br>告密者定义了复制策略用来在数据中心或机架（拓扑）存放复制品的一组机器。</p>
+<p>在创建集群时，你必须要配置一个告密者。所有的告密者都使用一个动态告密者层，它们会进行监控并选择对读操作性能最好的复制品。在缺省情况下，这个告密者是激活的，并且在大多数情况下推荐使用。在cassandra.yaml中可以为每个节点配置动态告密者的阈值。</p>
+<p>缺省的SimpleSnitch并不知道数据中心或机架信息。它可以用在单数据中心部署或公有云中的单区域（single-zone）部署。推荐在生产环境下使用GossipingPropertyFileSnitch。它定义了一个节点的数据中心和机架并使用gossip向其他节点传播信息。</p>
+</li>
+<li><p>cassandra.yaml配置文件<br>设置集群初始化属性、表的缓存参数、调优和资源使用的属性、超时设置、客户端连接、备份和安全的主要配置文件。</p>
+<p>缺省情况下，可以在cassandra.yaml文件中配置一个节点管理的数据所存放的目录。</p>
 <ul>
-<li>折叠，例如foldLeft，foldRight等类似的方法</li>
-<li>流以及其他延迟的数据结构</li>
-<li>Actor</li>
-<li>Combinator解析器</li>
+<li>安装包安装：/var/lib/cassandra</li>
+<li>Tarball安装：<em>install_location/data/data</em></li>
 </ul>
-<h6 id="L1：初级库设计师（注意，不是程序猿啦！）">L1：初级库设计师（注意，不是程序猿啦！）</h6>
-<ul>
-<li>类型参数</li>
-<li>特性</li>
-<li>延迟值类型</li>
-<li>控制抽象，柯里化</li>
-<li>形参</li>
+<p>在一个生产环境的集群部署中，你可以把commitlog-directory改到和data_file_directories不同的磁盘驱动器上。</p>
+</li>
+<li><p>系统键空间表属性<br>你可以通过写程序来配置基于键空间或基于表的存储配置属性，或者使用一个客户端程序来做，例如CQL。</p>
+</li>
 </ul>
-<h6 id="L2：高级库设计师">L2：高级库设计师</h6>
-<ul>
-<li>变化标记</li>
-<li>Existential types (e.g., to interface with Java wildcards)（纳尼？）</li>
-<li>Self type annotations and the cake pattern for dependency injection</li>
-<li>Structural types (aka static duck typing)</li>
-<li>为新类型的for表达式定义map/flatmap/withFilter</li>
-<li>提取器</li>
-</ul>
-<h6 id="L3：专家级库设计师">L3：专家级库设计师</h6>
-<ul>
-<li>早期初始化程序</li>
-<li>抽象类型</li>
-<li>隐式定义</li>
-<li>更高级类型</li>
-</ul>
-<h3 id="参考原文">参考原文</h3>
-<h6 id="Level_A1:_Beginning_application_programmer">Level A1: Beginning application programmer</h6>
-<ul>
-<li>Java-like statements and expressions: standard operators, method calls, conditionals, loops, try/catch</li>
-<li>class, object, def, val, var, import, package</li>
-<li>Infix notation for method calls</li>
-<li>Simple closures</li>
-<li>Collections with map, filter, etc</li>
-<li>for-expressions</li>
-</ul>
-<h6 id="Level_A2:_Intermediate_application_programmer">Level A2: Intermediate application programmer</h6>
-<ul>
-<li>Pattern matching</li>
-<li>Trait composition</li>
-<li>Recursion, in particular tail recursion</li>
-<li>XML literals</li>
-</ul>
-<h6 id="Level_A3:_Expert_application_programmer">Level A3: Expert application programmer</h6>
-<ul>
-<li>Folds, i.e. methods such as foldLeft, foldRight</li>
-<li>Streams and other lazy data structures</li>
-<li>Actors</li>
-<li>Combinator parsers</li>
-</ul>
-<h6 id="Level_L1:_Junior_library_designer">Level L1: Junior library designer</h6>
-<ul>
-<li>Type parameters</li>
-<li>Traits</li>
-<li>Lazy vals</li>
-<li>Control abstraction, currying</li>
-<li>By-name parameters</li>
-</ul>
-<h6 id="Level_L2:_Senior_library_designer">Level L2: Senior library designer</h6>
-<ul>
-<li>Variance annotations</li>
-<li>Existential types (e.g., to interface with Java wildcards)</li>
-<li>Self type annotations and the cake pattern for dependency injection</li>
-<li>Structural types (aka static duck typing)</li>
-<li>Defining map/flatmap/withFilter for new kinds of for-expressions</li>
-<li>Extractors</li>
-</ul>
-<h6 id="Level_L3:_Expert_library_designer">Level L3: Expert library designer</h6>
-<ul>
-<li>Early initializers</li>
-<li>Abstract types</li>
-<li>Implicit definitions</li>
-<li>Higher-kinded types</li>
-</ul>
-<h3 id="注解">注解</h3>
-<ol>
-<li>原文下面还有一条评论，有位朋友对L3的标准定得过低有些质疑。</li>
-<li>有些没有翻译，因为英文更易懂一些；有些实在难翻译，等以后遇到合适的词汇再更新。</li>
-</ol>
 
       
     </div>
@@ -197,7 +145,7 @@
         
   
   <div class="tags">
-    <a href="/tags/Scala/">Scala</a>
+    <a href="/tags/Cassandra/">Cassandra</a>, <a href="/tags/NoSQL/">NoSQL</a>
   </div>
 
         <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone"></a><a href="#" class="bds_tsina" data-cmd="tsina"></a><a href="#" class="bds_tqq" data-cmd="tqq"></a><a href="#" class="bds_renren" data-cmd="renren"></a><a href="#" class="bds_weixin" data-cmd="weixin"></a></div>

@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Write, Code, Share, Learn]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://hongbinzuo.github.io/"/>
-  <updated>2014-12-17T02:32:59.983Z</updated>
+  <updated>2014-12-18T16:24:14.557Z</updated>
   <id>http://hongbinzuo.github.io/</id>
   
   <author>
@@ -15,15 +15,79 @@
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[Architecture in brief for Cassandra 2.0]]></title>
+    <link href="http://hongbinzuo.github.io/2014/12/19/Architecture-in-brief-for-Cassandra-20/"/>
+    <id>http://hongbinzuo.github.io/2014/12/19/Architecture-in-brief-for-Cassandra-20/</id>
+    <published>2014-12-18T16:09:48.000Z</published>
+    <updated>2014-12-18T16:22:56.000Z</updated>
+    <content type="html"><![CDATA[<p><strong>翻译</strong>：<a href="http://weibo.com/openworld/" target="_blank" rel="external">自由的柠檬</a><br><strong>原文链接</strong>：<a href="http://www.datastax.com/documentation/cassandra/2.0/cassandra/architecture/architectureIntro_c.html" target="_blank" rel="external">http://www.datastax.com/documentation/cassandra/2.0/cassandra/architecture/architectureIntro_c.html</a><br><strong>版本</strong>：0.1(2014-12-19 00:09)</p>
+<a id="more"></a>
+
+<h2 id="Cassandra_2-0架构简介（译文）">Cassandra 2.0架构简介（译文）</h2>
+<p>Cassandra设计的目的是为了处理多节点上的大数据工作负载，同时不产生单点故障。它的架构基于一个重要的认识，那就是系统和硬件的故障会发生而且确实会发生。Cassandra通过使用异构节点的对等分布式系统来解决这个问题，其中数据分布在集群的所有节点之上。在集群里，每个节点每一秒钟都会交换信息。每个节点上顺序写入的提交日志记录下写操作以保证数据持久性。然后，数据会被索引并写入到一个叫做内存表（memtable）的内存结构，内存表很像一个回写缓存。一旦这个内存结构填满，数据就会以一种SSTable形式的数据文件写到磁盘上。所有的写操作在集群里都是自动分区和复制的。Cassandra使用一种叫做压缩（compaction）的过程定期整理SSTable，丢弃不用的数据和tombstones（数据已被删除的标志）。</p>
+<p>Cassandra是面向行的数据库。Cassandra的架构允许任意授权用户通过CQL语言连接到任何数据中心的任一节点。为了使用方便，CQL使用了和SQL相似的语法。从CQL的角度看，数据库是由表组成的。通常，集群为每个应用分配了一个键空间（keyspace）。开发者可以通过cqlsh或应用程序语言驱动访问CQL。</p>
+<p>客户端的读写请求可以发送到集群中的任何一个节点。当客户端发起一个请求连接到一个节点，那么这个节点就会作为这个客户端操作的协调者。协调者作为客户端应用和持有请求数据的节点之间的代理。协调者基于集群的配置情况来决定环上的哪个节点应该接收请求。更多细节参见<a href="http://www.datastax.com/documentation/cassandra/2.0/cassandra/architecture/architectureClientRequestsAbout_c.html" target="_blank" rel="external">客户端请求</a>。</p>
+<h3 id="关键结构">关键结构</h3>
+<ul>
+<li><p>节点<br>存储数据的地方。节点是Cassandra的基础组件。</p>
+</li>
+<li><p>数据中心<br>相关节点的集合。一个数据中心既可以是物理的，也可以是虚拟的。不同的工作负载应该使用独立的数据中心，或是物理的或是虚拟的。复制是由数据中心设置的。使用独立的数据中心可以防止Cassandra的事务被其他的工作负载影响，并且可以使请求尽量相互靠近，从而达到更低的延迟。根据复制因子的设定，数据可以被写到多个数据中心。然而，数据中心永远也不应该在物理上跨越多个地点。</p>
+</li>
+<li><p>集群<br>一个集群包含一个或多个数据中心。集群可以跨越物理上的多个地点。</p>
+</li>
+<li><p>提交日志<br>为了达到持久性，所有的数据都会先写到提交日志。在所有的数据都转存到SSTable之后，日志数据就可以归档、删除或者回收。</p>
+</li>
+<li><p>表<br>有序的列集合，通过行的形式获取数据。一个行包含多个列并有一个主键。键的第一部分是列名。</p>
+</li>
+<li><p>SSTable<br>排序的字符串表（SSTable）是一个不可变的数据文件，Cassandra把内存表定期地写到这个文件中。SSTable是只能追加的，并且顺序地存储在磁盘上，SSTable中维持着所有Cassandra表。</p>
+</li>
+</ul>
+<h3 id="配置Cassandra的关键组件">配置Cassandra的关键组件</h3>
+<ul>
+<li><p>Gossip<br>一种对等通信协议，用来在一个Cassandra集群中发现并共享其他节点位置和状态信息。为了在重启之后能立即使用，每个节点也会在本地持久化Gossip信息。</p>
+</li>
+<li><p>分区程序<br>分区程序决定如何把数据分布到集群中的多个节点，以及把数据的第一份拷贝放到哪个节点上。分区程序基本上就是计算分区键标记（token）的一个哈希函数。每一行都通过一个分区键唯一标识，并通过标记的值分发到整个集群。Murmur3Partitioner是新Cassandra集群的默认分区策略，并且对于大多数情况来说都是正确的选择。</p>
+<p>你必须为每个节点设置一个分区程序并且分配一个num_tokens的值。你设置的标记的数量取决于系统的硬件容量。如果没有使用虚拟节点（vnodes），那么可以使用initial_token的设置。</p>
+</li>
+<li><p>复制因子<br>集群内部复制节点的总数。复制因子为1意味着一个节点上的每一行只有一个拷贝。复制因子为2的意思是每行都有两个拷贝，而每个拷贝存在不同的节点上。所有的复制品都一样重要；没有首要的或主要的复制品。你可以为每个数据中心定义复制因子。通常情况下你应该设置大于1的复制策略，但是不能大于集群中节点的数量。</p>
+</li>
+<li><p>复制品存放策略<br>Cassandra在多个节点上存储数据的拷贝（复制品），以确保可靠性和容错性。复制策略决定把复制品存放在哪些节点上。数据的第一个复制品就是第一个拷贝；无论从哪个意义上说，它都不是唯一的。对于大多数部署来说，强烈推荐使用NetworkTopologyStrategy，因为如果将来需要扩展到多个数据中心的话就容易多了。</p>
+<p>当创建一个键空间时，你必须要定义复制品存放策略和你想要的复制品数量。</p>
+</li>
+<li><p>告密者（snitch）<br>告密者定义了复制策略用来在数据中心或机架（拓扑）存放复制品的一组机器。</p>
+<p>在创建集群时，你必须要配置一个告密者。所有的告密者都使用一个动态告密者层，它们会进行监控并选择对读操作性能最好的复制品。在缺省情况下，这个告密者是激活的，并且在大多数情况下推荐使用。在cassandra.yaml中可以为每个节点配置动态告密者的阈值。</p>
+<p>缺省的SimpleSnitch并不知道数据中心或机架信息。它可以用在单数据中心部署或公有云中的单区域（single-zone）部署。推荐在生产环境下使用GossipingPropertyFileSnitch。它定义了一个节点的数据中心和机架并使用gossip向其他节点传播信息。</p>
+</li>
+<li><p>cassandra.yaml配置文件<br>设置集群初始化属性、表的缓存参数、调优和资源使用的属性、超时设置、客户端连接、备份和安全的主要配置文件。</p>
+<p>缺省情况下，可以在cassandra.yaml文件中配置一个节点管理的数据所存放的目录。</p>
+<ul>
+<li>安装包安装：/var/lib/cassandra</li>
+<li>Tarball安装：<em>install_location/data/data</em></li>
+</ul>
+<p>在一个生产环境的集群部署中，你可以把commitlog-directory改到和data_file_directories不同的磁盘驱动器上。</p>
+</li>
+<li><p>系统键空间表属性<br>你可以通过写程序来配置基于键空间或基于表的存储配置属性，或者使用一个客户端程序来做，例如CQL。</p>
+</li>
+</ul>
+]]></content>
+    <summary type="html"><![CDATA[<p><strong>翻译</strong>：<a href="http://weibo.com/openworld/" target="_blank" rel="external">自由的柠檬</a><br><strong>原文链接</strong>：<a href="http://www.datastax.com/documentation/cassandra/2.0/cassandra/architecture/architectureIntro_c.html" target="_blank" rel="external">http://www.datastax.com/documentation/cassandra/2.0/cassandra/architecture/architectureIntro_c.html</a><br><strong>版本</strong>：0.1(2014-12-19 00:09)</p>
+]]></summary>
+    
+      <category term="Cassandra" scheme="http://hongbinzuo.github.io/tags/Cassandra/"/>
+    
+      <category term="NoSQL" scheme="http://hongbinzuo.github.io/tags/NoSQL/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[Akka Tutorial with Code: Concurrency and Fault Tolerance]]></title>
     <link href="http://hongbinzuo.github.io/2014/12/16/Akka-Tutorial-with-Code-Conncurrency-and-Fault-Tolerance/"/>
     <id>http://hongbinzuo.github.io/2014/12/16/Akka-Tutorial-with-Code-Conncurrency-and-Fault-Tolerance/</id>
     <published>2014-12-16T14:19:51.000Z</published>
-    <updated>2014-12-16T16:53:10.000Z</updated>
+    <updated>2014-12-18T16:16:00.000Z</updated>
     <content type="html"><![CDATA[<h2 id="让并发和容错更容易：Akka示例教程（译文）">让并发和容错更容易：Akka示例教程（译文）</h2>
 <p>BY DIAGO CASTORINA</p>
-<p>翻译：<a href="http://weibo.com/openworld" target="_blank" rel="external">自由的柠檬</a></p>
-<p><strong>原文链接</strong>：<a href="http://www.toptal.com/scala/concurrency-and-fault-tolerance-made-easy-an-intro-to-akka" target="_blank" rel="external">http://www.toptal.com/scala/concurrency-and-fault-tolerance-made-easy-an-intro-to-akka</a></p>
+<p><strong>翻译</strong>：<a href="http://weibo.com/openworld" target="_blank" rel="external">自由的柠檬</a><br><strong>原文链接</strong>：<a href="http://www.toptal.com/scala/concurrency-and-fault-tolerance-made-easy-an-intro-to-akka" target="_blank" rel="external">http://www.toptal.com/scala/concurrency-and-fault-tolerance-made-easy-an-intro-to-akka</a></p>
 <a id="more"></a>
 
 <h3 id="挑战">挑战</h3>
@@ -171,8 +235,7 @@
 ]]></content>
     <summary type="html"><![CDATA[<h2 id="让并发和容错更容易：Akka示例教程（译文）">让并发和容错更容易：Akka示例教程（译文）</h2>
 <p>BY DIAGO CASTORINA</p>
-<p>翻译：<a href="http://weibo.com/openworld" target="_blank" rel="external">自由的柠檬</a></p>
-<p><strong>原文链接</strong>：<a href="http://www.toptal.com/scala/concurrency-and-fault-tolerance-made-easy-an-intro-to-akka" target="_blank" rel="external">http://www.toptal.com/scala/concurrency-and-fault-tolerance-made-easy-an-intro-to-akka</a></p>
+<p><strong>翻译</strong>：<a href="http://weibo.com/openworld" target="_blank" rel="external">自由的柠檬</a><br><strong>原文链接</strong>：<a href="http://www.toptal.com/scala/concurrency-and-fault-tolerance-made-easy-an-intro-to-akka" target="_blank" rel="external">http://www.toptal.com/scala/concurrency-and-fault-tolerance-made-easy-an-intro-to-akka</a></p>
 ]]></summary>
     
       <category term="Akka" scheme="http://hongbinzuo.github.io/tags/Akka/"/>
@@ -846,119 +909,6 @@
     
     
       <category term="Linux" scheme="http://hongbinzuo.github.io/tags/Linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Hibernate Core API]]></title>
-    <link href="http://hongbinzuo.github.io/2014/11/06/Hibernate-Core-API/"/>
-    <id>http://hongbinzuo.github.io/2014/11/06/Hibernate-Core-API/</id>
-    <published>2014-11-06T13:11:49.000Z</published>
-    <updated>2014-11-06T17:12:44.000Z</updated>
-    <content type="html"><![CDATA[<p>整理一下Hibernate核心API的笔记，感谢马老师。因为博客的发布形式，中间内容有些节略和修改。</p>
-<h2 id="关于API文档">关于API文档</h2>
-<p>因为Hibernate是属于JBoss的，按照JBoss的商业模式，文档和技术支持是收费的，所以官方不提供离线文档下载，只提供在线文档查看。当然，总有热心的网友看不过去，所以网上有非官方整理的API文档可供参考。</p>
-<a id="more"></a>
-
-<h2 id="Configuration">Configuration</h2>
-<ul>
-<li>AnnotationConfiguration 基于注解的配置</li>
-<li>配置信息管理</li>
-<li>用来产生SessionFactory</li>
-<li>可以在configure方法中指定Hibernate配置文件</li>
-<li>只关注一个方法即可：buildSessionFactory</li>
-</ul>
-<h2 id="SessionFactory">SessionFactory</h2>
-<ul>
-<li>用来产生和管理Session</li>
-<li>通常情况下，每个应用只需要一个SessionFactory （单例），除非要访问多个数据库</li>
-<li>关注两个方法即可<ul>
-<li>openSession每次都是新的，需要close</li>
-<li>getCurrentSession从上下文找，如果有，用已有的，否则，创建新的<ul>
-<li>用途，界定事务边界</li>
-<li>事务提交后自动close</li>
-<li>上下文配置可参见XML文件中<code>current_session_context_classs</code>属性</li>
-<li><code>current_session_context_classs</code>属性取值JTA和thread常用，managed和custom.class较少使用<ul>
-<li>thread：使用Connection连接的数据库管理事务</li>
-<li>JTA（Java Transaction API）：Java分布式事务管理（多数据库访问），JTA由中间件提供（JBoss、Weblogic等，Tomcat不支持）</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="Session">Session</h2>
-<ul>
-<li>管理一个数据库的任务单元（简单说就是增删改查），中文名为“会话”</li>
-<li>方法（CRUD）<ul>
-<li>Save <code>session.save(对象)</code></li>
-<li>Delete <code>session.delete(对象)</code></li>
-<li>Load <code>Student s1=(Student)session.load(Student.class, 1);</code></li>
-<li>Get <code>Student s1=(Student)session.get(Student.class, 1);</code></li>
-<li>Get与Load的区别（原理，面试重点）<ul>
-<li>不存在对应记录时表现不一样</li>
-<li>Load返回的是代理对象,等到真正用到对象内容时才发出SQL语句</li>
-<li>Get直接从数据库加载不会延迟</li>
-</ul>
-</li>
-<li>Update <code>session.update(对象)</code><ul>
-<li>用来更新detached对象，更新完成后转为persistent</li>
-<li>更新transient对象会报错</li>
-<li>更新自己设定ID的transient对象可以（数据库有对应记录）</li>
-<li>persistent状态的对象只要设定（如:t.setName…）不同字段就会更新</li>
-<li>更新部分更改的字段<ul>
-<li>XML配置文件中设定property标签的update属性，annotation设定 @Column 的 updatable属性，不过这种方式很少用，因为不灵活</li>
-<li>使用XML中的dynamic-update，JPA1.0 Annotation 没有对应的属性，可能为Hibernate扩展</li>
-<li>同一个session可以，跨session不行，不过可以用merge()(不重要）</li>
-</ul>
-</li>
-<li>建议使用HQL(EJBQL)</li>
-</ul>
-</li>
-<li>saveOrUpdate方法</li>
-<li>clear方法<ul>
-<li>无论是load还是get,都会首先査找缓存（一级缓存)，如果没有，才会去数据库査找，调用clear()方法可以强制清除session缓存</li>
-</ul>
-</li>
-<li>flush方法<ul>
-<li>当session的事务提交后,会强制将内存(session缓存)与数据库同步。默认情况下是session的事务提交(commit)时才同步!</li>
-<li>session的FlushMode设置,可以设定在什么时候同步缓存与数据库(很少用)，例如: <code>session.setFlushMode(FlushMode.AUTO)</code></li>
-</ul>
-</li>
-<li>find方法已过时</li>
-</ul>
-</li>
-</ul>
-<h2 id="SchemaExport_(自动建表)">SchemaExport (自动建表)</h2>
-<ul>
-<li>了解使用方法即可：<code>new SchemaExport(new AnnotationConfiguration().configure()).create(false, true);</code></li>
-</ul>
-<h2 id="查询接口">查询接口</h2>
-<ul>
-<li>参考Hibernate査询(HQL/EJBQL)的内容</li>
-</ul>
-<h2 id="注意">注意</h2>
-<ul>
-<li>Hibernate中涉及很多非常细节的区别,但在实际应用中用得极少<ul>
-<li>比如save和persist的区别</li>
-<li>merge、evict 等方法</li>
-<li>比如 refresh、lock 等</li>
-</ul>
-</li>
-<li>建议的学习方法，动手实验</li>
-</ul>
-]]></content>
-    <summary type="html"><![CDATA[<p>整理一下Hibernate核心API的笔记，感谢马老师。因为博客的发布形式，中间内容有些节略和修改。</p>
-<h2 id="关于API文档">关于API文档</h2>
-<p>因为Hibernate是属于JBoss的，按照JBoss的商业模式，文档和技术支持是收费的，所以官方不提供离线文档下载，只提供在线文档查看。当然，总有热心的网友看不过去，所以网上有非官方整理的API文档可供参考。</p>
-]]></summary>
-    
-      <category term="Java" scheme="http://hongbinzuo.github.io/tags/Java/"/>
-    
-      <category term="JavaEE" scheme="http://hongbinzuo.github.io/tags/JavaEE/"/>
-    
-      <category term="Hibernate" scheme="http://hongbinzuo.github.io/tags/Hibernate/"/>
     
   </entry>
   
