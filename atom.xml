@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Write, Code, Share, Learn]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://hongbinzuo.github.io/"/>
-  <updated>2014-12-18T16:24:14.557Z</updated>
+  <updated>2015-01-19T17:06:53.935Z</updated>
   <id>http://hongbinzuo.github.io/</id>
   
   <author>
@@ -13,6 +13,33 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Vagrant Tips]]></title>
+    <link href="http://hongbinzuo.github.io/2015/01/20/VagrantTips/"/>
+    <id>http://hongbinzuo.github.io/2015/01/20/VagrantTips/</id>
+    <published>2015-01-19T16:45:18.000Z</published>
+    <updated>2015-01-19T17:06:17.000Z</updated>
+    <content type="html"><![CDATA[<p>听说Vagrant管理虚拟机不错，研究了一下Vagrant和Docker的区别，决定安装Vagrant，中间遇到了两个问题，分享如下。</p>
+<a id="more"></a>
+
+<p>首先，直接在官网上下载特别慢，VirtulBox下载倒是比较快，但是Vagrant本身70多兆的文件直接下载估计得1个多小时，下了一会儿实在没耐心，谷歌之，最后采用了这个方法：</p>
+<ol>
+<li>先通过<code>wget</code>下载到我的DigitalOcean VPS（欠费了，哭）</li>
+<li>通过Mac <code>sftp</code>到DO，把文件down下来，总体上比较快</li>
+</ol>
+<p>其次，执行<code>vagrant up</code>的时候发现速度更慢，几乎到不了10K，估计用时12个小时左右，网上也有类似的问题，如<a href="http://forums.udacity.com/questions/100250311/vagrant-cloud-is-too-slow-taking-lot-of-time-to-download-more-than-10hours" target="_blank" rel="external">这个帖子</a>，这几乎没法容忍，于是继续谷歌，找到了一个方法，即：<a href="https://github.com/mitchellh/vagrant/issues/1807" target="_blank" rel="external">https://github.com/mitchellh/vagrant/issues/1807</a>，看上去这个应该是vagrant的patch，不知道为什么最新版的Vagrant中不包含这个fix。具体来说，就是把下面的代码加到Vagrantfile最后一个end之前，然后再执行<code>vagrant up</code>就一切OK啦！</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">config.vm.provider <span class="symbol">:virtualbox</span> <span class="keyword">do</span> |vb|</div><div class="line">  vb.customize [<span class="string">"modifyvm"</span>, <span class="symbol">:id</span>, <span class="string">"--natdnshostresolver1"</span>, <span class="string">"on"</span>]</div><div class="line">  vb.customize [<span class="string">"modifyvm"</span>, <span class="symbol">:id</span>, <span class="string">"--natdnsproxy1"</span>, <span class="string">"on"</span>]</div><div class="line"><span class="keyword">end</span></div></pre></td></tr></table></figure>
+
+<p>下面SHOW一下修改过配置之后的速度（虽然不知道为什么），速度超赞。当然，必须强调一下，我是翻过GFW之后的效果，在墙内可能就没那么快了。</p>
+<p><img src="/img/vagrant_download.png" width="750px"></p>
+]]></content>
+    <summary type="html"><![CDATA[<p>听说Vagrant管理虚拟机不错，研究了一下Vagrant和Docker的区别，决定安装Vagrant，中间遇到了两个问题，分享如下。</p>
+]]></summary>
+    
+      <category term="Vagrant" scheme="http://hongbinzuo.github.io/tags/Vagrant/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Architecture in brief for Cassandra 2.0]]></title>
@@ -893,22 +920,6 @@
       <category term="Hibernate" scheme="http://hongbinzuo.github.io/tags/Hibernate/"/>
     
       <category term="JavaEE" scheme="http://hongbinzuo.github.io/tags/JavaEE/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[A tip for Ubuntu 14.04 update]]></title>
-    <link href="http://hongbinzuo.github.io/2014/11/07/A-tip-for-Ubuntu-1404-update/"/>
-    <id>http://hongbinzuo.github.io/2014/11/07/A-tip-for-Ubuntu-1404-update/</id>
-    <published>2014-11-06T17:14:41.000Z</published>
-    <updated>2014-12-17T02:32:48.000Z</updated>
-    <content type="html"><![CDATA[<p>安装了Ubuntu 14.04之后，出现一个小问题，软件自动更新时经常提示空间不足。搜一下，下面的链接提供了一些解决方案。<br><a href="http://askubuntu.com/questions/2793/how-do-i-remove-or-hide-old-kernel-versions-to-clean-up-the-boot-menu" target="_blank" rel="external">http://askubuntu.com/questions/2793/how-do-i-remove-or-hide-old-kernel-versions-to-clean-up-the-boot-menu</a></p>
-<p>简单说想快速解决就是一条命令：<br><code>sudo apt-get remove --purge $(dpkg -l &#39;linux-image-*&#39; | sed &#39;/^ii/!d;/&#39;&quot;$(uname -r | sed &quot;s/\(.*\)-\([^0-9]\+\)/\1/&quot;)&quot;&#39;/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d&#39;)</code></p>
-<p>这条命令会移除所有除了当前版本之外所有旧的Kernel安装包，以腾出空间。当然，如果想要彻底解决这个问题，可以参考上面的文章。</p>
-]]></content>
-    
-    
-      <category term="Linux" scheme="http://hongbinzuo.github.io/tags/Linux/"/>
     
   </entry>
   
