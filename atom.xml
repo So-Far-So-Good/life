@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Write, Code, Share, Learn]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://hongbinzuo.github.io/"/>
-  <updated>2015-01-21T18:16:29.982Z</updated>
+  <updated>2015-01-21T18:17:27.330Z</updated>
   <id>http://hongbinzuo.github.io/</id>
   
   <author>
@@ -19,14 +19,14 @@
     <link href="http://hongbinzuo.github.io/2015/01/22/HTTP-Status-406/"/>
     <id>http://hongbinzuo.github.io/2015/01/22/HTTP-Status-406/</id>
     <published>2015-01-21T18:02:45.000Z</published>
-    <updated>2015-01-21T18:16:25.000Z</updated>
+    <updated>2015-01-21T18:17:21.000Z</updated>
     <content type="html"><![CDATA[<p>用Spring MVC 4.0写一个REST服务，实验的过程中碰到了406错误，具体错误消息如下，</p>
 <blockquote>
 <p>The resource identified by this request is only capable of generating responses with characteristics not acceptable according to the request “accept” headers.</p>
 </blockquote>
 <a id="more"></a>
 
-<p>略查了一下，CSDN上有几篇博客谈到这个问题，有的说是因为在返回的对象中没有定义getter方法，NO，我定义了。有的说是缺少依赖的jar包，也就是Jackson的jar包，我把相关的依赖加上之后，并没有解决问题，当时加的版本比较低（1.9.13），后来想加上更高版本（codehaus)发现maven不能下载jar包，于是放弃，追查其他可能性（此处开始走弯路）。</p>
+<p>略查了一下，CSDN上有几篇博客谈到这个问题，有的说是因为在返回的对象中没有定义getter方法，NO，我定义了。有的说是缺少依赖的jar包，也就是Jackson的jar包，我把相关的依赖加上之后，并没有解决问题，当时加的版本比较低（1.9.13），后来想加上更高版本（codehaus）发现maven不能下载jar包，于是放弃，追查其他可能性（此处开始走弯路）。</p>
 <p>Stackoverflow上也有不少帖子是关于这个问题的，有的说1天都没解决，有的说7天还没解决，我的感觉是“huh？”。按照Stackoverflow提到的一些方法，如把返回对象类型改成Object（有的人成功了，什么原理？），不成；在RequestMapping里面加入headers或produces的类型约束（如application/json等），不成；加入ContentNegotiationManagerFactoryBean的配置，不成。</p>
 <p>我想Spring 4.0这种高级版本应该是有一招制敌的方法，所以非常肯定的是有一个配置是必须的，即：</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="title">mvc:annotation-driven</span>/&gt;</span></div></pre></td></tr></table></figure>
