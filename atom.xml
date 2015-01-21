@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Write, Code, Share, Learn]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://hongbinzuo.github.io/"/>
-  <updated>2015-01-21T18:18:22.386Z</updated>
+  <updated>2015-01-21T18:19:23.317Z</updated>
   <id>http://hongbinzuo.github.io/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://hongbinzuo.github.io/2015/01/22/HTTP-Status-406/"/>
     <id>http://hongbinzuo.github.io/2015/01/22/HTTP-Status-406/</id>
     <published>2015-01-21T18:02:45.000Z</published>
-    <updated>2015-01-21T18:18:14.000Z</updated>
+    <updated>2015-01-21T18:19:13.000Z</updated>
     <content type="html"><![CDATA[<p>用Spring MVC 4.0写一个REST服务，实验的过程中碰到了406错误，具体错误消息如下，</p>
 <blockquote>
 <p>The resource identified by this request is only capable of generating responses with characteristics not acceptable according to the request “accept” headers.</p>
@@ -36,7 +36,7 @@
 <blockquote>
 <p>As you see in steps below, Spring uses the Jackson JSON library to automatically marshal instances of type Greeting into JSON.</p>
 </blockquote>
-<p>这句话的内涵是Spring在把对象转换成JSON的时候用到了Jackson，所以只要在你的项目引入Jackson让Spring能找到可以了，哈，绕了一圈，还是Jackson。这块比较Tricky的是，如果你不仔细看链接，你发现不了，Jackson这个库从2.0开始前面缀了一个fasterxml，这就是坑。如果你还在用老的codehaus就傻了，于是，加入新的三个依赖如下，问题最终得到解决。</p>
+<p>这句话的内涵是Spring在把对象转换成JSON的时候用到了Jackson，所以只要在你的项目引入Jackson让Spring能找到可以了，哈，绕了一圈，还是Jackson。这块比较Tricky的是，如果你不仔细看链接，你发现不了，Jackson这个库从2.0开始前面缀了一个fasterxml，这就是坑。如果你还在用老的codehaus就傻了，于是，加入新的三个依赖包如下，问题最终得到解决。</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="title">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>com.fasterxml.jackson.core<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>jackson-core<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">version</span>&gt;</span>2.4.1<span class="tag">&lt;/<span class="title">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="title">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>com.fasterxml.jackson.core<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>jackson-databind<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">version</span>&gt;</span>2.4.1<span class="tag">&lt;/<span class="title">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="title">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>com.fasterxml.jackson.core<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>jackson-annotations<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">version</span>&gt;</span>2.4.1<span class="tag">&lt;/<span class="title">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></div></pre></td></tr></table></figure>
 
 ]]></content>
