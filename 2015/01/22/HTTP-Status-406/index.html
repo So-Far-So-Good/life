@@ -99,7 +99,7 @@
 <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="title">mvc:annotation-driven</span>/&gt;</span></div></pre></td></tr></table></figure>
 
 <p>不可思议的是，IntelliJ生成的Spring MVC项目中，mvc的命名空间引用错误，修正这个问题还花了点时间。怎么会出现这种问题？</p>
-<p>修复mvc之后，我又开始看了一下<a href="http://spring.io/guides/gs/rest-service/" target="_blank" rel="external">官方指南</a>，这个指南的例子写的不错，可惜的是它用的不是配置文件的方式，而是使用程序做配置，这环境就不一样了。但其实，如果仔细研读，还是能发现其中暗藏的线索，比如下面这句话：</p>
+<p>修复mvc之后，我又开始看了一下<a href="http://spring.io/guides/gs/rest-service/" target="_blank" rel="external">官方指南</a>，这个指南的例子写的不错，可惜它用的不是配置文件的方式，而是使用程序做配置，这环境就不一样了。但其实，如果仔细研读，还是能发现其中暗藏的线索，比如下面这句话：</p>
 <blockquote>
 <p>As you see in steps below, Spring uses the Jackson JSON library to automatically marshal instances of type Greeting into JSON.</p>
 </blockquote>
