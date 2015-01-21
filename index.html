@@ -78,6 +78,62 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2015-01-21T18:02:45.000Z"><a href="/2015/01/22/HTTP-Status-406/">Jan 22 2015</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/01/22/HTTP-Status-406/">HTTP Status 406</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>用Spring MVC 4.0写一个REST服务，实验的过程中碰到了406错误，具体错误消息如下，</p>
+<figure class="highlight description"><figcaption><span>The resource identified by this request is only capable of generating responses with characteristics not acceptable according to the request "accept" headers.```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">&lt;!-- more --&gt;</span></div><div class="line"></div><div class="line">略查了一下，CSDN上有几篇博客谈到这个问题，有的说是因为在返回的对象中没有定义getter方法，NO，我定义了。有的说是缺少依赖的jar包，也就是Jackson的jar包，我把相关的依赖加上之后，并没有解决问题，当时加的版本比较低（1.9.13），后来想加上更高版本（codehaus)发现maven不能下载jar包，于是放弃，追查其他可能性（此处开始走弯路）。</div><div class="line"></div><div class="line">Stackoverflow上也有不少帖子是关于这个问题的，有的说1天都没解决，有的说7天还没解决，我的感觉是“huh？”。按照Stackoverflow提到的一些方法，如把返回对象类型改成Object（有的人成功了，什么原理？），不成；在RequestMapping里面加入headers或produces的类型约束（如application/json等），不成；加入ContentNegotiationManagerFactoryBean的配置，不成。</div><div class="line"></div><div class="line">我想Spring 4.0这种高级版本应该是有一招制敌的方法，所以非常肯定的是有一个配置是必须的，即：</div></pre></td></tr></table></figure>
+
+<mvc:annotation-driven>
+
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">不可思议的是，IntelliJ生成的Spring MVC项目中，mvc的命名空间引用错误，修正这个问题还花了点时间。怎么会出现这种问题？</div><div class="line"></div><div class="line">修复mvc之后，我又开始看了一下[<span class="link_label">官方指南</span>](<span class="link_url">http://spring.io/guides/gs/rest-service/</span>)，这个指南的例子写的不错，可惜的是它用的不是配置文件的方式，而是使用程序做配置，这环境就不一样了。但其实，如果仔细研读，还是能发现其中暗藏的线索，比如下面这句话：</div><div class="line"></div><div class="line">&gt;As you see in steps below, Spring uses the Jackson JSON library to automatically marshal instances of type Greeting into JSON.</div><div class="line"></div><div class="line">这句话的内涵是Spring在把对象转换成JSON的时候用到了Jackson，所以只要在你的项目引入Jackson让Spring能找到可以了，哈，绕了一圈，还是Jackson。这块比较Tricky的是，如果你不仔细看链接，你发现不了，Jackson这个库从2.0开始前面缀了一个fasterxml，这就是坑。如果你还在用老的codehaus就傻了，于是，加入新的三个依赖如下，问题最终得到解决。</div></pre></td></tr></table></figure>
+
+<dependency><br>    <groupid>com.fasterxml.jackson.core</groupid><br>    <artifactid>jackson-core</artifactid><br>    <version>2.4.1</version><br></dependency>
+
+<dependency><br>    <groupid>com.fasterxml.jackson.core</groupid><br>    <artifactid>jackson-databind</artifactid><br>    <version>2.4.1</version><br></dependency>
+
+<p><dependency><br>    <groupid>com.fasterxml.jackson.core</groupid><br>    <artifactid>jackson-annotations</artifactid><br>    <version>2.4.1</version><br></dependency><br>```</p>
+</mvc:annotation-driven>
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2015-01-19T16:45:18.000Z"><a href="/2015/01/20/VagrantTips/">Jan 20 2015</a></time>
       
       
@@ -425,56 +481,6 @@
 
 
 
-  <article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2014-12-08T11:28:05.000Z"><a href="/2014/12/08/WordCounter/">Dec 8 2014</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2014/12/08/WordCounter/">WordCounter</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>题目：给出一个含有英文小说的文本文件，统计英文单词出现的频率并按照逆序打印。</p>
-<p>完整实现如下：</p>
-
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2014/12/08/WordCounter/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
 
 <nav id="pagination">
   
@@ -497,7 +503,7 @@
 <div class="widget tagcloud">
   <h3 class="title">Tag Cloud</h3>
   <div class="entry">
-    <a href="/tags/Akka/" style="font-size: 11.67px;">Akka</a><a href="/tags/Architecture/" style="font-size: 13.33px;">Architecture</a><a href="/tags/Cassandra/" style="font-size: 11.67px;">Cassandra</a><a href="/tags/Concurrency/" style="font-size: 16.67px;">Concurrency</a><a href="/tags/DI/" style="font-size: 15.00px;">DI</a><a href="/tags/Design-Patterns/" style="font-size: 16.67px;">Design Patterns</a><a href="/tags/Emacs/" style="font-size: 11.67px;">Emacs</a><a href="/tags/FP/" style="font-size: 11.67px;">FP</a><a href="/tags/Gradle/" style="font-size: 11.67px;">Gradle</a><a href="/tags/Groovy/" style="font-size: 11.67px;">Groovy</a><a href="/tags/Hibernate/" style="font-size: 13.33px;">Hibernate</a><a href="/tags/IoC/" style="font-size: 13.33px;">IoC</a><a href="/tags/Java/" style="font-size: 20.00px;">Java</a><a href="/tags/JavaEE/" style="font-size: 13.33px;">JavaEE</a><a href="/tags/Javascript/" style="font-size: 11.67px;">Javascript</a><a href="/tags/Linux/" style="font-size: 13.33px;">Linux</a><a href="/tags/Misc/" style="font-size: 11.67px;">Misc</a><a href="/tags/NIO/" style="font-size: 13.33px;">NIO</a><a href="/tags/NoSQL/" style="font-size: 11.67px;">NoSQL</a><a href="/tags/REST/" style="font-size: 11.67px;">REST</a><a href="/tags/Redis/" style="font-size: 11.67px;">Redis</a><a href="/tags/Ruby/" style="font-size: 11.67px;">Ruby</a><a href="/tags/SBT/" style="font-size: 13.33px;">SBT</a><a href="/tags/SOA/" style="font-size: 11.67px;">SOA</a><a href="/tags/SOAP/" style="font-size: 11.67px;">SOAP</a><a href="/tags/Scala/" style="font-size: 18.33px;">Scala</a><a href="/tags/Spring/" style="font-size: 13.33px;">Spring</a><a href="/tags/Ubuntu/" style="font-size: 10.00px;">Ubuntu</a><a href="/tags/Vagrant/" style="font-size: 11.67px;">Vagrant</a><a href="/tags/algorithms/" style="font-size: 11.67px;">algorithms</a><a href="/tags/appfuse/" style="font-size: 13.33px;">appfuse</a><a href="/tags/blog/" style="font-size: 11.67px;">blog</a><a href="/tags/email/" style="font-size: 11.67px;">email</a><a href="/tags/favorites/" style="font-size: 11.67px;">favorites</a><a href="/tags/github/" style="font-size: 11.67px;">github</a><a href="/tags/grails/" style="font-size: 15.00px;">grails</a><a href="/tags/hexo/" style="font-size: 13.33px;">hexo</a><a href="/tags/learning/" style="font-size: 11.67px;">learning</a><a href="/tags/maven/" style="font-size: 11.67px;">maven</a><a href="/tags/nodejs/" style="font-size: 11.67px;">nodejs</a>
+    <a href="/tags/Akka/" style="font-size: 11.67px;">Akka</a><a href="/tags/Architecture/" style="font-size: 13.33px;">Architecture</a><a href="/tags/Cassandra/" style="font-size: 11.67px;">Cassandra</a><a href="/tags/Concurrency/" style="font-size: 16.67px;">Concurrency</a><a href="/tags/DI/" style="font-size: 15.00px;">DI</a><a href="/tags/Design-Patterns/" style="font-size: 16.67px;">Design Patterns</a><a href="/tags/Emacs/" style="font-size: 11.67px;">Emacs</a><a href="/tags/FP/" style="font-size: 11.67px;">FP</a><a href="/tags/Gradle/" style="font-size: 11.67px;">Gradle</a><a href="/tags/Groovy/" style="font-size: 11.67px;">Groovy</a><a href="/tags/Hibernate/" style="font-size: 13.33px;">Hibernate</a><a href="/tags/IoC/" style="font-size: 13.33px;">IoC</a><a href="/tags/Java/" style="font-size: 20.00px;">Java</a><a href="/tags/JavaEE/" style="font-size: 13.33px;">JavaEE</a><a href="/tags/Javascript/" style="font-size: 11.67px;">Javascript</a><a href="/tags/Linux/" style="font-size: 13.33px;">Linux</a><a href="/tags/Misc/" style="font-size: 11.67px;">Misc</a><a href="/tags/NIO/" style="font-size: 13.33px;">NIO</a><a href="/tags/NoSQL/" style="font-size: 11.67px;">NoSQL</a><a href="/tags/REST/" style="font-size: 13.33px;">REST</a><a href="/tags/Redis/" style="font-size: 11.67px;">Redis</a><a href="/tags/Ruby/" style="font-size: 11.67px;">Ruby</a><a href="/tags/SBT/" style="font-size: 13.33px;">SBT</a><a href="/tags/SOA/" style="font-size: 11.67px;">SOA</a><a href="/tags/SOAP/" style="font-size: 11.67px;">SOAP</a><a href="/tags/Scala/" style="font-size: 18.33px;">Scala</a><a href="/tags/Spring/" style="font-size: 15.00px;">Spring</a><a href="/tags/Ubuntu/" style="font-size: 10.00px;">Ubuntu</a><a href="/tags/Vagrant/" style="font-size: 11.67px;">Vagrant</a><a href="/tags/algorithms/" style="font-size: 11.67px;">algorithms</a><a href="/tags/appfuse/" style="font-size: 13.33px;">appfuse</a><a href="/tags/blog/" style="font-size: 11.67px;">blog</a><a href="/tags/email/" style="font-size: 11.67px;">email</a><a href="/tags/favorites/" style="font-size: 11.67px;">favorites</a><a href="/tags/github/" style="font-size: 11.67px;">github</a><a href="/tags/grails/" style="font-size: 15.00px;">grails</a><a href="/tags/hexo/" style="font-size: 13.33px;">hexo</a><a href="/tags/learning/" style="font-size: 11.67px;">learning</a><a href="/tags/maven/" style="font-size: 11.67px;">maven</a><a href="/tags/nodejs/" style="font-size: 11.67px;">nodejs</a>
   </div>
 </div>
 
